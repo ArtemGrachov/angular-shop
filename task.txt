@@ -59,7 +59,7 @@
             - add products
             - update products
             - delete products
-        * provider: same as admin, but only his own products (checking "provider" value of product)
+        * provider: same as admin, but only his own products (checking "provider" property of product)
     > products list component
         - sorting
     > products details component
