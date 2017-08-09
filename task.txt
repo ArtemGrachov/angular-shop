@@ -29,10 +29,12 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - APP module
 - APP routing module
-- HOME module
+- CORE module
     > home component
         - latest news (to news service)
         - random products
+    > header component
+        - navigation
 - NEWS module
     - NEWS routing  
     > all news component
@@ -110,11 +112,11 @@
     > registration component
 - ADMIN module
     - ADMIN route
-    > users list component
-    > user edit component
-    > products list
-    > proiduct edit component
-    > news list
+    > admin page
+        - users count
+        - providers count
+        - statistics
+        - etc. - optional
 MODELS:
     - news:
         - title - string
