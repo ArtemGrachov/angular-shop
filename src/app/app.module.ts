@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { NewsModule } from './news/news.module';
 import { ProductsModule } from './products/products.module';
 import { ProvidersModule } from './providers/providers.module';
+import { DashModule } from './dash/dash.module';
 
 import { CoreModule } from './core/core.module';
 
@@ -24,7 +25,8 @@ import { AppComponent } from './app.component';
     NewsModule,
     ProductsModule,
     ProvidersModule,
-    AuthModule
+    AuthModule,
+    DashModule
   ],
   providers: [],
   bootstrap: [AppComponent]

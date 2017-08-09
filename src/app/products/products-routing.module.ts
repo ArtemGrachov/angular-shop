@@ -9,9 +9,9 @@ import { ProductsListComponent } from './products-list/products-list.component';
 const productsRoutes = [
     {
         path: 'products', component: ProductsListComponent, children: [
+            { path: 'booking', component: ProductsBookingComponent },
             { path: ':id', component: ProductsDetailsComponent },
-            { path: ':id/edit', component: ProductsEditComponent },
-            { path: 'booking', component: ProductsBookingComponent }
+            { path: ':id/edit', component: ProductsEditComponent }
         ]
     }
 ];

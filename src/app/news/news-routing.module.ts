@@ -6,12 +6,9 @@ import { NewsPostComponent } from './news-post/news-post.component';
 import { NewsEditComponent } from './news-edit/news-edit.component';
 
 const newsRoutes = [
-    {
-        path: 'news', component: NewsListComponent, children: [
-            { path: ':id', component: NewsPostComponent },
-            { path: ':id/edit', component: NewsEditComponent }
-        ]
-    }
+    { path: 'news', component: NewsListComponent },
+    { path: 'news/:id', component: NewsPostComponent },
+    { path: 'news/:id/edit', component: NewsEditComponent }
 ];
 
 @NgModule({
