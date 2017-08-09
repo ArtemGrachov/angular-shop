@@ -5,6 +5,6 @@ export class Product {
         public price: number,
         public rating: number,
         public count: number,
-        public date: string
+        public date: Date
     ) { }
 }
