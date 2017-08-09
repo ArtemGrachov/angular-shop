@@ -1,3 +1,25 @@
-<p>
-  news-post works!
-</p>
+<h1>{{post.title}}</h1>
+<small>{{post.date}}</small>
+<hr>
+<div>
+  {{post.content}}
+</div>
+
+<hr>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <span class="badge"><span class="glyphicon glyphicon-star-empty"></span>{{post.rating}}</span>
+    <a class="btn btn-xs btn-success" role="button" (click)="postVoteUp()">
+      <span class="glyphicon glyphicon-thumbs-up"></span>
+    </a>
+    <a class="btn btn-xs btn-danger" role="button" (click)="postVoteDown()">
+      <span class="glyphicon glyphicon-thumbs-down"></span>
+    </a>
+    <a class="btn btn-xs btn-primary" role="button" routerLink="edit">
+      <span class="glyphicon glyphicon-pencil" ></span> Edit
+    </a>
+    <a class="btn btn-xs btn-danger" role="button" (click)="postDelete()">
+      <span class="glyphicon glyphicon-remove"></span> Delete
+    </a>
+  </div>
+</div>

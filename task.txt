@@ -119,12 +119,14 @@
         - etc. - optional
 MODELS:
     - news:
+        - id - string
         - title - string
         - content - string
         - rating - number
         - author - string (id)
         - date - date (string?)
     - product:
+        - id - string
         - name - string
         - price - number
         - rating - number
@@ -132,6 +134,7 @@ MODELS:
         - count - number
         - date - date (string?)
     - user:
+        - id - string
         - name - string
         - email - string
         - age - number
@@ -143,6 +146,11 @@ MODELS:
         - rated products - id string array
         - rated news - id string array
     - provider:
+        - id - string
         - name - string
         - statistic: array: [ [product_name, date] ]
         ( no products list: it will available from products service )
+    - comment:
+        - id - string
+        - authorId - string
+        - content - string

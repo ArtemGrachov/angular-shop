@@ -1,3 +1,13 @@
-<p>
-  news-list works!
-</p>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let post of newsList">
+    <a [routerLink]="[post.id]">
+      <h2>{{post.title}}</h2>
+    </a>
+    <small>{{post.date}}</small>
+    <hr> {{post.content}}
+    <hr>
+    <div>
+      <span class="badge"><span class="glyphicon glyphicon-star-empty"></span>{{post.rating}}</span>
+    </div>
+  </li>
+</ul>
