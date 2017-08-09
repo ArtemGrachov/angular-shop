@@ -1,0 +1,146 @@
+- сайт
+- доступ
+- firebase backend
+- новини
+- коментарі
+- +/- оцінка новин
+- сторінка з товарами
+    - кошик (localstorage)
+    - список товарів
+        - ціна
+        - сортування: ціна, назва, к-ть на складі, дата / date pipe
+        - дата - коли товар додано
+        - moment.js - опціонально
+    - можливість купувати товари + в користувача має зберігатись список товарів
+    - оцінка товарів
+    - різні способи доставки + випадковий час доставки
+    - GoogleMap - рахує маршрут для доставки
+- категорії користувачів:
+    - default user - купити :)
+    - premium - скидки, анонімні коментарі поставщикам, рейтинг поставщиків
+    - provider - додати товари, дивитись оборот товарів (+ статистику) chart.js - по можливості
+    - administrator - може видаляти всіх користувачів, товари - додає і видаляє, блокує аккаунти
+- facebook, google auth
+- angular 2 firebase - див. бібліотеку
+- адмінка
+
+- bootstrap
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+- APP module
+- APP routing module
+- HOME module
+    > home component
+        - latest news (to news service)
+        - random products
+- NEWS module
+    - NEWS routing  
+    > all news component
+    > single news component 
+        - comments
+        - rating
+        - sharing with FB / GOOGLE
+    > edit news component (route guard - only admins and providers)
+    + news service
+        - get all news
+        - get single news
+        - change rating
+        - add, update, delete news (admin, provider)
+- PRODUCTS module
+    - PRODUCTS route
+    + products service
+        - add to basket      (localstorage)
+        - delete from basket (localstorage)
+        - rating +/-
+        - book products (array of products, optional: user gmap coordinates)
+            - updating products count on server
+            - return delivery time (random / gmap)
+        * admin:
+            - add products
+            - update products
+            - delete products
+        * provider: same as admin, but only his own products (checking "provider" value of product)
+    > products list component
+        - sorting
+    > products details component
+    > products edit component (route guard - only admins and providers)
+    > products booking (only authorized)
+        - list of booked products
+        - getting delivery type
+        - delivering time
+- PROVIDERS module
+    - PROVIDERS route
+    + providers service
+        - get providers
+        - update provider rating
+        - update provider comments
+        - products - get from products service
+    > providers list component
+    > providers details component
+        - only for premium users: change rating, add comments
+- USERS module
+    + users service
+        - get single user
+        - get all users
+        - new user (registration / admin)
+        - update user
+        - delete user
+    > dashboard component
+        * user:
+            - list of booked products
+            - list of comments
+            - list of rated products
+            - list of rated news
+        * provider:
+            - list of products
+            - list of news
+        * admin
+            - list of users
+                - add / edit / delete user
+- AUTH module
+    - AUTH route
+    + auth service
+        - registration
+        - login
+        * admin:
+            - delete user
+            - update user
+            - create user
+    > login component
+    > registration component
+- ADMIN module
+    - ADMIN route
+    > users list component
+    > user edit component
+    > products list
+    > proiduct edit component
+    > news list
+MODELS:
+    - news:
+        - title - string
+        - content - string
+        - rating - number
+        - author - string (id)
+        - date - date (string?)
+    - product:
+        - name - string
+        - price - number
+        - rating - number
+        - provider - string (provider id)
+        - count - number
+        - date - date (string?)
+    - user:
+        - name - string
+        - email - string
+        - age - number
+        - gender - string
+        - category - string | user, premium, provider, administrator, banned
+        - avatar (url) - string
+        - list of booked products - id string array
+        - location (gmap) - object
+        - rated products - id string array
+        - rated news - id string array
+    - provider:
+        - name - string
+        - statistic: array: [ [product_name, date] ]
+        ( no products list: it will available from products service )
