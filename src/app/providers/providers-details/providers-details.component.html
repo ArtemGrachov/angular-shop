@@ -3,6 +3,10 @@
     <h4 class="list-group-item-heading">{{provider.name}}</h4>
   </div>
   <div class="panel-body">
+    <div class="btn-group btn-group-xs">
+      <a class="btn btn-default" routerLink="edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+      <a class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+    </div>
     <img [src]="provider.logoUrl" class="img-responsive" [alt]="provider.name">
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let product of providerProducts">
