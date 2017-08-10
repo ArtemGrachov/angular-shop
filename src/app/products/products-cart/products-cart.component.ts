@@ -4,8 +4,6 @@ import { Product } from '../../shared/models/product.model';
 
 import { ProductsService } from '../products.service';
 
-import { Observable } from 'rxjs/Observable';
-
 @Component({
   selector: 'app-products-cart',
   templateUrl: './products-cart.component.html',
@@ -16,7 +14,6 @@ export class ProductsCartComponent implements OnInit {
   price = 0;
   constructor(public productsService: ProductsService) { }
 
-  obs: Observable<Product[]>;
 
   ngOnInit() {
     this.cart = this.productsService.getCart();

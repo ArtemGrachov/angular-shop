@@ -1,3 +1,26 @@
-<p>
-  providers-details works!
-</p>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="list-group-item-heading">{{provider.name}}</h4>
+  </div>
+  <div class="panel-body">
+    <img [src]="provider.logoUrl" class="img-responsive" [alt]="provider.name">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let product of providerProducts">
+        <h4>{{product.name}}</h4>
+        <span class="badge">${{product.price}}</span>
+        <ul class="list-inline">
+          <li>
+            <span class="glyphicon glyphicon-home"></span>
+            <span>{{product.count}} left</span>
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-info-sign"></span> {{product.description}}
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-star-empty"></span> {{product.rating}}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

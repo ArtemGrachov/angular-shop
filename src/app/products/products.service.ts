@@ -9,7 +9,7 @@ export class ProductsService {
             'Apple',
             'http://juliandance.org/wp-content/uploads/2016/01/RedApple.jpg',
             'Sweet red apple!',
-            '0',
+            '3',
             1.99,
             5,
             1,
@@ -20,7 +20,7 @@ export class ProductsService {
             'Potato',
             'http://www.healthandbloom.com/img/potato-new.jpg',
             'Potato!',
-            '0',
+            '4',
             2.99,
             5,
             2,
@@ -31,12 +31,34 @@ export class ProductsService {
             'Honey',
             'http://www.magicvalleybeekeepers.org/wp-content/uploads/2016/03/honey2.jpeg',
             'Honey!',
-            '0',
+            '1',
             0.99,
             10,
             0,
             new Date(2017, 8, 9, 17, 24, 1, 1)
         ),
+        new Product(
+            '3',
+            'Carrot',
+            'https://www.organicfacts.net/wp-content/uploads/2013/05/Carrot1.jpg',
+            'Carrot description',
+            '1',
+            0.99,
+            10,
+            5,
+            new Date(2017, 8, 9, 17, 24, 1, 1)
+        ),
+        new Product(
+            '4',
+            'Mineral water',
+            'http://southsea.speedypizza.co.uk/image/cache/data/drinks/mineral330-500x500.jpg',
+            'Water',
+            '2',
+            0.99,
+            10,
+            4,
+            new Date(2017, 8, 9, 17, 24, 1, 1)
+        )
     ];
 
     public emit: EventEmitter<any> = new EventEmitter();
@@ -45,6 +67,17 @@ export class ProductsService {
 
     getProducts(): Product[] {
         return this.products;
+    }
+
+    getProductsByProvider(providerId): Product[] {
+        let products: Product[] = [];
+        for (const product of this.products) {
+            if (product.providerId === providerId) {
+                products.push(product);
+            }
+        }
+
+        return products;
     }
 
     getProduct(id): Product {
@@ -67,7 +100,8 @@ export class ProductsService {
 
     removeFromCart(index: string) {
         this.cart[index].count++;
-        return this.cart.splice(+index, 1);
+        this.cart.splice(+index, 1);
+        this.emit.emit(this.cart);
     }
 
     clearCart() {
@@ -101,7 +135,7 @@ export class ProductsService {
     deleteProduct(id: string) {
         for (const index in this.products) {
             if (this.products[index].id === id) {
-                return this.products.splice(+index, 1);
+                this.products.splice(+index, 1);
             }
         }
     }

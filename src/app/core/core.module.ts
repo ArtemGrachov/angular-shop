@@ -4,6 +4,8 @@ import { AppRoutingModule } from '../app-routing.module';
 
 import { NewsService } from '../news/news.service';
 import { ProductsService } from '../products/products.service';
+import { ProvidersService } from '../providers/providers.service';
+import { CommentsService } from '../news/comments.service';
 
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
@@ -12,6 +14,6 @@ import { HeaderComponent } from './header/header.component';
     declarations: [HomeComponent, HeaderComponent],
     imports: [AppRoutingModule],
     exports: [HeaderComponent, AppRoutingModule],
-    providers: [NewsService, ProductsService],
+    providers: [NewsService, ProductsService, ProvidersService, CommentsService],
 })
 export class CoreModule { }

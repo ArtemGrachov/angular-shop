@@ -1,3 +1,12 @@
-<p>
-  providers-list works!
-</p>
+<div class="row">
+  <div class="col-sm-3">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let provider of providers">
+        <a [routerLink]="provider.id" style="text-decoration: none; color: inherit"> {{provider.name}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-sm-9">
+    <router-outlet></router-outlet>
+  </div>
+</div>
