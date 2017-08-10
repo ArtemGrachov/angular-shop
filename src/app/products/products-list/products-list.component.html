@@ -11,6 +11,16 @@
               <div class="panel-body">
                 <img [src]="product.imgUrl" class="img-thumbnail" [alt]="product.name" width="304" height="236">
               </div>
+              <div class="panel-footer">
+                <div class="btn-group">
+                  <a class="btn btn-default btn-xs" [routerLink]="[product.id, 'edit']">
+                      <span class="glyphicon glyphicon-pencil"></span> Edit
+                  </a>
+                  <button type="button" class="btn btn-danger btn-xs">
+                      <span class="glyphicon glyphicon-remove"></span> Delete
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-sm-7">
@@ -22,6 +32,9 @@
                 <ul class="list-group">
                   <li class="list-group-item">
                     <span class="glyphicon glyphicon-calendar"></span> {{product.date | date}}
+                  </li>
+                  <li class="list-group-item">
+                    <span class="glyphicon glyphicon-briefcase"></span> {{getProviderName(product.providerId)}}
                   </li>
                   <li class="list-group-item">
                     <span class="glyphicon glyphicon-home"></span>

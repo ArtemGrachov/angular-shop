@@ -1,6 +1,6 @@
 export class Provider {
     constructor(
-        public id: number,
+        public id: string,
         public name: string,
         public statistic: any[]
     ) { }

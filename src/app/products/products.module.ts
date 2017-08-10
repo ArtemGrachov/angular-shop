@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ProductsRoutingModule } from './products-routing.module';
 
-import { ProductsService } from './products.service';
 
 import { ProductsListComponent } from './products-list/products-list.component';
 import { ProductsEditComponent } from './products-edit/products-edit.component';
@@ -18,6 +17,6 @@ import { ProductsCartComponent } from './products-cart/products-cart.component';
     ProductsEditComponent,
     ProductsCartComponent
   ],
-  providers: [ProductsService]
+  providers: []
 })
 export class ProductsModule { }

@@ -1,14 +1,13 @@
-<h1>{{post.title}}</h1>
-<small>{{post.date}}</small>
-<hr>
-<div>
-  {{post.content}}
-</div>
-
-<hr>
 <div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="badge">{{post.title}}</span>
+  </div>
   <div class="panel-body">
-    <span class="badge"><span class="glyphicon glyphicon-star-empty"></span>{{post.rating}}</span>
+    {{post.content}}
+  </div>
+  <div class="panel-footer">
+    <span class="glyphicon glyphicon-star-empty"></span> {{post.rating}}
+    <span class="glyphicon glyphicon-calendar"></span> {{post.date | date}}
     <a class="btn btn-xs btn-success" role="button" (click)="postVoteUp()">
       <span class="glyphicon glyphicon-thumbs-up"></span>
     </a>

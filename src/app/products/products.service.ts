@@ -5,30 +5,33 @@ import { Product } from '../shared/models/product.model';
 export class ProductsService {
     private products: Product[] = [
         new Product(
-            0,
+            '0',
             'Apple',
             'http://juliandance.org/wp-content/uploads/2016/01/RedApple.jpg',
             'Sweet red apple!',
+            '0',
             1.99,
             5,
             1,
             new Date(2017, 8, 9, 17, 24, 1, 1)
         ),
         new Product(
-            1,
+            '1',
             'Potato',
             'http://www.healthandbloom.com/img/potato-new.jpg',
             'Potato!',
+            '0',
             2.99,
             5,
             2,
             new Date(2017, 8, 9, 17, 24, 1, 1)
         ),
         new Product(
-            2,
+            '2',
             'Honey',
             'http://www.magicvalleybeekeepers.org/wp-content/uploads/2016/03/honey2.jpeg',
             'Honey!',
+            '0',
             0.99,
             10,
             0,
@@ -85,7 +88,7 @@ export class ProductsService {
         this.products.push(newProduct);
     }
 
-    updateProduct(id: number, updatedProduct: Product) {
+    updateProduct(id: string, updatedProduct: Product) {
         for (const i in this.products) {
             if (this.products[i].id === id) {
                 console.log(this.products[i]);
@@ -95,7 +98,7 @@ export class ProductsService {
         }
     }
 
-    deleteProduct(id: number) {
+    deleteProduct(id: string) {
         for (const index in this.products) {
             if (this.products[index].id === id) {
                 return this.products.splice(+index, 1);
