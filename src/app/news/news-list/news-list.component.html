@@ -1,13 +1,16 @@
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let post of newsList">
-    <a [routerLink]="[post.id]">
-      <h2>{{post.title}}</h2>
-    </a>
-    <small>{{post.date}}</small>
-    <hr> {{post.content}}
-    <hr>
-    <div>
-      <span class="badge"><span class="glyphicon glyphicon-star-empty"></span>{{post.rating}}</span>
+<div class="panel-group">
+  <div class="panel panel-default" *ngFor="let post of newsList">
+    <div class="panel-heading">
+      <span class="badge">{{post.title}}</span>
+      <!-- <h2><a [routerLink]="[post.id]">{{post.title}}</a></h2> -->
     </div>
-  </li>
-</ul>
+    <div class="panel-body">
+      {{post.content}}
+    </div>
+    <div class="panel-footer">
+      <a [routerLink]="[post.id]" class="btn btn-primary btn-xs">Read</a>
+      <span class="glyphicon glyphicon-star-empty"></span> {{post.rating}}
+      <span class="glyphicon glyphicon-calendar"></span> {{post.date | date}}
+    </div>
+  </div>
+</div>

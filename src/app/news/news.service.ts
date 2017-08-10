@@ -52,7 +52,7 @@ export class NewsService {
     }
 
     deletePost(id: string) {
-        for (let index in this.news) {
+        for (const index in this.news) {
             if (this.news[index].id === id) {
                 return this.news.splice(+index, 1);
             }

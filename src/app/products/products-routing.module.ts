@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ProductsBookingComponent } from './products-booking/products-booking.component';
-import { ProductsDetailsComponent } from './products-details/products-details.component';
+import { ProductsCartComponent } from './products-cart/products-cart.component';
 import { ProductsEditComponent } from './products-edit/products-edit.component';
 import { ProductsListComponent } from './products-list/products-list.component';
 
 const productsRoutes = [
     {
         path: 'products', component: ProductsListComponent, children: [
-            { path: 'booking', component: ProductsBookingComponent },
-            { path: ':id', component: ProductsDetailsComponent },
+            { path: '', component: ProductsCartComponent },
             { path: ':id/edit', component: ProductsEditComponent }
         ]
     }

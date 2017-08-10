@@ -3,16 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { ProductsRoutingModule } from './products-routing.module';
 
+import { ProductsService } from './products.service';
+
 import { ProductsListComponent } from './products-list/products-list.component';
-import { ProductsDetailsComponent } from './products-details/products-details.component';
 import { ProductsEditComponent } from './products-edit/products-edit.component';
-import { ProductsBookingComponent } from './products-booking/products-booking.component';
+import { ProductsCartComponent } from './products-cart/products-cart.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ProductsRoutingModule
   ],
-  declarations: [ProductsListComponent, ProductsDetailsComponent, ProductsEditComponent, ProductsBookingComponent]
+  declarations: [ProductsListComponent,
+    ProductsEditComponent,
+    ProductsCartComponent
+  ],
+  providers: [ProductsService]
 })
 export class ProductsModule { }

@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <span class="glyphicon glyphicon-shopping-cart"></span> Your cart
+  </div>
+  <div class="panel-body">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let product of cart; let i = index">
+        <span (click)="removeFromCart(i)" class="glyphicon glyphicon-remove"></span> {{product.name}}
+        <span class="badge">${{product.price}}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="panel-footer">${{price}}</div>
+</div>
+
+<div class="btn-group btn-group-justified" *ngIf="this.cart.length > 0">
+  <a type="button" class="btn btn-success btn-sm" (click)="bookCart()">Book all!</a>
+  <a type="button" class="btn btn-danger btn-sm" (click)="clearCart()">Discard all</a>
+</div>
