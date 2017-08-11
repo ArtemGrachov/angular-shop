@@ -20,7 +20,7 @@ export class ProductsCartComponent implements OnInit {
     this.price = this.calcTotalPrice();
     this.productsService.emit.subscribe(
       () => {
-        this.refreshCart();
+        this.price = this.calcTotalPrice();
       }
     );
   }
@@ -33,10 +33,9 @@ export class ProductsCartComponent implements OnInit {
     this.productsService.clearCart();
   }
 
-  refreshCart() {
-    this.cart = this.productsService.getCart();
-    this.price = this.calcTotalPrice();
-  }
+  // refreshCart() {
+  //   this.price = this.calcTotalPrice();
+  // }
 
   calcTotalPrice() {
     let price = 0;

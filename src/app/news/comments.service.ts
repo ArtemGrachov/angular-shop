@@ -40,7 +40,7 @@ export class CommentsService {
     }
 
     getLatest(count: number): Comment[] {
-        const sortedComments: Comment[] = this.comments.sort(
+        const sortedComments: Comment[] = this.comments.slice().sort(
             function (a, b) {
                 if (a.date < b.date) {
                     return 1;

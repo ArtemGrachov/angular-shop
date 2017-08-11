@@ -90,7 +90,7 @@ export class ProductsService {
     }
 
     getLatest(count: number): Product[] {
-        const sortedProducts: Product[] = this.products.sort(
+        const sortedProducts: Product[] = this.products.slice().sort(
             function (a, b) {
                 if (a.date < b.date) {
                     return 1;

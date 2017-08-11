@@ -66,7 +66,7 @@ export class NewsService {
 
 
     getLatest(count: number): News[] {
-        const sortedNews: News[] = this.news.sort(
+        const sortedNews: News[] = this.news.slice().sort(
             function (a, b) {
                 if (a.date < b.date) {
                     return 1;

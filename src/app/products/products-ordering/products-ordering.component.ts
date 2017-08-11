@@ -21,7 +21,7 @@ export class ProductsOrderingComponent implements OnInit {
     this.price = this.calcTotalPrice();
     this.productsService.emit.subscribe(
       (cart) => {
-        this.refreshCart(cart);
+        this.price = this.calcTotalPrice();
       }
     );
   }
@@ -38,8 +38,8 @@ export class ProductsOrderingComponent implements OnInit {
     this.productsService.removeFromCart(index);
   }
 
-  refreshCart(cart) {
-    this.cart = cart;
-    this.price = this.calcTotalPrice();
-  }
+  // refreshCart(cart) {
+  //   this.cart = cart;
+  //   this.price = this.calcTotalPrice();
+  // }
 }
