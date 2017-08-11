@@ -13,7 +13,7 @@ import { Product } from '../../shared/models/product.model';
   styleUrls: ['./providers-details.component.css']
 })
 export class ProvidersDetailsComponent implements OnInit {
-  providerId: String = '';
+  providerId: string = '';
   provider: Provider;
   providerProducts: Product[];
   constructor(
@@ -33,4 +33,8 @@ export class ProvidersDetailsComponent implements OnInit {
     );
   }
 
+  delete() {
+    this.providersService.deleteProvider(this.providerId);
+    this.router.navigate(['providers']);
+  }
 }

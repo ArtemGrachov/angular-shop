@@ -5,7 +5,7 @@
   <div class="panel-body">
     <div class="btn-group btn-group-xs">
       <a class="btn btn-default" routerLink="edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-      <a class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+      <a class="btn btn-danger" (click)="delete()"><span class="glyphicon glyphicon-remove"></span> Delete</a>
     </div>
     <img [src]="provider.logoUrl" class="img-responsive" [alt]="provider.name">
     <div class="panel panel-default">

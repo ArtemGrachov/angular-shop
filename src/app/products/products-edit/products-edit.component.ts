@@ -26,7 +26,7 @@ export class ProductsEditComponent implements OnInit {
     0,
     new Date()
   );
-  productId: String;
+  productId: string;
   providersList: Provider[];
   productForm: FormGroup;
   editMode: Boolean = false;
@@ -73,5 +73,14 @@ export class ProductsEditComponent implements OnInit {
       this.productsService.addProduct(this.productForm.value);
     }
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  delete() {
+    this.productsService.deleteProduct(this.productId);
+    this.router.navigate(['products']);
+  }
+
+  reset() {
+    this.productForm.patchValue(this.product);
   }
 }

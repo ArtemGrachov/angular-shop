@@ -20,7 +20,7 @@ export class ProvidersEditComponent implements OnInit {
     '',
     [0]
   );
-  providerId: String;
+  providerId: string;
   editMode: Boolean = false;
   providerForm: FormGroup;
 
@@ -61,5 +61,14 @@ export class ProvidersEditComponent implements OnInit {
       'email': this.provider.email,
       'description': this.provider.description
     });
+  }
+
+  reset() {
+    this.providerForm.patchValue(this.provider);
+  }
+
+  delete() {
+    this.providersService.deleteProvider(this.providerId);
+    this.router.navigate(['providers']);
   }
 }

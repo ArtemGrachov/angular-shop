@@ -14,7 +14,7 @@ import { ProvidersService } from '../../providers/providers.service';
   styleUrls: ['./products-details.component.css']
 })
 export class ProductsDetailsComponent implements OnInit {
-  productId: String;
+  productId: string;
   product: Product;
 
   constructor(
@@ -48,6 +48,11 @@ export class ProductsDetailsComponent implements OnInit {
 
   goToPrevPage() {
     this.location.back();
+  }
+
+  delete() {
+    this.productsService.deleteProduct(this.productId);
+    this.router.navigate(['products']);
   }
 
 }

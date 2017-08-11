@@ -44,9 +44,9 @@
     <div class="panel-footer">
       <div class="btn-group">
         <button type="submit" class="btn btn-success">Apply</button>
-        <button type="button" class="btn btn-info">Reset</button>
+        <button type="button" class="btn btn-info" (click)="reset()">Reset</button>
         <a routerLink="../" type="button" class="btn btn-default">Cancel</a>
-        <button type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-danger" (click)="delete()">Delete</button>
       </div>
     </div>
   </form>

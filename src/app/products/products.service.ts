@@ -86,34 +86,34 @@ export class ProductsService {
     }
 
     getCart(): Product[] {
-        return this.cart.slice();
+        return this.cart;
     }
 
     addToCart(id: number) {
         if (this.getProduct(id).count > 0) {
             this.getProduct(id).count--;
             this.cart.push(this.getProduct(id));
-            this.emit.emit(this.cart);
+            this.emit.emit();
         }
     }
 
     removeFromCart(index: string) {
         this.cart[index].count++;
         this.cart.splice(+index, 1);
-        this.emit.emit(this.cart);
+        this.emit.emit();
     }
 
     clearCart() {
         while (this.cart.length > 0) {
             this.removeFromCart('0');
         }
-        this.emit.emit(this.cart);
+        this.emit.emit();
     }
 
     bookCart() {
         console.log(this.cart);
         this.cart = [];
-        this.emit.emit(this.cart);
+        this.emit.emit();
     }
 
     addProduct(newProduct: Product) {
