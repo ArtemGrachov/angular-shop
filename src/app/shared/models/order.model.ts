@@ -3,6 +3,7 @@ export class Order {
         public id: string,
         public userId: string,
         public products: { name: string, price: number }[],
-        public date: Date
+        public date: Date,
+        public location: any
     ) { }
 }

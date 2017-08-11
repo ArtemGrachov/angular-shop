@@ -8,6 +8,7 @@ import { ProductsEditComponent } from './products-edit/products-edit.component';
 import { ProductsCartComponent } from './products-cart/products-cart.component';
 import { ProductsDetailsComponent } from './products-details/products-details.component';
 import { ProductsMainComponent } from './products-main/products-main.component';
+import { ProductsOrderingComponent } from './products-ordering/products-ordering.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ProductsMainComponent } from './products-main/products-main.component';
     ProductsEditComponent,
     ProductsCartComponent,
     ProductsDetailsComponent,
-    ProductsMainComponent
+    ProductsMainComponent,
+    ProductsOrderingComponent
   ],
   providers: []
 })
