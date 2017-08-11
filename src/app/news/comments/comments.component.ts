@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { CommentsService } from '../comments.service';
 
@@ -17,7 +17,8 @@ export class CommentsComponent implements OnInit {
   commentFormActive: Boolean = false;
   commentForm: FormGroup;
   constructor(
-    private commentsService: CommentsService
+    private commentsService: CommentsService,
+    public fb: FormBuilder
   ) { }
 
 
@@ -28,8 +29,8 @@ export class CommentsComponent implements OnInit {
       () => this.comments = this.commentsService.getCommentsToPost(this.postId)
       );
 
-    this.commentForm = new FormGroup({
-      commentText: new FormControl()
+    this.commentForm = this.fb.group({
+      'commentText': ['']
     });
 
   }

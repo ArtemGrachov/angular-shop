@@ -7,6 +7,7 @@ import { NewsEditComponent } from './news-edit/news-edit.component';
 
 const newsRoutes = [
     { path: 'news', component: NewsListComponent },
+    { path: 'news/new', component: NewsEditComponent },
     { path: 'news/:id', component: NewsPostComponent },
     { path: 'news/:id/edit', component: NewsEditComponent }
 ];

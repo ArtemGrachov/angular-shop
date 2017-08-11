@@ -1,3 +1,5 @@
+<a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Add post</a>
+<hr>
 <div class="panel-group">
   <div class="panel panel-default" *ngFor="let post of newsList">
     <div class="panel-heading">
@@ -9,7 +11,7 @@
     <div class="panel-footer">
       <a [routerLink]="[post.id]" class="btn btn-primary btn-xs">Read</a>
       <span class="glyphicon glyphicon-star-empty"></span> {{post.rating}}
-      <span class="glyphicon glyphicon-calendar"></span> {{post.date | date}}
+      <span class="glyphicon glyphicon-calendar"></span> {{post.date | date:'medium'}}
     </div>
   </div>
 </div>

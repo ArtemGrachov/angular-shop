@@ -39,12 +39,17 @@ export class NewsService {
     }
 
     addPost(newPost: News) {
+        // test 'unique' id
+        let testId = Math.floor(Math.random() * 1000);
+        newPost.id = testId.toString();
+        // test 'unique' id
+
         this.news.push(newPost);
     }
 
-    updatePost(id: string, updatedPost: News) {
+    updatePost(updatedPost: News) {
         for (const i in this.news) {
-            if (this.news[i].id === id) {
+            if (this.news[i].id === updatedPost.id) {
                 this.news[i] = updatedPost;
                 return;
             }

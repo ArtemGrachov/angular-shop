@@ -1,20 +1,20 @@
 <h1>Editing</h1>
-<form>
+<form [formGroup]="newsEditForm" (ngSubmit)="submitPost()">
   <div class="form-group">
     <label for="title">Post title</label>
-    <input type="text" class="form-control" name="title" id="title">
+    <input type="text" class="form-control" name="title" id="title" formControlName="title">
   </div>
   <div class="form-group">
     <label for="content">Content</label>
-    <textarea class="form-control" rows="5" id="content" name="content"></textarea>
+    <textarea class="form-control" rows="5" id="content" name="content" formControlName="content"></textarea>
   </div>
   <div class="form-group">
     <label for="rating">Rating</label>
-    <input type="number" class="form-control" name="rating" id="rating">
+    <input type="number" class="form-control" name="rating" id="rating" formControlName="rating">
   </div>
   <div class="form-group">
-    <label for="user">Author</label>
-    <select class="form-control" id="user" name="user">
+    <label for="authorId">Author</label>
+    <select class="form-control" id="authorId" name="user" formControlName="authorId">
         <option value="1">admin</option>
         <option value="2">user1</option>
         <option value="3">user111</option>
@@ -23,10 +23,11 @@
   </div>
   <div class="form-group">
     <label for="title">Publishing date</label>
-    <input type="date" class="form-control" name="title" id="title">
+    <input type="date" class="form-control" name="title" id="title" formControlName="date">
   </div>
   <div class="btn-group">
-    <button type="button" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Apply</button>
     <button type="button" class="btn btn-warning">Delete</button>
+    <button type="button" class="btn btn-default">Cancel</button>
   </div>
 </form>
