@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { ProductsRoutingModule } from './products-routing.module';
 
-
 import { ProductsListComponent } from './products-list/products-list.component';
 import { ProductsEditComponent } from './products-edit/products-edit.component';
 import { ProductsCartComponent } from './products-cart/products-cart.component';
+import { ProductsDetailsComponent } from './products-details/products-details.component';
+import { ProductsMainComponent } from './products-main/products-main.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,9 @@ import { ProductsCartComponent } from './products-cart/products-cart.component';
   ],
   declarations: [ProductsListComponent,
     ProductsEditComponent,
-    ProductsCartComponent
+    ProductsCartComponent,
+    ProductsDetailsComponent,
+    ProductsMainComponent
   ],
   providers: []
 })

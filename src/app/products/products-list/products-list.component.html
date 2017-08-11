@@ -1,72 +1,19 @@
-<div class="row">
-  <div class="col-sm-9">
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let product of products">
-        <div class="row">
-          <div class="col-sm-5">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <span class="badge">{{product.name}}</span>
-              </div>
-              <div class="panel-body">
-                <img [src]="product.imgUrl" class="img-thumbnail" [alt]="product.name" width="304" height="236">
-              </div>
-              <div class="panel-footer">
-                <div class="btn-group">
-                  <a class="btn btn-default btn-xs" [routerLink]="[product.id, 'edit']">
-                      <span class="glyphicon glyphicon-pencil"></span> Edit
-                  </a>
-                  <button type="button" class="btn btn-danger btn-xs">
-                      <span class="glyphicon glyphicon-remove"></span> Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-7">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <span class="badge">Only for ${{product.price}}!</span>
-              </div>
-              <div class="panel-body">
-                <ul class="list-group">
-                  <li class="list-group-item">
-                    <span class="glyphicon glyphicon-calendar"></span> {{product.date | date}}
-                  </li>
-                  <li class="list-group-item">
-                    <span class="glyphicon glyphicon-briefcase"></span> {{getProviderName(product.providerId)}}
-                  </li>
-                  <li class="list-group-item">
-                    <span class="glyphicon glyphicon-home"></span>
-                    <span *ngIf="product.count > 0">{{product.count}} left</span>
-                    <span style="color: red" *ngIf="product.count <= 0">Sorry, no one left!</span>
-                  </li>
-                  <li class="list-group-item">
-                    <span class="glyphicon glyphicon-info-sign"></span> {{product.description}}
-                  </li>
-                  <li class="list-group-item">
-                    <span class="glyphicon glyphicon-star-empty"></span> {{product.rating}}
-                  </li>
-                </ul>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-primary" (click)="addToCart(product.id)" [disabled]="product.count <= 0">
-                      <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart!
-                  </button>
-                  <button type="button" class="btn btn-success" (click)="rateProduct(product.id, 1)">
-                      <span class="glyphicon glyphicon-thumbs-up"></span>
-                  </button>
-                  <button type="button" class="btn btn-danger" (click)="rateProduct(product.id, -1)">
-                      <span class="glyphicon glyphicon-thumbs-down"></span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<ul class="list-group">
+  <a class="list-group-item" *ngFor="let product of products" [routerLink]="product.id">
+    <img [src]="product.imgUrl" [alt]="product.name" style="max-height: 64px;">
+    <h4>{{product.name}}</h4>
+    <span class="badge">${{product.price}}</span>
+    <ul class="list-inline">
+      <li>
+        <span class="glyphicon glyphicon-home"></span>
+        <span>{{product.count}} left</span>
+      </li>
+      <li>
+        <span class="glyphicon glyphicon-info-sign"></span> {{product.description}}
+      </li>
+      <li>
+        <span class="glyphicon glyphicon-star-empty"></span> {{product.rating}}
       </li>
     </ul>
-  </div>
-  <div class="col-sm-3">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+  </a>
+</ul>

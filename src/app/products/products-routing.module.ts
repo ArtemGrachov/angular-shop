@@ -4,11 +4,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProductsCartComponent } from './products-cart/products-cart.component';
 import { ProductsEditComponent } from './products-edit/products-edit.component';
 import { ProductsListComponent } from './products-list/products-list.component';
+import { ProductsMainComponent } from './products-main/products-main.component';
+import { ProductsDetailsComponent } from './products-details/products-details.component';
 
 const productsRoutes = [
     {
-        path: 'products', component: ProductsListComponent, children: [
-            { path: '', component: ProductsCartComponent }
+        path: 'products', component: ProductsMainComponent, children: [
+            { path: '', component: ProductsListComponent },
+            { path: ':id', component: ProductsDetailsComponent },
         ]
     },
     { path: 'products/:id/edit', component: ProductsEditComponent }

@@ -23,16 +23,16 @@ export class ProductsListComponent implements OnInit {
     this.products = this.productsService.getProducts();
   }
 
-  addToCart(id: number) {
-    this.productsService.addToCart(id);
-  }
+  // addToCart(id: number) {
+  //   this.productsService.addToCart(id);
+  // }
 
-  rateProduct(id: number, rate: number) {
-    this.productsService.rateProduct(id, rate);
-  }
+  // rateProduct(id: number, rate: number) {
+  //   this.productsService.rateProduct(id, rate);
+  // }
 
-  getProviderName(id) {
-    return this.providersService.getProvider(id).name;
-  }
+  // getProviderName(id) {
+  //   return this.providersService.getProvider(id).name;
+  // }
 
 }

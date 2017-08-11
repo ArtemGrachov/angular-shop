@@ -9,7 +9,8 @@
     </div>
     <img [src]="provider.logoUrl" class="img-responsive" [alt]="provider.name">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let product of providerProducts">
+      <a class="list-group-item" *ngFor="let product of providerProducts" [routerLink]="['/products/', product.id]">
+        <img [src]="product.imgUrl" [alt]="product.name" style="max-height: 64px;">
         <h4>{{product.name}}</h4>
         <span class="badge">${{product.price}}</span>
         <ul class="list-inline">
@@ -24,7 +25,7 @@
             <span class="glyphicon glyphicon-star-empty"></span> {{product.rating}}
           </li>
         </ul>
-      </li>
+      </a>
     </ul>
   </div>
 </div>
