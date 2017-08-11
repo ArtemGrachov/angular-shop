@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { CommentsService } from '../comments.service';
 
@@ -13,11 +14,12 @@ export class CommentsComponent implements OnInit {
   @Input() postId: string;
 
   comments: Comment[] = [];
-  newCommentForm: Boolean = false;
-
+  commentFormActive: Boolean = false;
+  commentForm: FormGroup;
   constructor(
     private commentsService: CommentsService
   ) { }
+
 
   ngOnInit() {
     this.comments = this.commentsService.getCommentsToPost(this.postId);
@@ -25,6 +27,11 @@ export class CommentsComponent implements OnInit {
       .subscribe(
       () => this.comments = this.commentsService.getCommentsToPost(this.postId)
       );
+
+    this.commentForm = new FormGroup({
+      commentText: new FormControl()
+    });
+
   }
 
   deleteComment(id: string) {
@@ -32,7 +39,19 @@ export class CommentsComponent implements OnInit {
   }
 
   toggleNewComentForm() {
-    this.newCommentForm = !this.newCommentForm;
+    this.commentFormActive = !this.commentFormActive;
+  }
+
+  sendComment() {
+    this.commentsService.addComment(
+      new Comment(
+        '0',
+        '0',
+        this.postId,
+        this.commentForm.value['commentText']
+      )
+    );
+    this.commentForm.reset();
   }
 
 }

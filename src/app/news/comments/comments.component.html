@@ -1,12 +1,12 @@
 <button type="button" class="btn btn-primary" (click)="toggleNewComentForm()">Write a comment</button>
 <hr>
-<form *ngIf="newCommentForm">
+<form *ngIf="commentFormActive" (ngSubmit)="sendComment()" [formGroup]="commentForm">
   <div class="panel panel-default">
     <div class="panel-heading">
       Your comment:
     </div>
     <div class="panel-body">
-      <textarea class="form-control" rows="5" id="comment"></textarea>
+      <textarea class="form-control" rows="5" id="comment" formControlName="commentText"></textarea>
       <hr>
       <button type="submit" class="btn btn-primary">Send</button>
     </div>

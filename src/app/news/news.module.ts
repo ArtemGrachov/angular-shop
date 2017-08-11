@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { NewsRoutingModule } from './news-routing.module';
 
@@ -10,8 +11,10 @@ import { CommentsComponent } from './comments/comments.component';
 
 @NgModule({
   imports: [
-    CommonModule, NewsRoutingModule
-
+    CommonModule,
+    NewsRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [NewsListComponent, NewsPostComponent, NewsEditComponent, CommentsComponent]
 })

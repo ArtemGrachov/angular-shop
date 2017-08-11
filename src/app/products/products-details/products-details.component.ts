@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -20,7 +21,8 @@ export class ProductsDetailsComponent implements OnInit {
     public productsService: ProductsService,
     public providersService: ProvidersService,
     public router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public location: Location
   ) { }
 
   ngOnInit() {
@@ -32,9 +34,6 @@ export class ProductsDetailsComponent implements OnInit {
     );
   }
 
-
-
-
   addToCart(id: number) {
     this.productsService.addToCart(id);
   }
@@ -45,6 +44,10 @@ export class ProductsDetailsComponent implements OnInit {
 
   getProviderName(id) {
     return this.providersService.getProvider(id).name;
+  }
+
+  goToPrevPage() {
+    this.location.back();
   }
 
 }

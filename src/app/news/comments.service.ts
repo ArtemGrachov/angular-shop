@@ -25,7 +25,7 @@ export class CommentsService {
         return comments;
     }
 
-    addComment(postId: string, newComment: Comment) {
+    addComment(newComment: Comment) {
         this.comments.push(newComment);
         this.emit.emit();
     }
