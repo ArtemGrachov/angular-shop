@@ -58,7 +58,6 @@ export class ProvidersService {
     }
 
     updateProvider(updatedProvider: Provider) {
-        console.log(updatedProvider);
         for (const i in this.providers) {
             if (this.providers[i].id === updatedProvider.id) {
                 this.providers[i] = updatedProvider;

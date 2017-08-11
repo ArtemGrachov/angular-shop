@@ -3,6 +3,7 @@ export class Comment {
         public id: string,
         public authorId: string,
         public postId: string,
-        public content: string
+        public content: string,
+        public date: Date
     ) { }
 }

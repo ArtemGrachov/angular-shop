@@ -17,6 +17,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         {{comment.authorId}}
+        <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
       </div>
       <div class="panel-body">
         {{comment.content}}

@@ -13,7 +13,7 @@ export class ProductsService {
             1.99,
             5,
             1,
-            new Date(2017, 8, 9, 17, 24, 1, 1)
+            new Date(2017, 11, 9, 17, 24, 1, 1)
         ),
         new Product(
             '1',
@@ -24,7 +24,7 @@ export class ProductsService {
             2.99,
             5,
             2,
-            new Date(2017, 8, 9, 17, 24, 1, 1)
+            new Date(2017, 8, 10, 17, 24, 1, 1)
         ),
         new Product(
             '2',
@@ -35,7 +35,7 @@ export class ProductsService {
             0.99,
             10,
             0,
-            new Date(2017, 8, 9, 17, 24, 1, 1)
+            new Date(2017, 8, 7, 17, 24, 1, 1)
         ),
         new Product(
             '3',
@@ -46,7 +46,7 @@ export class ProductsService {
             0.99,
             10,
             5,
-            new Date(2017, 8, 9, 17, 24, 1, 1)
+            new Date(2017, 8, 1, 17, 24, 1, 1)
         ),
         new Product(
             '4',
@@ -57,7 +57,7 @@ export class ProductsService {
             0.99,
             10,
             4,
-            new Date(2017, 8, 9, 17, 24, 1, 1)
+            new Date(2017, 11, 11, 17, 24, 1, 1)
         )
     ];
 
@@ -87,6 +87,25 @@ export class ProductsService {
 
     getCart(): Product[] {
         return this.cart;
+    }
+
+    getLatest(count: number): Product[] {
+        const sortedProducts: Product[] = this.products.sort(
+            function (a, b) {
+                if (a.date < b.date) {
+                    return 1;
+                } else if (a.date > b.date) {
+                    return - 1;
+                } else {
+                    return 0;
+                }
+            }
+        );
+        return sortedProducts.slice(0, count);
+    }
+
+    getCount(): number {
+        return this.products.length;
     }
 
     addToCart(id: number) {

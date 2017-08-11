@@ -63,4 +63,24 @@ export class NewsService {
             }
         }
     }
+
+
+    getLatest(count: number): News[] {
+        const sortedNews: News[] = this.news.sort(
+            function (a, b) {
+                if (a.date < b.date) {
+                    return 1;
+                } else if (a.date > b.date) {
+                    return - 1;
+                } else {
+                    return 0;
+                }
+            }
+        );
+        return sortedNews.slice(0, count);
+    }
+
+    getCount(): number {
+        return this.news.length;
+    }
 }

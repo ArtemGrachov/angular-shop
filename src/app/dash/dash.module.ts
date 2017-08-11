@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from '../shared/shared.module';
+
 
 import { DashRoutingModule } from './dash-routing.module';
 import { DashMainComponent } from './dash-main/dash-main.component';
@@ -8,7 +9,7 @@ import { DashProfileComponent } from './dash-profile/dash-profile.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
     DashRoutingModule
   ],
   declarations: [DashMainComponent, DashOrdersComponent, DashProfileComponent]

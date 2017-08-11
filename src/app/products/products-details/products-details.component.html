@@ -29,7 +29,7 @@
       <div class="panel-body">
         <ul class="list-group">
           <li class="list-group-item">
-            <span class="glyphicon glyphicon-calendar"></span> {{product.date | date}}
+            <span class="glyphicon glyphicon-calendar"></span> {{product.date | date:'medium'}}
           </li>
           <li class="list-group-item">
             <span class="glyphicon glyphicon-briefcase"></span> {{getProviderName(product.providerId)}}

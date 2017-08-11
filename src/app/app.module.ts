@@ -10,6 +10,7 @@ import { ProvidersModule } from './providers/providers.module';
 import { DashModule } from './dash/dash.module';
 
 import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 
@@ -26,7 +27,8 @@ import { AppComponent } from './app.component';
     ProductsModule,
     ProvidersModule,
     AuthModule,
-    DashModule
+    DashModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

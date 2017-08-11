@@ -1,18 +1,25 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Products</div>
+  <div class="panel-heading">Newest products</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item">First item</li>
-      <li class="list-group-item">Second item</li>
-      <li class="list-group-item">Third item</li>
+      <li class="list-group-item" *ngFor="let product of products">
+        <ul class="list-inline">
+          <li>
+            <a [routerLink]="['../products',product.id]" class="btn btn-primary btn-xs">{{product.name}}</a>
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-calendar"></span> {{product.date | date:'medium'}}
+          </li>
+        </ul>
+      </li>
     </ul>
   </div>
   <div class="panel-footer">
-    Total: 0 products
+    Total: {{productsCount}} products
   </div>
 </div>
 <div class="panel panel-default">
-  <div class="panel-heading">Orders</div>
+  <div class="panel-heading">Newest orders</div>
   <div class="panel-body">
     <ul class="list-group">
       <li class="list-group-item">First item</li>
@@ -25,7 +32,7 @@
   </div>
 </div>
 <div class="panel panel-default">
-  <div class="panel-heading">Users</div>
+  <div class="panel-heading">Newest users</div>
   <div class="panel-body">
     <ul class="list-group">
       <li class="list-group-item">First item</li>
@@ -39,28 +46,44 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">News</div>
+  <div class="panel-heading">Latest news</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item">First item</li>
-      <li class="list-group-item">Second item</li>
-      <li class="list-group-item">Third item</li>
+      <li class="list-group-item" *ngFor="let post of news">
+        <ul class="list-inline">
+          <li>
+            <a [routerLink]="['../news',post.id]" class="btn btn-primary btn-xs">{{post.title}}</a>
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-calendar"></span> {{post.date | date:'medium'}}
+          </li>
+        </ul>
+      </li>
     </ul>
   </div>
   <div class="panel-footer">
-    Total: 0 news
+    Total: {{newsCount}} news
   </div>
 </div>
 <div class="panel panel-default">
-  <div class="panel-heading">Comments</div>
+  <div class="panel-heading">Newest comments</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item">First item</li>
-      <li class="list-group-item">Second item</li>
-      <li class="list-group-item">Third item</li>
+      <li class="list-group-item" *ngFor="let comment of comments">
+        <ul class="list-inline">
+          <li>
+            <a class="btn btn-default btn-xs" [routerLink]="['../news',comment.postId]">
+              <span class="glyphicon glyphicon-comment"></span> 
+            </a>
+            <!-- <span class="glyphicon glyphicon-calendar"></span>
+             {{comment.date | date:'medium'}} -->
+            {{comment.content | slice:0:100}}
+          </li>
+        </ul>
+      </li>
     </ul>
   </div>
   <div class="panel-footer">
-    Total: 0 comments
+    Total: {{commenstCount}} comments
   </div>
 </div>

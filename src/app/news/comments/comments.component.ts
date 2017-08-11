@@ -49,7 +49,8 @@ export class CommentsComponent implements OnInit {
         '0',
         '0',
         this.postId,
-        this.commentForm.value['commentText']
+        this.commentForm.value['commentText'],
+        new Date()
       )
     );
     this.commentForm.reset();
