@@ -1,21 +1,25 @@
 <div class="panel panel-default">
   <div class="panel-heading">Editing Providername</div>
   <div class="panel-body">
-    <form>
+    <form [formGroup]="providerForm" (ngSubmit)="submit()">
       <div class="form-group">
         <label for="name">Provider's name:</label>
-        <input type="text" class="form-control" id="name">
+        <input type="text" class="form-control" id="name" formControlName="name">
       </div>
       <div class="form-group">
         <label for="name">Provider's logo URL:</label>
-        <input type="text" class="form-control" id="logoUrl">
+        <input type="text" class="form-control" id="logoUrl" formControlName="logoUrl">
       </div>
       <div class="form-group">
         <label for="name">Provider's email:</label>
-        <input type="email" class="form-control" id="email">
+        <input type="email" class="form-control" id="email" formControlName="email">
+      </div>
+      <div class="form-group">
+        <label for="name">Description:</label>
+        <textarea class="form-control" id="description" formControlName="description"></textarea>
       </div>
       <div class="btn-group">
-        <button type="button" class="btn btn-success">Apply</button>
+        <button type="submit" class="btn btn-success">Apply</button>
         <button type="button" class="btn btn-info">Reset</button>
         <button type="button" class="btn btn-danger">Delete</button>
         <button type="button" class="btn btn-default">Cancel</button>

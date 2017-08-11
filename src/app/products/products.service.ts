@@ -76,7 +76,6 @@ export class ProductsService {
                 products.push(product);
             }
         }
-
         return products;
     }
 
@@ -112,7 +111,7 @@ export class ProductsService {
     }
 
     bookCart() {
-        console.log('Ok!');
+        console.log(this.cart);
         this.cart = [];
         this.emit.emit(this.cart);
     }
@@ -125,7 +124,6 @@ export class ProductsService {
     updateProduct(updatedProduct: Product) {
         for (const i in this.products) {
             if (this.products[i].id === updatedProduct.id) {
-                console.log(this.products[i]);
                 this.products[i] = updatedProduct;
                 return;
             }

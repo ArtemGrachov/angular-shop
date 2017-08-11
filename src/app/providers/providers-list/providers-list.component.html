@@ -5,7 +5,7 @@
         <a class="btn btn-default btn-block" [routerLink]="provider.id" *ngFor="let provider of providers">{{provider.name}}</a>
       </div>
       <div class="panel-footer">
-        <button type="button" class="btn btn-primary btn-sm">Add provider</button>
+        <a routerLink="new" class="btn btn-primary btn-sm">Add provider</a>
       </div>
     </div>
   </div>

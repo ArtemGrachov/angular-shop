@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { ProvidersRoutingModule } from './providers-routing.module';
 
@@ -10,7 +11,9 @@ import { ProvidersEditComponent } from './providers-edit/providers-edit.componen
 @NgModule({
   imports: [
     CommonModule,
-    ProvidersRoutingModule
+    ProvidersRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [ProvidersListComponent, ProvidersDetailsComponent, ProvidersEditComponent]
 })

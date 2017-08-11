@@ -37,8 +37,10 @@ export class ProvidersService {
             [])
     ];
 
+
+
     getProviders() {
-        return this.providers.slice();
+        return this.providers;
     }
 
     getProvider(id: String) {
@@ -48,12 +50,17 @@ export class ProvidersService {
     }
 
     addProvider(newProvider: Provider) {
+        // test id
+        const testId = Math.floor(Math.random() * 1000);
+        newProvider.id = testId.toString();
+        // test id
         this.providers.push(newProvider);
     }
 
-    updateProvider(id: string, updatedProvider: Provider) {
+    updateProvider(updatedProvider: Provider) {
+        console.log(updatedProvider);
         for (const i in this.providers) {
-            if (this.providers[i].id === id) {
+            if (this.providers[i].id === updatedProvider.id) {
                 this.providers[i] = updatedProvider;
                 return;
             }

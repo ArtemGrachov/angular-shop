@@ -8,6 +8,7 @@ import { ProvidersEditComponent } from './providers-edit/providers-edit.componen
 const providersRoutes = [
     {
         path: 'providers', component: ProvidersListComponent, children: [
+            { path: 'new', component: ProvidersEditComponent },
             { path: ':id', component: ProvidersDetailsComponent },
             { path: ':id/edit', component: ProvidersEditComponent },
         ]
