@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4 class="list-group-item-heading">{{provider.name}}</h4>
+    {{provider.name}}
   </div>
   <div class="panel-body">
     <div class="btn-group btn-group-xs">
@@ -8,6 +8,13 @@
       <a class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
     </div>
     <img [src]="provider.logoUrl" class="img-responsive" [alt]="provider.name">
+    <div class="panel panel-default">
+      <div class="panel-heading">Description</div>
+      <div class="panel-body">{{provider.description}}</div>
+      <div class="panel-footer">
+        <a class="btn btn-info btn-sm" [href]="'mailto:' + provider.email"><span class="glyphicon glyphicon-envelope"></span> Send Email</a>
+      </div>
+    </div>
     <ul class="list-group">
       <a class="list-group-item" *ngFor="let product of providerProducts" [routerLink]="['/products/', product.id]">
         <img [src]="product.imgUrl" [alt]="product.name" style="max-height: 64px;">
