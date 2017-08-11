@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { ProductsRoutingModule } from './products-routing.module';
 
@@ -13,7 +14,9 @@ import { ProductsOrderingComponent } from './products-ordering/products-ordering
 @NgModule({
   imports: [
     CommonModule,
-    ProductsRoutingModule
+    ProductsRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [ProductsListComponent,
     ProductsEditComponent,

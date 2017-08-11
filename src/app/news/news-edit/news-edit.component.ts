@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { News } from '../..//shared/models/news.model';

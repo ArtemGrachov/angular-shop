@@ -9,6 +9,7 @@ import { ProductsDetailsComponent } from './products-details/products-details.co
 import { ProductsOrderingComponent } from './products-ordering/products-ordering.component';
 
 const productsRoutes = [
+    { path: 'products/new', component: ProductsEditComponent },
     { path: 'products/ordering', component: ProductsOrderingComponent },
     {
         path: 'products', component: ProductsMainComponent, children: [

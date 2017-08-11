@@ -122,9 +122,9 @@ export class ProductsService {
         this.products.push(newProduct);
     }
 
-    updateProduct(id: string, updatedProduct: Product) {
+    updateProduct(updatedProduct: Product) {
         for (const i in this.products) {
-            if (this.products[i].id === id) {
+            if (this.products[i].id === updatedProduct.id) {
                 console.log(this.products[i]);
                 this.products[i] = updatedProduct;
                 return;
