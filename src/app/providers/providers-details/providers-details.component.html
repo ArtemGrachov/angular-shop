@@ -9,10 +9,27 @@
     </div>
     <img [src]="provider.logoUrl" class="img-responsive" [alt]="provider.name">
     <div class="panel panel-default">
+      <div class="panel-body">
+        <span class="glyphicon glyphicon-star-empty"></span> {{provider.rating}}
+
+      </div>
+    </div>
+    <div class="panel panel-default">
       <div class="panel-heading">Description</div>
       <div class="panel-body">{{provider.description}}</div>
       <div class="panel-footer">
-        <a class="btn btn-info btn-sm" [href]="'mailto:' + provider.email"><span class="glyphicon glyphicon-envelope"></span> Send Email</a>
+
+        <div class="btn-group">
+          <a class="btn btn-sm btn-success" role="button" (click)="providerRate(1)">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+          </a>
+          <a class="btn btn-sm btn-danger" role="button" (click)="providerRate(-1)">
+            <span class="glyphicon glyphicon-thumbs-down"></span>
+          </a>
+          <a class="btn btn-info btn-sm" [href]="'mailto:' + provider.email"><span class="glyphicon glyphicon-envelope"></span>
+            Send Email
+          </a>
+        </div>
       </div>
     </div>
     <ul class="list-group">

@@ -37,4 +37,8 @@ export class ProvidersDetailsComponent implements OnInit {
     this.providersService.deleteProvider(this.providerId);
     this.router.navigate(['providers']);
   }
+
+  providerRate(rate: number) {
+    this.providersService.rateProvider(this.providerId, rate);
+  }
 }

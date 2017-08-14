@@ -1,0 +1,5 @@
+<ul class="list-group">
+  <a class="list-group-item" *ngFor="let provider of providers" [routerLink]="['/providers', provider.id]">
+    {{provider.name}}
+  </a>
+</ul>

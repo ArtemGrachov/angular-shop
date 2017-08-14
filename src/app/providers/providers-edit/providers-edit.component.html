@@ -18,6 +18,10 @@
         <label for="name">Description:</label>
         <textarea class="form-control" id="description" formControlName="description"></textarea>
       </div>
+      <div class="form-group">
+        <label for="rating">Rating:</label>
+        <input type="number" class="form-control" id="rating" formControlName="rating">
+      </div>
       <div class="btn-group">
         <button type="submit" class="btn btn-success">Apply</button>
         <button type="button" class="btn btn-info" (click)="reset()">Reset</button>

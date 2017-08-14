@@ -18,7 +18,7 @@ export class ProvidersEditComponent implements OnInit {
     '',
     '',
     '',
-    [0]
+    0
   );
   providerId: string;
   editMode: Boolean = false;
@@ -59,7 +59,8 @@ export class ProvidersEditComponent implements OnInit {
       'name': this.provider.name,
       'logoUrl': this.provider.logoUrl,
       'email': this.provider.email,
-      'description': this.provider.description
+      'description': this.provider.description,
+      'rating': this.provider.rating
     });
   }
 

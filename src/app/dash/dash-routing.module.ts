@@ -6,6 +6,7 @@ import { DashOrdersComponent } from './dash-orders/dash-orders.component';
 import { DashProfileComponent } from './dash-profile/dash-profile.component';
 import { DashRatedProductsComponent } from './dash-rated-products/dash-rated-products.component';
 import { DashRatedNewsComponent } from './dash-rated-news/dash-rated-news.component';
+import { DashRatedProvidersComponent } from './dash-rated-providers/dash-rated-providers.component';
 
 const dashRoutes: Routes = [
   {
@@ -13,7 +14,8 @@ const dashRoutes: Routes = [
       { path: '', component: DashProfileComponent },
       { path: 'orders', component: DashOrdersComponent },
       { path: 'products', component: DashRatedProductsComponent },
-      { path: 'news', component: DashRatedNewsComponent }
+      { path: 'news', component: DashRatedNewsComponent },
+      { path: 'providers', component: DashRatedProvidersComponent }
     ]
   }
 ];
