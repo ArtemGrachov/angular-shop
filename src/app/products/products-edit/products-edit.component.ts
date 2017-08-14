@@ -53,14 +53,40 @@ export class ProductsEditComponent implements OnInit {
 
   buildProductForm() {
     this.productForm = this.fb.group({
-      'name': this.product.name,
-      'imgUrl': this.product.imgUrl,
-      'description': this.product.description,
-      'providerId': this.product.providerId,
-      'rating': this.product.rating,
-      'count': this.product.count,
-      'date': this.product.date,
-      'price': this.product.price,
+      'name': [
+        this.product.name,
+        Validators.required
+      ],
+      'imgUrl': [
+        this.product.imgUrl,
+        Validators.required
+      ],
+      'description': [
+        this.product.description,
+        Validators.required
+      ],
+      'providerId': [
+        this.product.providerId,
+        Validators.required
+      ],
+      'rating': [
+        this.product.rating,
+        [Validators.required]
+      ],
+      'count': [
+        this.product.count,
+        [Validators.required,
+        Validators.pattern(/^[0-9]+[1-9]*$/)]
+      ],
+      'date': [
+        this.product.date,
+        Validators.required
+      ],
+      'price': [
+        this.product.price,
+        [Validators.required,
+        Validators.pattern(/^[0-9]+[1-9]*$/)]
+      ],
       'id': this.product.id
     });
   }

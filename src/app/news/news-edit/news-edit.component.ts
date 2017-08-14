@@ -57,11 +57,27 @@ export class NewsEditComponent implements OnInit {
 
   buildPostForm() {
     this.newsEditForm = this.fb.group({
-      'title': this.post.title,
-      'content': this.post.content,
-      'rating': this.post.rating,
-      'authorId': this.post.authorId,
-      'date': this.post.date
+      'title': [
+        this.post.title,
+        Validators.required
+      ],
+      'content': [
+        this.post.content,
+        [Validators.required,
+        Validators.minLength(50)]
+      ],
+      'rating': [
+        this.post.rating,
+        Validators.required
+      ],
+      'authorId': [
+        this.post.authorId,
+        Validators.required
+      ],
+      'date': [
+        this.post.date,
+        Validators.required
+      ]
     });
   }
 
