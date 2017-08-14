@@ -133,6 +133,7 @@ MODELS:
         - provider - string (provider id)
         - count - number
         - date - date (string?)
+        - rated by - array (string users' id's)
     - user:
         - id - string
         - name - string
@@ -149,6 +150,7 @@ MODELS:
         - id - string
         - name - string
         - statistic: array: [ [product_name, date] ]
+        - rating
         ( no products list: it will available from products service )
     - comment:
         - id - string

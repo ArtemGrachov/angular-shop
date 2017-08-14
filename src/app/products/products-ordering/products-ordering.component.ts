@@ -37,9 +37,4 @@ export class ProductsOrderingComponent implements OnInit {
   removeFromCart(index: string) {
     this.productsService.removeFromCart(index);
   }
-
-  // refreshCart(cart) {
-  //   this.cart = cart;
-  //   this.price = this.calcTotalPrice();
-  // }
 }

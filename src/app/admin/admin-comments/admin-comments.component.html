@@ -2,13 +2,13 @@
   <div class="panel-heading">cOMMENTS</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item">
-        <span class="glyphicon glyphicon-comment"></span> Comment text...
+      <li class="list-group-item" *ngFor="let comment of comments">
+        <span class="glyphicon glyphicon-comment"></span> {{comment.content}}
         <hr>
         <small>
-        <span class="glyphicon glyphicon-list-alt"></span> Post
-        <span class="glyphicon glyphicon-calendar"></span> May 10, 2017
-        <button type="button" class="btn btn-danger btn-xs">
+        <span class="glyphicon glyphicon-list-alt"></span> {{getPostTitle(comment.postId)}}
+        <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
+        <button type="button" class="btn btn-danger btn-xs" (click)="deleteComment(comment.id)">
             <span class="glyphicon glyphicon-remove"></span> Delete
         </button>
         </small>
