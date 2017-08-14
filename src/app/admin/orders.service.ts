@@ -13,7 +13,7 @@ export class OrdersService {
         new Order('1', '1', [
             { name: 'Banana', price: 1.99 },
             { name: 'Onion', price: 0.99 },
-            { name: 'Honey', price: 0.99 },
+            { name: 'Honey', price: 3.99 },
         ], new Date(), 0),
         new Order('2', '0', [
             { name: 'Apple', price: 0.99 },
@@ -70,5 +70,13 @@ export class OrdersService {
 
     getCount(): number {
         return this.orders.length;
+    }
+
+    getOrderPrice(id: string): number {
+        let price: number = 0;
+        for (const product of this.getOrder(id).products) {
+            price += product.price;
+        }
+        return +price.toFixed(2);
     }
 }

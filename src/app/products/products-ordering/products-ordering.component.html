@@ -24,8 +24,11 @@
         </ul>
       </li>
     </ul>
+    <div class="alert alert-success" *ngIf="successMsg">
+      <strong>Thank you for order!</strong>
+    </div>
     <div class="alert alert-info">
-      <strong>Total price: ${{price}}</strong>
+      Total price: <strong>${{price}}</strong>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -35,7 +38,7 @@
         <div id="gmap" style="height: 400px">There will be Google map</div>
         <div class="btn-group">
           <button type="button" class="btn btn-primary">Set location</button>
-          <button type="button" class="btn btn-success">Apply</button>
+          <button type="button" class="btn btn-success" (click)="addOrder()">Apply</button>
         </div>
       </div>
     </div>

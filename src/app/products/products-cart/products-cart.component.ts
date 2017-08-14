@@ -16,11 +16,10 @@ export class ProductsCartComponent implements OnInit {
 
 
   ngOnInit() {
-    this.cart = this.productsService.getCart();
-    this.price = this.calcTotalPrice();
+    this.refreshCart();
     this.productsService.emit.subscribe(
       () => {
-        this.price = this.calcTotalPrice();
+        this.refreshCart();
       }
     );
   }
@@ -33,9 +32,10 @@ export class ProductsCartComponent implements OnInit {
     this.productsService.clearCart();
   }
 
-  // refreshCart() {
-  //   this.price = this.calcTotalPrice();
-  // }
+  refreshCart() {
+    this.cart = this.productsService.getCart();
+    this.price = this.calcTotalPrice();
+  }
 
   calcTotalPrice() {
     let price = 0;

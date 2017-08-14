@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../shared/models/product.model';
-
 import { ProductsService } from '../products.service';
+import { OrdersService } from '../../admin/orders.service';
+
+import { Product } from '../../shared/models/product.model';
+import { Order } from '../../shared/models/order.model';
+
 
 @Component({
   selector: 'app-products-ordering',
@@ -11,9 +14,11 @@ import { ProductsService } from '../products.service';
 export class ProductsOrderingComponent implements OnInit {
   cart: Product[] = [];
   price = 0;
+  successMsg: boolean = false;
 
   constructor(
     public productsService: ProductsService,
+    public ordersService: OrdersService
   ) { }
 
   ngOnInit() {
@@ -36,5 +41,26 @@ export class ProductsOrderingComponent implements OnInit {
 
   removeFromCart(index: string) {
     this.productsService.removeFromCart(index);
+  }
+
+  addOrder() {
+    const products: { name: string, price: number }[] = [];
+    for (const product of this.cart) {
+      products.push({
+        name: product.name,
+        price: product.price
+      });
+    }
+    this.ordersService.addOrder(
+      new Order(
+        '0',
+        '0',
+        products,
+        new Date(),
+        0
+      )
+    );
+    this.productsService.clearCart();
+    this.successMsg = true;
   }
 }

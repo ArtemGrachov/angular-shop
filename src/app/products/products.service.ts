@@ -130,7 +130,6 @@ export class ProductsService {
     }
 
     bookCart() {
-        console.log(this.cart);
         this.cart = [];
         this.emit.emit();
     }
@@ -142,12 +141,14 @@ export class ProductsService {
         // test 'unique' id
 
         this.products.push(newProduct);
+        this.emit.emit();
     }
 
     updateProduct(updatedProduct: Product) {
         for (const i in this.products) {
             if (this.products[i].id === updatedProduct.id) {
                 this.products[i] = updatedProduct;
+                this.emit.emit();
                 return;
             }
         }
@@ -159,9 +160,11 @@ export class ProductsService {
                 this.products.splice(+index, 1);
             }
         }
+        this.emit.emit();
     }
 
     rateProduct(id: number, rating: number) {
         this.getProduct(id).rating += rating;
+        this.emit.emit();
     }
 }

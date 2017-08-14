@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../products/products.service';
 import { CommentsService } from '../../news/comments.service';
 import { NewsService } from '../../news/news.service';
+import { OrdersService } from '../orders.service';
 
 import { Product } from '../../shared/models/product.model';
 import { Comment } from '../../shared/models/comment.model';
 import { News } from '../../shared/models/news.model';
+import { Order } from '../../shared/models/order.model';
 
 @Component({
   selector: 'app-admin-stat',
@@ -19,6 +21,7 @@ export class AdminStatComponent implements OnInit {
     public productsService: ProductsService,
     public commentsService: CommentsService,
     public newsService: NewsService,
+    public ordersService: OrdersService
   ) { }
 
   products: Product[];
@@ -30,6 +33,9 @@ export class AdminStatComponent implements OnInit {
   news: News[];
   newsCount: number;
 
+  orders: Order[];
+  ordersCount: number;
+
   ngOnInit() {
     this.products = this.productsService.getLatest(3);
     this.productsCount = this.productsService.getCount();
@@ -37,6 +43,20 @@ export class AdminStatComponent implements OnInit {
     this.commenstCount = this.commentsService.getCount();
     this.news = this.newsService.getLatest(3);
     this.newsCount = this.newsService.getCount();
+    this.orders = this.ordersService.getLatest(3);
+    this.ordersCount = this.ordersService.getCount();
+  }
+
+  getOrderProductsCount(id: string): number {
+    for (const order of this.orders) {
+      if (order.id === id) {
+        return order.products.length;
+      }
+    }
+  }
+
+  getOrderPrice(id: string): number {
+    return this.ordersService.getOrderPrice(id);
   }
 
 }

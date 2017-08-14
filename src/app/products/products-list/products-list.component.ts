@@ -20,6 +20,13 @@ export class ProductsListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.refreshProducts();
+    this.productsService.emit.subscribe(
+      () => this.refreshProducts()
+    );
+  }
+
+  refreshProducts() {
     this.products = this.productsService.getProducts();
   }
 

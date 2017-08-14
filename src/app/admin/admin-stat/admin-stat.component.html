@@ -22,9 +22,13 @@
   <div class="panel-heading">Newest orders</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item">First item</li>
-      <li class="list-group-item">Second item</li>
-      <li class="list-group-item">Third item</li>
+      <li class="list-group-item" *ngFor="let order of orders">
+        <span class="glyphicon glyphicon-calendar"></span> {{order.date | date:'medium'}}
+        <span class="badge">
+          ${{getOrderPrice(order.id)}}
+          <span class="glyphicon glyphicon-shopping-cart"></span> {{getOrderProductsCount(order.id)}}
+        </span>
+      </li>
     </ul>
   </div>
   <div class="panel-footer">

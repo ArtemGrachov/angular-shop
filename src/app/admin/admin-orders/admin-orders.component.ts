@@ -21,7 +21,7 @@ export class AdminOrdersComponent implements OnInit {
   ngOnInit() {
     this.refreshOrders();
     this.ordersService.emit.subscribe(
-      this.refreshOrders()
+      () => this.refreshOrders()
     );
   }
 
@@ -29,8 +29,12 @@ export class AdminOrdersComponent implements OnInit {
     this.orders = this.ordersService.getOrders();
   }
 
-  getUsername(id: string) {
+  getUsername(id: string): string {
     return 'test username ' + id;
+  }
+
+  getOrderPrice(id: string): number {
+    return this.ordersService.getOrderPrice(id);
   }
 
 }

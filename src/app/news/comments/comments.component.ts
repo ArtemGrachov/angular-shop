@@ -23,10 +23,10 @@ export class CommentsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.comments = this.commentsService.getCommentsToPost(this.postId);
+    this.refreshComments();
     this.commentsService.emit
       .subscribe(
-      () => this.comments = this.commentsService.getCommentsToPost(this.postId)
+      () => this.refreshComments()
       );
 
     this.commentForm = this.fb.group({
@@ -41,6 +41,10 @@ export class CommentsComponent implements OnInit {
 
   toggleNewComentForm() {
     this.commentFormActive = !this.commentFormActive;
+  }
+
+  refreshComments() {
+    this.comments = this.commentsService.getCommentsToPost(this.postId);
   }
 
   sendComment() {
