@@ -30,7 +30,6 @@ export class DashProfileComponent implements OnInit {
 
   refreshUser() {
     this.user = this.usersService.getCurrentUser();
-
   }
 
   toggleEditMode() {

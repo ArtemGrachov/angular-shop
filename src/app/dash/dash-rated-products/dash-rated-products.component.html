@@ -1,0 +1,19 @@
+<ul class="list-group">
+  <a class="list-group-item" *ngFor="let product of products" [routerLink]="['/products', product.id]">
+    <img [src]="product.imgUrl" [alt]="product.name" style="max-height: 64px;">
+    <h4>{{product.name}}</h4>
+    <span class="badge">${{product.price}}</span>
+    <ul class="list-inline">
+      <li>
+        <span class="glyphicon glyphicon-home"></span>
+        <span>{{product.count}} left</span>
+      </li>
+      <li>
+        <span class="glyphicon glyphicon-info-sign"></span> {{product.description}}
+      </li>
+      <li>
+        <span class="glyphicon glyphicon-star-empty"></span> {{product.rating}}
+      </li>
+    </ul>
+  </a>
+</ul>

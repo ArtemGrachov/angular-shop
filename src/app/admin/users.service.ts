@@ -12,7 +12,10 @@ export class UsersService {
             new Date(),
             'admin',
             new Date(),
-            'male'
+            'male',
+            [],
+            [],
+            []
         ),
         new User(
             '1',
@@ -21,7 +24,10 @@ export class UsersService {
             new Date(),
             'user',
             new Date(),
-            'male'
+            'male',
+            [],
+            [],
+            []
         )
     ];
 

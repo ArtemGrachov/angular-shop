@@ -21,7 +21,10 @@ export class AdminUserProfileComponent implements OnInit {
     new Date(),
     'user',
     new Date(),
-    'male'
+    'male',
+    [],
+    [],
+    []
   );
   userId: String = '';
   usersCategories: string[] = [];

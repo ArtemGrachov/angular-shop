@@ -6,6 +6,9 @@ export class User {
         public regdate: Date,
         public category: string,
         public birthdate: Date,
-        public gender: string
+        public gender: string,
+        public ratedNews: string[],
+        public ratedProducts: string[],
+        public ratedProviders: string[]
     ) { }
 }

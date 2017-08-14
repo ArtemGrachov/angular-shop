@@ -38,7 +38,7 @@ export class ProductsDetailsComponent implements OnInit {
     this.productsService.addToCart(id);
   }
 
-  rateProduct(id: number, rate: number) {
+  rateProduct(id: string, rate: number) {
     this.productsService.rateProduct(id, rate);
   }
 

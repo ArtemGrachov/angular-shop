@@ -1,9 +1,19 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
+
+import { UsersService } from '../admin/users.service';
 
 import { Product } from '../shared/models/product.model';
 
 @Injectable()
 export class ProductsService {
+    usersService: UsersService;
+    constructor(
+        @Inject(UsersService) usersService: UsersService
+    ) {
+        this.usersService = usersService;
+    }
+
+
     products: Product[] = [
         new Product(
             '0',
@@ -164,8 +174,11 @@ export class ProductsService {
         this.emit.emit();
     }
 
-    rateProduct(id: number, rating: number) {
-        this.getProduct(id).rating += rating;
-        this.emit.emit();
+    rateProduct(id: string, rating: number) {
+        if (this.usersService.getCurrentUser().ratedProducts.indexOf(id) < 0) {
+            this.usersService.getCurrentUser().ratedProducts.push(id);
+            this.getProduct(id).rating += rating;
+            this.emit.emit();
+        }
     }
 }
