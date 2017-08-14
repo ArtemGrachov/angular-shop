@@ -64,4 +64,17 @@ export class NewsEditComponent implements OnInit {
       'date': this.post.date
     });
   }
+
+  reset() {
+    this.newsEditForm.patchValue(this.post);
+  }
+
+  delete() {
+    this.newsService.deletePost(this.post.id);
+    this.router.navigate(['../', { relativeTo: this.route }]);
+  }
+
+  cancel() {
+    this.router.navigate(['../', { relativeTo: this.route }]);
+  }
 }

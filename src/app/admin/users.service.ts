@@ -25,12 +25,24 @@ export class UsersService {
         )
     ];
 
+    categories: string[] = [
+        'admin',
+        'user',
+        'premium',
+        'provider',
+        'banned'
+    ];
+
     emit: EventEmitter<any> = new EventEmitter();
 
     currentUserId: string = '0';
 
     getUsers() {
         return this.users;
+    }
+
+    getCategories() {
+        return this.categories;
     }
 
     getCurrentUser() {

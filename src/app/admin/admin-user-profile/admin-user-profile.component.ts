@@ -24,6 +24,7 @@ export class AdminUserProfileComponent implements OnInit {
     'male'
   );
   userId: String = '';
+  usersCategories: string[] = [];
 
   userForm: FormGroup;
 
@@ -35,6 +36,7 @@ export class AdminUserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.usersCategories = this.usersService.getCategories();
     this.route.params.subscribe(
       (params: Params) => {
         if (params['id']) {
@@ -52,7 +54,6 @@ export class AdminUserProfileComponent implements OnInit {
     );
   }
 
-
   refreshUser() {
     this.user = this.usersService.getUser(this.userId);
   }
@@ -69,7 +70,7 @@ export class AdminUserProfileComponent implements OnInit {
     this.userForm = this.fb.group({
       'name': this.user.name,
       'email': this.user.email,
-      'category': this.user.category,
+      'category': [{ value: this.user.category, disabled: (this.userId === '0' ? true : false) }],
       'birthdate': this.user.birthdate,
       'gender': this.user.gender,
       'id': this.user.id,
