@@ -7,6 +7,7 @@ import { ProductsService } from '../products/products.service';
 import { ProvidersService } from '../providers/providers.service';
 import { CommentsService } from '../news/comments.service';
 import { UsersService } from '../admin/users.service';
+import { OrdersService } from '../admin/orders.service';
 
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
@@ -19,7 +20,9 @@ import { HeaderComponent } from './header/header.component';
         NewsService,
         ProductsService,
         ProvidersService,
-        CommentsService
+        CommentsService,
+        UsersService,
+        OrdersService
     ],
 })
 export class CoreModule { }

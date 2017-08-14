@@ -136,7 +136,11 @@ export class ProductsService {
     }
 
     addProduct(newProduct: Product) {
-        newProduct.id = this.products[this.products.length - 1].id + 1;
+        // test 'unique' id
+        const testId = Math.floor(Math.random() * 1000);
+        newProduct.id = testId.toString();
+        // test 'unique' id
+
         this.products.push(newProduct);
     }
 

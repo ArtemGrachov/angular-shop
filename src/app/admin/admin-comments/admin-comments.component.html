@@ -3,7 +3,7 @@
   <div class="panel-body">
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let comment of comments">
-        <span class="glyphicon glyphicon-comment"></span> {{comment.content}}
+        <span class="glyphicon glyphicon-comment"></span> {{comment.content}} | {{comment.id}}
         <hr>
         <small>
         <span class="glyphicon glyphicon-list-alt"></span> {{getPostTitle(comment.postId)}}

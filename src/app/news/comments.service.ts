@@ -4,12 +4,12 @@ import { Comment } from '../shared/models/comment.model';
 
 @Injectable()
 export class CommentsService {
-    private comments: Comment[] = [
+    comments: Comment[] = [
         new Comment('0', '0', '1', 'Hello!', new Date()),
         new Comment('1', '1', '1', 'Voluptate sunt minim culpa Lorem laborum aliqua enim.', new Date()),
         new Comment('2', '0', '2', 'Do et qui ipsum ut reprehenderit nisi dolor amet occaecat.', new Date())
     ];
-    public emit: EventEmitter<any> = new EventEmitter();
+    emit: EventEmitter<any> = new EventEmitter();
 
     getComments() {
         return this.comments;
@@ -26,6 +26,11 @@ export class CommentsService {
     }
 
     addComment(newComment: Comment) {
+        // test 'unique' id
+        const testId = Math.floor(Math.random() * 1000);
+        newComment.id = testId.toString();
+        // test 'unique' id
+
         this.comments.push(newComment);
         this.emit.emit();
     }
