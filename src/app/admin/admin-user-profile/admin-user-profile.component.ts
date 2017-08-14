@@ -35,7 +35,6 @@ export class AdminUserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.usersService.emit);
     this.route.params.subscribe(
       (params: Params) => {
         if (params['id']) {
@@ -59,7 +58,11 @@ export class AdminUserProfileComponent implements OnInit {
   }
 
   toggleEditMode() {
-    this.editMode = !this.editMode;
+    if (this.newMode) {
+      this.router.navigate(['../'], { relativeTo: this.route });
+    } else {
+      this.editMode = !this.editMode;
+    }
   }
 
   buildUserForm() {

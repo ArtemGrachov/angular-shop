@@ -27,10 +27,14 @@ export class UsersService {
 
     emit: EventEmitter<any> = new EventEmitter();
 
-    currentUser: User = this.users[0];
+    currentUserId: string = '0';
 
     getUsers() {
         return this.users;
+    }
+
+    getCurrentUser() {
+        return this.getUser(this.currentUserId);
     }
 
     getUser(id) {
@@ -50,7 +54,7 @@ export class UsersService {
     }
 
     updateUser(updatedUser: User) {
-        for (let i in this.users) {
+        for (const i in this.users) {
             if (this.users[i].id === updatedUser.id) {
                 this.users[i] = updatedUser;
                 this.emit.emit();
