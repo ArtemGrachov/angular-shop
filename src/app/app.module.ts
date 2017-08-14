@@ -8,6 +8,7 @@ import { NewsModule } from './news/news.module';
 import { ProductsModule } from './products/products.module';
 import { ProvidersModule } from './providers/providers.module';
 import { DashModule } from './dash/dash.module';
+import { HomeModule } from './home/home.module';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -28,6 +29,7 @@ import { AppComponent } from './app.component';
     ProvidersModule,
     AuthModule,
     DashModule,
+    HomeModule,
     SharedModule
   ],
   providers: [],

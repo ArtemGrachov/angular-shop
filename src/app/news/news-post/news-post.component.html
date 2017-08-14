@@ -1,25 +1,30 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <span class="badge">{{post.title}}</span>
-  </div>
-  <div class="panel-body">
-    {{post.content}}
-  </div>
-  <div class="panel-footer">
+<h1>{{post.title}}</h1>
+<span class="badge pull-right">{{getAuthorName(post.authorId)}}</span>
+<div>
+  {{post.content | slice:0:45}}...
+</div>
+<hr>
+<ul class="list-inline small">
+  <li>
     <span class="glyphicon glyphicon-star-empty"></span> {{post.rating}}
-    <span class="glyphicon glyphicon-calendar"></span> {{post.date | date}}
-    <a class="btn btn-xs btn-success" role="button" (click)="postVoteUp()">
+  </li>
+  <li>
+    <span class="glyphicon glyphicon-calendar"></span> {{post.date | date:'medium'}}
+  </li>
+</ul>
+<div class="btn-group">
+  <a class="btn btn-sm btn-success" role="button" (click)="postVoteUp()">
       <span class="glyphicon glyphicon-thumbs-up"></span>
     </a>
-    <a class="btn btn-xs btn-danger" role="button" (click)="postVoteDown()">
+  <a class="btn btn-sm btn-danger" role="button" (click)="postVoteDown()">
       <span class="glyphicon glyphicon-thumbs-down"></span>
     </a>
-    <a class="btn btn-xs btn-primary" role="button" routerLink="edit">
+  <a class="btn btn-sm btn-primary" role="button" routerLink="edit">
       <span class="glyphicon glyphicon-pencil" ></span> Edit
     </a>
-    <a class="btn btn-xs btn-danger" role="button" (click)="postDelete()">
+  <a class="btn btn-sm btn-danger" role="button" (click)="postDelete()">
       <span class="glyphicon glyphicon-remove"></span> Delete
     </a>
-  </div>
 </div>
+<hr>
 <app-comments [postId]="post.id"></app-comments>

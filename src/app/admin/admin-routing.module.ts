@@ -8,7 +8,7 @@ import { AdminUserProfileComponent } from './admin-user-profile/admin-user-profi
 import { AdminStatComponent } from './admin-stat/admin-stat.component';
 import { AdminCommentsComponent } from './admin-comments/admin-comments.component';
 
-const authRoutes = [
+const adminRoutes = [
     {
         path: 'admin', component: AdminMainComponent, children: [
             { path: '', component: AdminStatComponent },
@@ -23,7 +23,7 @@ const authRoutes = [
 
 @NgModule({
     imports: [
-        RouterModule.forChild(authRoutes)
+        RouterModule.forChild(adminRoutes)
     ],
     exports: [RouterModule]
 })

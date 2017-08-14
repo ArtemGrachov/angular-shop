@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary" (click)="toggleNewComentForm()">Write a comment</button>
+<button type="button" class="btn btn-primary btn-xs" (click)="toggleNewComentForm()"><span class="glyphicon glyphicon-comment"></span> Write a comment</button>
 <hr>
 <form *ngIf="commentFormActive" (ngSubmit)="sendComment()" [formGroup]="commentForm">
   <div class="panel panel-default">
@@ -8,7 +8,7 @@
     <div class="panel-body">
       <textarea class="form-control" rows="5" id="comment" formControlName="commentText"></textarea>
       <hr>
-      <button type="submit" class="btn btn-primary">Send</button>
+      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Send</button>
     </div>
   </div>
 </form>

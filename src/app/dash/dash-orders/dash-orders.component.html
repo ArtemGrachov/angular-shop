@@ -15,7 +15,7 @@
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let order of orders">
       <h4>
-        {{order.date | date}}
+        {{order.date | date:'medium'}}
       </h4>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let product of order.products">
@@ -25,5 +25,4 @@
       </ul>
     </li>
   </ul>
-
 </div>

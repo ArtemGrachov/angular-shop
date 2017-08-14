@@ -9,11 +9,10 @@ import { CommentsService } from '../news/comments.service';
 import { UsersService } from '../admin/users.service';
 import { OrdersService } from '../admin/orders.service';
 
-import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 
 @NgModule({
-    declarations: [HomeComponent, HeaderComponent],
+    declarations: [HeaderComponent],
     imports: [AppRoutingModule],
     exports: [HeaderComponent, AppRoutingModule],
     providers: [

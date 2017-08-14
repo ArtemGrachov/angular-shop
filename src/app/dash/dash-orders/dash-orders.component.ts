@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { OrdersService } from '../../admin/orders.service';
+import { UsersService } from '../../admin/users.service';
+
 import { Order } from '../../shared/models/order.model';
 
 @Component({
@@ -13,9 +16,33 @@ export class DashOrdersComponent implements OnInit {
     new Order('1', '0', [{ name: 'Coca-Cola', price: 7.99 }, { name: 'Ice Cream', price: 2.99 }], new Date(2017, 0, 3, 10, 5, 5, 0), 0),
   ];
 
-  constructor() { }
+  currentUserId: string = '';
+
+  constructor(
+    public ordersService: OrdersService,
+    public usersService: UsersService
+  ) { }
 
   ngOnInit() {
+    this.currentUserId = this.usersService.getCurrentUser().id;
+    this.getUsersOrder();
+    this.ordersService.emit.subscribe(
+      () => this.getUsersOrder
+    );
+  }
+
+  getUsersOrder() {
+    this.orders = this.ordersService.getOrdersByUser(this.currentUserId).sort(
+      function (a, b) {
+        if (a.date < b.date) {
+          return 1;
+        } else if (a.date > b.date) {
+          return - 1;
+        } else {
+          return 0;
+        }
+      }
+    );
   }
 
 }

@@ -12,7 +12,7 @@ import { User } from '../../shared/models/user.model';
   styleUrls: ['./admin-user-profile.component.css']
 })
 export class AdminUserProfileComponent implements OnInit {
-  editMode: Boolean = true;
+  editMode: Boolean = false;
   newMode: Boolean = false;
   user = new User(
     '0',

@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { News } from '../..//shared/models/news.model';
 
 import { NewsService } from '../../news/news.service';
+import { UsersService } from '../../admin/users.service';
 
 @Component({
   selector: 'app-news-post',
@@ -15,6 +16,7 @@ export class NewsPostComponent implements OnInit {
   public postId: string;
 
   constructor(public newsService: NewsService,
+    public usersService: UsersService,
     public router: Router,
     public route: ActivatedRoute
   ) { }
@@ -43,5 +45,9 @@ export class NewsPostComponent implements OnInit {
   postDelete() {
     this.newsService.deletePost(this.postId);
     this.router.navigate(['/news']);
+  }
+
+  getAuthorName(id: string): string {
+    return this.usersService.getUser(id).name;
   }
 }

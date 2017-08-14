@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { News } from '../../shared/models/news.model';
 
 import { NewsService } from '../news.service';
+import { UsersService } from '../../admin/users.service';
 
 @Component({
   selector: 'app-news-list',
@@ -11,7 +12,10 @@ import { NewsService } from '../news.service';
 })
 export class NewsListComponent implements OnInit {
 
-  constructor(public newsService: NewsService) { }
+  constructor(
+    public newsService: NewsService,
+    public usersService: UsersService
+  ) { }
 
   public newsList: News[] = [];
 
@@ -24,5 +28,9 @@ export class NewsListComponent implements OnInit {
 
   refreshNews() {
     this.newsList = this.newsService.getNews();
+  }
+
+  getAuthorName(id: string): string {
+    return this.usersService.getUser(id).name;
   }
 }

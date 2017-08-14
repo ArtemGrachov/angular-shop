@@ -1,0 +1,29 @@
+<div class="row">
+  <h1>Welcome to Angular Shop!</h1>
+</div>
+<div class="row">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      Our products:
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-6 col-sm-3" *ngFor="let product of products" [routerLink]="['../products',product.id]" style="cursor: pointer">
+          <h5>{{product.name}} <span class="badge pull-right">${{product.price}}</span></h5>
+          <img [src]="product.imgUrl" class="img-responsive" [alt]="product.name" width="128">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Latest news:
+    </div>
+    <div class="panel-body">
+
+    </div>
+  </div>
+</div>

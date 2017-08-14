@@ -35,6 +35,16 @@ export class OrdersService {
         }
     }
 
+    getOrdersByUser(id: string): Order[] {
+        let orders: Order[] = [];
+        for (const order of this.orders) {
+            if (order.userId === id) {
+                orders.push(order);
+            }
+        }
+        return orders;
+    }
+
     addOrder(newOrder: Order) {
         // test 'unique' id
         const testId = Math.floor(Math.random() * 1000);

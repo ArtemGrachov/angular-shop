@@ -39,9 +39,21 @@
   <div class="panel-heading">Newest users</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item">First item</li>
-      <li class="list-group-item">Second item</li>
-      <li class="list-group-item">Third item</li>
+      <li class="list-group-item" *ngFor="let user of users">
+        <ul class="list-inline">
+          <li>
+            <a class="btn btn-primary btn-xs" [routerLink]="['users',user.id]">{{user.name}}</a>
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-calendar"></span> {{user.regdate | date:'medium'}}
+          </li>
+          <li class="pull-right">
+            <span class="badge">
+                {{user.category}}
+             </span>
+          </li>
+        </ul>
+      </li>
     </ul>
   </div>
   <div class="panel-footer">
