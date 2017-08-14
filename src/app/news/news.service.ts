@@ -1,9 +1,19 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
+
+import { UsersService } from '../admin/users.service';
+
 import { News } from '../shared/models/news.model';
 
 @Injectable()
 export class NewsService {
-    private news: News[] = [
+    usersService: UsersService;
+    constructor(
+        @Inject(UsersService) usersService: UsersService
+    ) {
+        this.usersService = usersService;
+    }
+
+    news: News[] = [
         new News(
             '1',
             'Hello world!',
@@ -35,10 +45,13 @@ export class NewsService {
         );
     }
 
-    setPostRating(id: string, rate: number) {
-        let post: News = this.getNewsPost(id);
-        post.rating += rate;
-        this.emit.emit();
+    ratePost(id: string, rate: number) {
+        if (this.usersService.getCurrentUser().ratedNews.indexOf(id) < 0) {
+            this.usersService.getCurrentUser().ratedNews.push(id);
+            let post: News = this.getNewsPost(id);
+            post.rating += rate;
+            this.emit.emit();
+        }
     }
 
     addPost(newPost: News) {

@@ -30,12 +30,8 @@ export class NewsPostComponent implements OnInit {
     );
   }
 
-  postVoteUp() {
-    this.newsService.setPostRating(this.postId, 1);
-  }
-
-  postVoteDown() {
-    this.newsService.setPostRating(this.postId, -1);
+  postRate(rating: number) {
+    this.newsService.ratePost(this.postId, rating);
   }
 
   postEdit() {

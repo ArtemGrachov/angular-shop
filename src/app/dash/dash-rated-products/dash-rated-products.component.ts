@@ -26,7 +26,6 @@ export class DashRatedProductsComponent implements OnInit {
         );
       }
     );
-    console.log(this.products);
   }
 
 }
