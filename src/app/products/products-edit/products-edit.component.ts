@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-
 import { ProductsService } from '../products.service';
 import { ProvidersService } from '../../providers/providers.service';
 

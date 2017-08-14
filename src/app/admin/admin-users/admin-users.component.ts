@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 
+import { UsersService } from '../users.service';
+
+import { User } from '../../shared/models/user.model';
+
 @Component({
   selector: 'app-admin-users',
   templateUrl: './admin-users.component.html',
   styleUrls: ['./admin-users.component.css']
 })
 export class AdminUsersComponent implements OnInit {
+  users: User[] = [];
 
-  constructor() { }
+  constructor(
+    public usersService: UsersService
+  ) { }
 
   ngOnInit() {
+    this.refreshUsers();
+  }
+
+  refreshUsers() {
+    this.users = this.usersService.getUsers();
   }
 
 }

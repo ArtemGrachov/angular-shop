@@ -1,9 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core';
+
 import { Product } from '../shared/models/product.model';
 
 @Injectable()
 export class ProductsService {
-    private products: Product[] = [
+    products: Product[] = [
         new Product(
             '0',
             'Apple',
@@ -61,9 +62,9 @@ export class ProductsService {
         )
     ];
 
-    public emit: EventEmitter<any> = new EventEmitter();
+    emit: EventEmitter<any> = new EventEmitter();
 
-    private cart: Product[] = [];
+    cart: Product[] = [];
 
     getProducts(): Product[] {
         return this.products;

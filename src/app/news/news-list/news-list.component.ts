@@ -16,7 +16,13 @@ export class NewsListComponent implements OnInit {
   public newsList: News[] = [];
 
   ngOnInit() {
-    this.newsList = this.newsService.getNews();
+    this.refreshNews();
+    this.newsService.emit.subscribe(
+      () => this.refreshNews()
+    );
   }
 
+  refreshNews() {
+    this.newsList = this.newsService.getNews();
+  }
 }

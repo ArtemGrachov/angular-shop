@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { News } from '../shared/models/news.model';
 
 @Injectable()
@@ -23,6 +23,8 @@ export class NewsService {
         )
     ];
 
+    emit: EventEmitter<any> = new EventEmitter();
+
     getNews() {
         return this.news;
     }
@@ -36,6 +38,7 @@ export class NewsService {
     setPostRating(id: string, rate: number) {
         let post: News = this.getNewsPost(id);
         post.rating += rate;
+        this.emit.emit();
     }
 
     addPost(newPost: News) {
@@ -45,12 +48,14 @@ export class NewsService {
         // test 'unique' id
 
         this.news.push(newPost);
+        this.emit.emit();
     }
 
     updatePost(updatedPost: News) {
         for (const i in this.news) {
             if (this.news[i].id === updatedPost.id) {
                 this.news[i] = updatedPost;
+                this.emit.emit();
                 return;
             }
         }
@@ -59,6 +64,7 @@ export class NewsService {
     deletePost(id: string) {
         for (const index in this.news) {
             if (this.news[index].id === id) {
+                this.emit.emit();
                 return this.news.splice(+index, 1);
             }
         }

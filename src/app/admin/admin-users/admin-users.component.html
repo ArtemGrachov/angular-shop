@@ -1,14 +1,19 @@
 <div class="panel panel-default">
   <div class="panel-heading">Users</div>
   <div class="panel-body">
+    <a routerLink="new" button class="btn btn-primary btn-xs">Add user</a>
+    <hr>
     <ul class="list-group">
-      <li class="list-group-item">
-        <span class="glyphicon glyphicon-user"></span> Username <span class="badge">User</span>
+      <li class="list-group-item" *ngFor="let user of users">
+        <h4>
+          <span class="glyphicon glyphicon-user"></span> {{user.name}}
+        </h4>
+        <span class="badge"> {{user.category}}</span>
         <div class="btn-group">
-          <a class="btn btn-default btn-xs" routerLink="1">
+          <a class="btn btn-default btn-xs" [routerLink]="user.id">
             Details
           </a>
-          <button type="button" class="btn btn-danger btn-xs">
+          <button type="button" class="btn btn-danger btn-xs" *ngIf="user.category != 'admin'">
               <span class="glyphicon glyphicon-remove"></span> Delete
           </button>
         </div>

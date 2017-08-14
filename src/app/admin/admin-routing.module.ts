@@ -13,6 +13,7 @@ const authRoutes = [
         path: 'admin', component: AdminMainComponent, children: [
             { path: '', component: AdminStatComponent },
             { path: 'users', component: AdminUsersComponent },
+            { path: 'users/new', component: AdminUserProfileComponent },
             { path: 'users/:id', component: AdminUserProfileComponent },
             { path: 'orders', component: AdminOrdersComponent },
             { path: 'comments', component: AdminCommentsComponent },
