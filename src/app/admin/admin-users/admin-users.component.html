@@ -13,7 +13,7 @@
           <a class="btn btn-default btn-xs" [routerLink]="user.id">
             Details
           </a>
-          <button type="button" class="btn btn-danger btn-xs" *ngIf="user.category != 'admin'">
+          <button type="button" class="btn btn-danger btn-xs" *ngIf="user.category != 'admin'" (click)="delete(user.id)">
               <span class="glyphicon glyphicon-remove"></span> Delete
           </button>
         </div>

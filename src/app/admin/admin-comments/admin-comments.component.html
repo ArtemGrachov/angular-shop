@@ -6,7 +6,9 @@
         <span class="glyphicon glyphicon-comment"></span> {{comment.content}}
         <hr>
         <small>
-        <span class="glyphicon glyphicon-list-alt"></span> {{getPostTitle(comment.postId)}}
+          <a [routerLink]="['/news', comment.postId]" class="btn btn-xs btn-primary">
+            <span class="glyphicon glyphicon-list-alt"></span> {{getPostTitle(comment.postId)}}
+          </a>
         <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
         <button type="button" class="btn btn-danger btn-xs" (click)="deleteComment(comment.id)">
             <span class="glyphicon glyphicon-remove"></span> Delete

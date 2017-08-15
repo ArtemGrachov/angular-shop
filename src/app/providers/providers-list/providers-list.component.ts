@@ -17,6 +17,13 @@ export class ProvidersListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.refreshProviders();
+    this.providersService.emit.subscribe(
+      () => this.refreshProviders()
+    );
+  }
+
+  refreshProviders() {
     this.providers = this.providersService.getProviders();
   }
 

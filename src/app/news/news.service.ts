@@ -29,14 +29,22 @@ export class NewsService {
             'This is the second news post in Angular Shop app, maked because of news component & service testing',
             0,
             '0',
-            new Date(2017, 8, 9, 17, 26, 1, 1)
+            new Date(2017, 4, 9, 17, 26, 1, 1)
+        ),
+        new News(
+            '3',
+            'Test',
+            'Aliqua irure Lorem id excepteur occaecat consequat exercitation dolor reprehenderit.',
+            0,
+            '0',
+            new Date(2017, 10, 9, 17, 26, 1, 1)
         )
     ];
 
     emit: EventEmitter<any> = new EventEmitter();
 
     getNews() {
-        return this.news;
+        return this.news.slice();
     }
 
     getNewsPost(id) {

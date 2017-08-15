@@ -22,13 +22,15 @@ export class ProductsOrderingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.refreshOrders();
+    this.productsService.emit.subscribe(
+      () => this.refreshOrders()
+    );
+  }
+
+  refreshOrders() {
     this.cart = this.productsService.getCart();
     this.price = this.calcTotalPrice();
-    this.productsService.emit.subscribe(
-      (cart) => {
-        this.price = this.calcTotalPrice();
-      }
-    );
   }
 
   calcTotalPrice() {
@@ -60,7 +62,7 @@ export class ProductsOrderingComponent implements OnInit {
         0
       )
     );
-    this.productsService.clearCart();
+    this.productsService.sendOrder();
     this.successMsg = true;
   }
 }

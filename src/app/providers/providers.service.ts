@@ -49,7 +49,7 @@ export class ProvidersService {
     emit: EventEmitter<any> = new EventEmitter();
 
     getProviders() {
-        return this.providers;
+        return this.providers.slice();
     }
 
     getProvider(id: String) {

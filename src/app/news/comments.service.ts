@@ -12,7 +12,7 @@ export class CommentsService {
     emit: EventEmitter<any> = new EventEmitter();
 
     getComments() {
-        return this.comments;
+        return this.comments.slice();
     }
 
     getCommentsToPost(postId: string) {

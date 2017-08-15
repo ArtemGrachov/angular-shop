@@ -71,11 +71,11 @@ export class AdminUserProfileComponent implements OnInit {
 
   buildUserForm() {
     this.userForm = this.fb.group({
-      'name': this.user.name,
-      'email': this.user.email,
+      'name': [this.user.name, Validators.required],
+      'email': [this.user.email, [Validators.required, Validators.email]],
       'category': [{ value: this.user.category, disabled: (this.userId === '0' ? true : false) }],
       'birthdate': this.user.birthdate,
-      'gender': this.user.gender,
+      'gender': [this.user.gender, Validators.required],
       'id': this.user.id,
       'regdate': this.user.regdate
     });

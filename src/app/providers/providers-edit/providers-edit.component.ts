@@ -55,12 +55,12 @@ export class ProvidersEditComponent implements OnInit {
 
   buildProviderForm() {
     this.providerForm = this.fb.group({
-      'id': this.provider.id,
-      'name': this.provider.name,
-      'logoUrl': this.provider.logoUrl,
-      'email': this.provider.email,
-      'description': this.provider.description,
-      'rating': this.provider.rating
+      'id': [this.provider.id, Validators.required],
+      'name': [this.provider.name, Validators.required],
+      'logoUrl': [this.provider.logoUrl, Validators.required],
+      'email': [this.provider.email, [Validators.required, Validators.email]],
+      'description': [this.provider.description, Validators.required],
+      'rating': [this.provider.rating, Validators.required]
     });
   }
 

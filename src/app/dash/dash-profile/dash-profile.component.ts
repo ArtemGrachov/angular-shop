@@ -38,11 +38,11 @@ export class DashProfileComponent implements OnInit {
 
   buildProfileForm() {
     this.profileForm = this.fb.group({
-      'name': this.user.name,
-      'email': this.user.email,
-      'category': this.user.category,
-      'birthdate': this.user.birthdate,
-      'gender': this.user.gender,
+      'name': [this.user.name, Validators.required],
+      'email': [this.user.email, [Validators.required, Validators.email]],
+      'category': [this.user.category, Validators.required],
+      'birthdate': [this.user.birthdate, Validators.required],
+      'gender': [this.user.gender, Validators.required],
       'id': this.user.id,
       'regdate': this.user.regdate
     });

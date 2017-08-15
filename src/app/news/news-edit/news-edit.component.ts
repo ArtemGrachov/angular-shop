@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { News } from '../..//shared/models/news.model';
-
 import { NewsService } from '../../news/news.service';
+import { UsersService } from '../../admin/users.service';
+
+import { News } from '../../shared/models/news.model';
+import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-news-edit',
@@ -17,15 +19,18 @@ export class NewsEditComponent implements OnInit {
     '',
     '',
     0,
-    '',
+    this.usersService.getCurrentUser().id,
     new Date()
   );
 
   postId: string;
   editMode = false;
   newsEditForm: FormGroup;
+  users: User[] = [];
 
-  constructor(public newsService: NewsService,
+  constructor(
+    public newsService: NewsService,
+    public usersService: UsersService,
     public router: Router,
     public route: ActivatedRoute,
     public fb: FormBuilder
@@ -39,8 +44,11 @@ export class NewsEditComponent implements OnInit {
           this.post = this.newsService.getNewsPost(this.postId);
           this.editMode = true;
         }
+        this.users = this.usersService.getUsers();
+        console.log();
       }
     );
+
     this.buildPostForm();
   }
   submitPost() {
@@ -63,8 +71,7 @@ export class NewsEditComponent implements OnInit {
       ],
       'content': [
         this.post.content,
-        [Validators.required,
-        Validators.minLength(50)]
+        Validators.required
       ],
       'rating': [
         this.post.rating,

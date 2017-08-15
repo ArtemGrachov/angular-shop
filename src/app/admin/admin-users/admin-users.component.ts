@@ -24,4 +24,8 @@ export class AdminUsersComponent implements OnInit {
     this.users = this.usersService.getUsers();
   }
 
+  delete(id: string) {
+    this.usersService.deleteUser(id);
+  }
+
 }

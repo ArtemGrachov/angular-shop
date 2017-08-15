@@ -8,6 +8,9 @@ import { ProvidersService } from '../../providers/providers.service';
 import { Product } from '../../shared/models/product.model';
 import { Provider } from '../../shared/models/provider.model';
 
+import { greaterZero } from '../../shared/validators/greater-zero.validator';
+import { isInteger } from '../../shared/validators/integer.validator';
+
 @Component({
   selector: 'app-products-edit',
   templateUrl: './products-edit.component.html',
@@ -76,7 +79,9 @@ export class ProductsEditComponent implements OnInit {
       'count': [
         this.product.count,
         [Validators.required,
-        Validators.pattern(/^[0-9]+[1-9]*$/)]
+          greaterZero,
+          isInteger
+        ]
       ],
       'date': [
         this.product.date,
@@ -85,7 +90,7 @@ export class ProductsEditComponent implements OnInit {
       'price': [
         this.product.price,
         [Validators.required,
-        Validators.pattern(/^[0-9]+[1-9]*$/)]
+          greaterZero]
       ],
       'id': this.product.id
     });

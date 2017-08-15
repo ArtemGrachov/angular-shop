@@ -44,11 +44,11 @@ export class UsersService {
     currentUserId: string = '0';
 
     getUsers() {
-        return this.users;
+        return this.users.slice();
     }
 
     getCategories() {
-        return this.categories;
+        return this.categories.slice();
     }
 
     getCurrentUser() {

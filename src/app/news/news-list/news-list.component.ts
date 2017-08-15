@@ -27,10 +27,33 @@ export class NewsListComponent implements OnInit {
   }
 
   refreshNews() {
-    this.newsList = this.newsService.getNews();
+    this.newsList = this.newsService.getNews().sort(
+      function (a, b) {
+        if (a.date < b.date) {
+          return 1;
+        } else if (a.date > b.date) {
+          return - 1;
+        }
+        return 0;
+      }
+    );
   }
 
   getAuthorName(id: string): string {
     return this.usersService.getUser(id).name;
+  }
+
+  sortNewsByDate() {
+    this.newsList.sort(
+      function (a, b) {
+        if (a.date < b.date) {
+          return 1;
+        } else if (a.date > b.date) {
+          return - 1;
+        } else {
+          return 0;
+        }
+      }
+    );
   }
 }

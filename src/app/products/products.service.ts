@@ -74,10 +74,10 @@ export class ProductsService {
 
     emit: EventEmitter<any> = new EventEmitter();
 
-    cart: Product[] = [];
+    cart: Product[] = this.loadCart();
 
     getProducts(): Product[] {
-        return this.products;
+        return this.products.slice();
     }
 
     getProductsByProvider(providerId): Product[] {
@@ -97,7 +97,7 @@ export class ProductsService {
     }
 
     getCart(): Product[] {
-        return this.cart;
+        return this.cart.slice();
     }
 
     getLatest(count: number): Product[] {
@@ -123,6 +123,7 @@ export class ProductsService {
         if (this.getProduct(id).count > 0) {
             this.getProduct(id).count--;
             this.cart.push(this.getProduct(id));
+            this.updateLocalStorageCart();
             this.emit.emit();
         }
     }
@@ -130,7 +131,19 @@ export class ProductsService {
     removeFromCart(index: string) {
         this.cart[index].count++;
         this.cart.splice(+index, 1);
+        this.updateLocalStorageCart();
         this.emit.emit();
+    }
+
+    updateLocalStorageCart() {
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+    }
+
+    loadCart() {
+        if (localStorage.getItem('cart')) {
+            return JSON.parse(localStorage.getItem('cart'));
+        }
+        return [];
     }
 
     clearCart() {
@@ -180,5 +193,10 @@ export class ProductsService {
             this.getProduct(id).rating += rating;
             this.emit.emit();
         }
+    }
+
+    sendOrder() {
+        this.cart = [];
+        this.emit.emit();
     }
 }

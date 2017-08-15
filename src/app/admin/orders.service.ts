@@ -5,26 +5,26 @@ import { Order } from '../shared/models/order.model';
 @Injectable()
 export class OrdersService {
     orders: Order[] = [
-        new Order('0', '0', [
-            { name: 'Coca-Cola', price: 1.99 },
-            { name: 'Bread', price: 0.99 },
-            { name: 'Apple', price: 0.99 },
-        ], new Date(), 0),
-        new Order('1', '1', [
-            { name: 'Banana', price: 1.99 },
-            { name: 'Onion', price: 0.99 },
-            { name: 'Honey', price: 3.99 },
-        ], new Date(), 0),
-        new Order('2', '0', [
-            { name: 'Apple', price: 0.99 },
-            { name: 'Mineral water', price: 1.99 }
-        ], new Date(), 0)
+        // new Order('0', '0', [
+        //     { name: 'Coca-Cola', price: 1.99 },
+        //     { name: 'Bread', price: 0.99 },
+        //     { name: 'Apple', price: 0.99 },
+        // ], new Date(), 0),
+        // new Order('1', '1', [
+        //     { name: 'Banana', price: 1.99 },
+        //     { name: 'Onion', price: 0.99 },
+        //     { name: 'Honey', price: 3.99 },
+        // ], new Date(), 0),
+        // new Order('2', '0', [
+        //     { name: 'Apple', price: 0.99 },
+        //     { name: 'Mineral water', price: 1.99 }
+        // ], new Date(), 0)
     ];
 
     emit: EventEmitter<any> = new EventEmitter();
 
     getOrders(): Order[] {
-        return this.orders;
+        return this.orders.slice();
     }
 
     getOrder(id: string): Order {

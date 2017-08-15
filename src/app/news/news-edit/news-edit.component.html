@@ -15,10 +15,7 @@
   <div class="form-group">
     <label for="authorId">Author</label>
     <select class="form-control" id="authorId" name="user" formControlName="authorId">
-        <option value="1">admin</option>
-        <option value="2">user1</option>
-        <option value="3">user111</option>
-        <option value="4">new user</option>
+        <option *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
     </select>
   </div>
   <div class="form-group">
@@ -26,7 +23,7 @@
     <input type="date" class="form-control" name="title" id="title" formControlName="date">
   </div>
   <div class="btn-group">
-    <button type="submit" class="btn btn-success">Apply</button>
+    <button type="submit" class="btn btn-success" [disabled]="!newsEditForm.valid">Apply</button>
     <button type="button" class="btn btn-warning" (click)="delete()">Delete</button>
     <button type="button" class="btn btn-info" (click)="reset()">Reset</button>
     <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
