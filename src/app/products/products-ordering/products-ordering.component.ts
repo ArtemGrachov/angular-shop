@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { GoogleMapsAPIWrapper } from '@agm/core';
 
 import { ProductsService } from '../products.service';
 import { OrdersService } from '../../admin/orders.service';
+import { UsersService } from '../../admin/users.service';
 
 import { Product } from '../../shared/models/product.model';
 import { Order } from '../../shared/models/order.model';
@@ -30,8 +32,19 @@ declare var google: any;
   styleUrls: ['./products-ordering.component.css']
 })
 export class ProductsOrderingComponent implements OnInit {
+  constructor(
+    public productsService: ProductsService,
+    public ordersService: OrdersService,
+    public gmapAPI: GoogleMapsAPIWrapper,
+    public usersService: UsersService,
+    public fb: FormBuilder
+  ) {
+  }
+  orderForm: FormGroup;
+
   cart: Product[] = [];
-  price = 0;
+  prodPrice = 0;
+  totalPrice = 0;
   successMsg: boolean = false;
 
   gmap = {
@@ -40,16 +53,7 @@ export class ProductsOrderingComponent implements OnInit {
     zoom: 16
   };
   gmapObj: any;
-  fromPos = {
-    lat: this.gmap.lat,
-    lng: this.gmap.lng
-  };
-  public toPos = {
-    lat: this.gmap.lat,
-    lng: this.gmap.lng
-  };
   clientMarkerUrl: string = 'assets/img/client.png';
-  deliveryType: string = 'DRIVING';
 
   shops: Shop[] = [
     new Shop(48.698200, 26.575637),
@@ -64,24 +68,27 @@ export class ProductsOrderingComponent implements OnInit {
     time: 0,
     display: false
   };
-
-  constructor(
-    public productsService: ProductsService,
-    public ordersService: OrdersService,
-    public gmapAPI: GoogleMapsAPIWrapper
-  ) {
-  }
-
   ngOnInit() {
     this.refreshOrders();
     this.productsService.emit.subscribe(
       () => this.refreshOrders()
     );
+    this.buildForm();
+  }
+
+  buildForm() {
+    this.orderForm = this.fb.group({
+      'location': this.usersService.getCurrentUser().location,
+      'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
+      'phone': this.usersService.getCurrentUser().phone,
+      'type': 'DRIVING'
+    });
   }
 
   mapReady(event) {
     this.gmapObj = event;
     this.gmapDir();
+    this.calcDirection();
   }
 
   gmapDir() {
@@ -94,17 +101,10 @@ export class ProductsOrderingComponent implements OnInit {
 
   calcDirection() {
     const _this = this;
-
     this.dirService.route({
-      origin: {
-        lat: this.fromPos.lat,
-        lng: this.fromPos.lng
-      },
-      destination: {
-        lat: this.toPos.lat,
-        lng: this.toPos.lng
-      },
-      travelMode: this.deliveryType
+      origin: this.orderForm.get('shopLocation').value,
+      destination: this.orderForm.get('location').value,
+      travelMode: this.orderForm.get('type').value
     }, function (res) {
       const dist = +(res.routes[0].legs[0].distance.value / 1000).toFixed(1),
         price = dist * 1,
@@ -116,17 +116,17 @@ export class ProductsOrderingComponent implements OnInit {
       _this.deliveryInfo.display = true;
 
       _this.dirDisplay.setDirections(res);
+      _this.totalPrice = _this.calcTotalPrice();
     });
   }
 
   changeDestPos(newPos: any) {
-    this.toPos = newPos.coords;
+    this.orderForm.get('location').patchValue(newPos.coords);
     this.calcDirection();
   }
 
   selectShop(shop) {
-    this.fromPos.lat = shop.lat;
-    this.fromPos.lng = shop.lng;
+    this.orderForm.get('shopLocation').patchValue({ lat: shop.lat, lng: shop.lng });
     this.shops.map(
       (shopObj) => shopObj.opacity = 0.5
     );
@@ -136,7 +136,8 @@ export class ProductsOrderingComponent implements OnInit {
 
   refreshOrders() {
     this.cart = this.productsService.getCart();
-    this.price = this.calcTotalPrice();
+    this.prodPrice = this.calcProductsPrice();
+    this.totalPrice = this.calcTotalPrice();
   }
 
   calcProductsPrice() {
@@ -155,7 +156,7 @@ export class ProductsOrderingComponent implements OnInit {
     this.productsService.removeFromCart(index);
   }
 
-  addOrder() {
+  sendOrder() {
     const products: { name: string, price: number }[] = [];
     for (const product of this.cart) {
       products.push({
@@ -172,7 +173,11 @@ export class ProductsOrderingComponent implements OnInit {
         0
       )
     );
-    this.productsService.sendOrder(this.calcProductsPrice());
+    this.productsService.sendOrder(
+      [this.calcTotalPrice(),
+      this.orderForm.value]
+    );
     this.successMsg = true;
   }
+
 }

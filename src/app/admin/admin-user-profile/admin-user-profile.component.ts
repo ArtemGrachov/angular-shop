@@ -22,6 +22,8 @@ export class AdminUserProfileComponent implements OnInit {
     'user',
     new Date(),
     'male',
+    { lat: 0, lng: 0 },
+    '',
     [],
     [],
     []

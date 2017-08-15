@@ -13,6 +13,8 @@ export class UsersService {
             'admin',
             new Date(),
             'male',
+            { lat: 48.678243, lng: 26.581834 },
+            '+380975554433',
             [],
             [],
             []
@@ -25,6 +27,8 @@ export class UsersService {
             'user',
             new Date(),
             'male',
+            { lat: 48.648243, lng: 26.521834 },
+            '+380987775511',
             [],
             [],
             []

@@ -194,9 +194,9 @@ export class ProductsService {
         }
     }
 
-    sendOrder(deliveryPrice: number) {
+    sendOrder(val: any) {
         this.cart = [];
-        console.log('delivery price is: ' + deliveryPrice);
+        console.log(arguments, this.cart);
         this.emit.emit();
     }
 }
