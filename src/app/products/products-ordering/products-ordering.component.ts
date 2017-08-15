@@ -12,11 +12,13 @@ class Shop {
   public lat: number;
   public lng: number;
   public iconUrl: string;
+  public opacity: number;
 
   constructor(lat: number, lng: number) {
     this.lat = lat;
     this.lng = lng;
     this.iconUrl = 'assets/img/shop.png';
+    this.opacity = 0.5;
   }
 }
 
@@ -42,10 +44,12 @@ export class ProductsOrderingComponent implements OnInit {
     lat: this.gmap.lat,
     lng: this.gmap.lng
   };
-  toPos = {
+  public toPos = {
     lat: this.gmap.lat,
     lng: this.gmap.lng
   };
+  clientMarkerUrl: string = 'assets/img/client.png';
+  deliveryType: string = 'DRIVING';
 
   shops: Shop[] = [
     new Shop(48.698200, 26.575637),
@@ -54,6 +58,12 @@ export class ProductsOrderingComponent implements OnInit {
   ];
   dirService: any;
   dirDisplay: any;
+  deliveryInfo = {
+    price: 0,
+    distance: 0,
+    time: 0,
+    display: false
+  };
 
   constructor(
     public productsService: ProductsService,
@@ -69,21 +79,21 @@ export class ProductsOrderingComponent implements OnInit {
     );
   }
 
-  gmapDir() {
-    this.dirService = new google.maps.DirectionsService;
-    this.dirDisplay = new google.maps.DirectionsRenderer({
-      map: this.gmapObj
-    });
-    console.log(this.dirDisplay.setDirections);
-  }
-
   mapReady(event) {
     this.gmapObj = event;
     this.gmapDir();
   }
 
-  direction() {
-    const dirDisplay = this.dirDisplay;
+  gmapDir() {
+    this.dirService = new google.maps.DirectionsService;
+    this.dirDisplay = new google.maps.DirectionsRenderer({
+      map: this.gmapObj,
+      suppressMarkers: true
+    });
+  }
+
+  calcDirection() {
+    const _this = this;
 
     this.dirService.route({
       origin: {
@@ -94,19 +104,34 @@ export class ProductsOrderingComponent implements OnInit {
         lat: this.toPos.lat,
         lng: this.toPos.lng
       },
-      travelMode: 'DRIVING'
-    }, function (res, status) {
-      dirDisplay.setDirections(res);
+      travelMode: this.deliveryType
+    }, function (res) {
+      const dist = +(res.routes[0].legs[0].distance.value / 1000).toFixed(1),
+        price = dist * 1,
+        time = Math.round(res.routes[0].legs[0].duration.value / 60);
+
+      _this.deliveryInfo.price = price;
+      _this.deliveryInfo.distance = dist;
+      _this.deliveryInfo.time = time;
+      _this.deliveryInfo.display = true;
+
+      _this.dirDisplay.setDirections(res);
     });
+  }
+
+  changeDestPos(newPos: any) {
+    this.toPos = newPos.coords;
+    this.calcDirection();
   }
 
   selectShop(shop) {
     this.fromPos.lat = shop.lat;
     this.fromPos.lng = shop.lng;
-  }
-
-  setClientPos(newPos: any) {
-    this.toPos = newPos.coords;
+    this.shops.map(
+      (shopObj) => shopObj.opacity = 0.5
+    );
+    shop.opacity = 1;
+    this.calcDirection();
   }
 
   refreshOrders() {
@@ -114,7 +139,7 @@ export class ProductsOrderingComponent implements OnInit {
     this.price = this.calcTotalPrice();
   }
 
-  calcTotalPrice() {
+  calcProductsPrice() {
     let price = 0;
     for (const product of this.cart) {
       price += product.price;
@@ -122,12 +147,12 @@ export class ProductsOrderingComponent implements OnInit {
     return +price.toFixed(2);
   }
 
-  removeFromCart(index: string) {
-    this.productsService.removeFromCart(index);
+  calcTotalPrice(): number {
+    return +(this.calcProductsPrice() + this.deliveryInfo.price).toFixed(2);
   }
 
-  calcDeliveryPrice(): number {
-    return 100;
+  removeFromCart(index: string) {
+    this.productsService.removeFromCart(index);
   }
 
   addOrder() {
@@ -147,7 +172,7 @@ export class ProductsOrderingComponent implements OnInit {
         0
       )
     );
-    this.productsService.sendOrder(this.calcDeliveryPrice());
+    this.productsService.sendOrder(this.calcProductsPrice());
     this.successMsg = true;
   }
 }

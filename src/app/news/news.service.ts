@@ -91,7 +91,6 @@ export class NewsService {
         }
     }
 
-
     getLatest(count: number): News[] {
         const sortedNews: News[] = this.news.slice().sort(
             function (a, b) {

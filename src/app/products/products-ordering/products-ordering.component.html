@@ -28,25 +28,52 @@
       <strong>Thank you for order!</strong>
     </div>
     <div class="alert alert-info">
-      Total price: <strong>${{price}}</strong>
+      Total price for products: <strong>${{price}}</strong>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">
         Delivery details
       </div>
       <div class="panel-body">
+        <label for="deliveryType">Delieve by...</label>
+        <select class="form-control" id="deliveryType" [(ngModel)]="deliveryType" (change)="calcDirection()">
+          <option value="DRIVING">Car</option>
+          <option value="WALKING">Walk courier</option>
+        </select>
+        <hr>
+        <div class="alert alert-info" *ngIf="!deliveryInfo.display">
+          Please, select your destination
+        </div>
+        <div class="alert alert-success" *ngIf="deliveryInfo.display">
+          <ul class="list-unstyled">
+            <li>
+              <span class="glyphicon glyphicon glyphicon glyphicon-usd"></span> <strong>Price for delievery:</strong> ${{deliveryInfo.price}}
+            </li>
+            <li>
+              <span class="glyphicon glyphicon glyphicon-random"></span> <strong>Distance:</strong> {{deliveryInfo.distance}}km
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-time"></span> <strong>Time:</strong> {{deliveryInfo.time}}m
+            </li>
+          </ul>
+        </div>
+        <div class="alert alert-info" *ngIf="deliveryInfo.display">
+          Total price: <strong>${{calcTotalPrice()}}</strong>
+        </div>
+        <hr>
         <div id="gmap">
           <agm-map [latitude]="gmap.lat" [longitude]="gmap.lng" [zoom]="gmap.zoom" style="height: 400px" (mapReady)="mapReady($event)">
-            <agm-marker *ngFor="let shop of shops" [iconUrl]="shop.iconUrl" [latitude]="shop.lat" [longitude]="shop.lng" (markerClick)="selectShop(shop)"></agm-marker>
-            <agm-marker [latitude]="gmap.lat" [longitude]="gmap.lng" [markerDraggable]="true" (dragEnd)="setClientPos($event)"></agm-marker>
+            <agm-marker *ngFor="let shop of shops" [opacity]="shop.opacity" [iconUrl]="shop.iconUrl" [latitude]="shop.lat" [longitude]="shop.lng"
+              (markerClick)="selectShop(shop)"></agm-marker>
+            <agm-marker [latitude]="gmap.lat" [longitude]="gmap.lng" [iconUrl]="clientMarkerUrl" [markerDraggable]="true" (dragEnd)="changeDestPos($event)"></agm-marker>
           </agm-map>
         </div>
+      </div>
+      <div class="panel-footer">
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" (click)="direction()">Set location</button>
           <button type="button" class="btn btn-success" (click)="addOrder()">Apply</button>
         </div>
       </div>
     </div>
-
   </div>
 </div>

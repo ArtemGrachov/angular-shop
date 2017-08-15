@@ -13,7 +13,6 @@ export class ProductsService {
         this.usersService = usersService;
     }
 
-
     products: Product[] = [
         new Product(
             '0',
