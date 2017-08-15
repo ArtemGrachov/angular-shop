@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsAPIWrapper } from '@agm/core';
+
 import { SharedModule } from '../shared/shared.module';
 
 import { ProductsRoutingModule } from './products-routing.module';
@@ -17,7 +20,8 @@ import { ProductsOrderingComponent } from './products-ordering/products-ordering
     SharedModule,
     ProductsRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyCfztWpO1Xi2THdZDkgkXCtJWgCt0D_Glc' })
   ],
   declarations: [ProductsListComponent,
     ProductsEditComponent,
@@ -26,6 +30,6 @@ import { ProductsOrderingComponent } from './products-ordering/products-ordering
     ProductsMainComponent,
     ProductsOrderingComponent
   ],
-  providers: []
+  providers: [GoogleMapsAPIWrapper]
 })
 export class ProductsModule { }

@@ -195,8 +195,9 @@ export class ProductsService {
         }
     }
 
-    sendOrder() {
+    sendOrder(deliveryPrice: number) {
         this.cart = [];
+        console.log('delivery price is: ' + deliveryPrice);
         this.emit.emit();
     }
 }

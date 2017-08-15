@@ -35,9 +35,14 @@
         Delivery details
       </div>
       <div class="panel-body">
-        <div id="gmap" style="height: 400px">There will be Google map</div>
+        <div id="gmap">
+          <agm-map [latitude]="gmap.lat" [longitude]="gmap.lng" [zoom]="gmap.zoom" style="height: 400px" (mapReady)="mapReady($event)">
+            <agm-marker *ngFor="let shop of shops" [iconUrl]="shop.iconUrl" [latitude]="shop.lat" [longitude]="shop.lng" (markerClick)="selectShop(shop)"></agm-marker>
+            <agm-marker [latitude]="gmap.lat" [longitude]="gmap.lng" [markerDraggable]="true" (dragEnd)="setClientPos($event)"></agm-marker>
+          </agm-map>
+        </div>
         <div class="btn-group">
-          <button type="button" class="btn btn-primary">Set location</button>
+          <button type="button" class="btn btn-primary" (click)="direction()">Set location</button>
           <button type="button" class="btn btn-success" (click)="addOrder()">Apply</button>
         </div>
       </div>

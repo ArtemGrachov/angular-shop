@@ -51,8 +51,8 @@
 - PRODUCTS module
     - PRODUCTS route
     + products service
-        - add to basket      (localstorage)
-        - delete from basket (localstorage)
+        - add to cart      (localstorage)
+        - delete from cart (localstorage)
         - rating +/-
         - book products (array of products, optional: user gmap coordinates)
             - updating products count on server
