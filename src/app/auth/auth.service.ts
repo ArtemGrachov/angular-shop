@@ -37,11 +37,11 @@ export class AuthService {
 
     logout() {
         this.isAuth = false;
+        this.usersService.setCurrentUserId('');
         this.emit.emit();
     }
 
     registration(newUser) {
-        console.log(newUser);
         this.router.navigate(['/login']);
         this.emit.emit();
     }

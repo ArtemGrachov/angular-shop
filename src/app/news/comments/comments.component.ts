@@ -34,7 +34,7 @@ export class CommentsComponent implements OnInit {
       );
 
     this.commentForm = this.fb.group({
-      'commentText': ['']
+      'commentText': ['', Validators.required]
     });
     this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()

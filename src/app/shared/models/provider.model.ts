@@ -6,6 +6,7 @@ export class Provider {
         public description: string,
         public email: string,
         public users: string[],
-        public rating: number
+        public rating: number,
+        public comments: string[]
     ) { }
 }

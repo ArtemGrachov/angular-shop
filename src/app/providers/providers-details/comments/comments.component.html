@@ -1,0 +1,16 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let comment of comments">
+    {{comment}}
+  </li>
+</ul>
+<div class="panel panel-default" *ngIf="checkUserCategory(['admin','premium'])">
+  <div class="panel-heading">
+    Leave a comment
+  </div>
+  <div class="panel-body">
+    <textarea rows="5" class="form-control" [(ngModel)]="comment"></textarea>
+  </div>
+  <div class="panel-footer">
+    <button type="button" class="btn btn-primary" (click)="addComment()">Send</button>
+  </div>
+</div>

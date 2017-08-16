@@ -39,10 +39,13 @@ export class ProvidersDetailsComponent implements OnInit {
   }
 
   checkEditAccess() {
-    return this.authService.checkUserCategory(['admin'])
-      || this.providersService
-        .getProvider(this.providerId).users
-        .indexOf(this.usersService.getCurrentUser().id) > -1;
+    if (this.authService.checkAuth()) {
+      return this.authService.checkUserCategory(['admin'])
+        || this.providersService
+          .getProvider(this.providerId).users
+          .indexOf(this.usersService.getCurrentUser().id) > -1;
+    }
+    return false;
   }
 
   delete() {

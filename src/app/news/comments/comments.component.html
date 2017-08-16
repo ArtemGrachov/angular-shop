@@ -8,7 +8,7 @@
     <div class="panel-body">
       <textarea class="form-control" rows="5" id="comment" formControlName="commentText"></textarea>
       <hr>
-      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Send</button>
+      <button type="submit" [disabled]="!commentForm.valid" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Send</button>
     </div>
   </div>
 </form>

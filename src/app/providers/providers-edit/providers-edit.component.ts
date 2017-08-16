@@ -20,7 +20,8 @@ export class ProvidersEditComponent implements OnInit {
     '',
     '',
     [],
-    0
+    0,
+    []
   );
   providerId: string;
   editMode: Boolean = false;
