@@ -10,7 +10,14 @@
       </li>
     </ul>
   </div>
-  <div class="panel-footer">${{price}}</div>
+  <div class="panel-footer">
+    <span [style.text-decoration]="discount.available ? 'line-through' : 'none'">
+    ${{price}}
+    </span>
+    <div class="alert alert-success" *ngIf="discount.available">
+      Only <strong>${{discount.discountPrice}}</strong> with discount!
+    </div>
+  </div>
 </div>
 
 <div class="btn-group btn-group-justified" *ngIf="this.cart.length > 0">

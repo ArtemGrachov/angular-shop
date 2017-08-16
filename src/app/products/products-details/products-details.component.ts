@@ -17,6 +17,7 @@ import { Product } from '../../shared/models/product.model';
 export class ProductsDetailsComponent implements OnInit {
   productId: string;
   product: Product;
+  isAuth: boolean = this.authService.checkAuth();
 
   constructor(
     public productsService: ProductsService,
@@ -53,6 +54,9 @@ export class ProductsDetailsComponent implements OnInit {
         this.productId = params['id'];
         this.product = this.productsService.getProduct(this.productId);
       }
+    );
+    this.authService.emit.subscribe(
+      () => this.isAuth = this.authService.checkAuth()
     );
   }
 
