@@ -120,7 +120,7 @@ export class ProductsOrderingComponent implements OnInit {
     });
   }
 
-  changeDestPos(newPos: any) {
+  changeDestPos(newPos) {
     this.orderForm.get('location').patchValue(newPos.coords);
     this.calcDirection();
   }

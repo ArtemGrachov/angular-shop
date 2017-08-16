@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { GoogleMapsAPIWrapper } from '@agm/core';
+
 import { UsersService } from '../../admin/users.service';
 
 import { User } from '../../shared/models/user.model';
@@ -11,14 +13,21 @@ import { User } from '../../shared/models/user.model';
   styleUrls: ['./dash-profile.component.css']
 })
 export class DashProfileComponent implements OnInit {
+  constructor(
+    public usersService: UsersService,
+    public fb: FormBuilder,
+    public gmapAPI: GoogleMapsAPIWrapper
+  ) { }
+
   editMode: Boolean = false;
   user: User;
   profileForm: FormGroup;
-
-  constructor(
-    public usersService: UsersService,
-    public fb: FormBuilder
-  ) { }
+  gmap = {
+    lat: this.usersService.getCurrentUser().location.lat,
+    lng: this.usersService.getCurrentUser().location.lng,
+    zoom: 16
+  };
+  clientMarkerUrl: string = 'assets/img/client.png';
 
   ngOnInit() {
     this.refreshUser();
@@ -36,6 +45,10 @@ export class DashProfileComponent implements OnInit {
     this.editMode = !this.editMode;
   }
 
+  changeUserPos(newPos) {
+    this.profileForm.get('location').patchValue(newPos.coords);
+  }
+
   buildProfileForm() {
     this.profileForm = this.fb.group({
       'name': [this.user.name, Validators.required],
@@ -43,6 +56,8 @@ export class DashProfileComponent implements OnInit {
       'category': [this.user.category, Validators.required],
       'birthdate': [this.user.birthdate, Validators.required],
       'gender': [this.user.gender, Validators.required],
+      'phone': [this.user.phone, Validators.required],
+      'location': [this.user.location, Validators.required],
       'id': this.user.id,
       'regdate': this.user.regdate
     });

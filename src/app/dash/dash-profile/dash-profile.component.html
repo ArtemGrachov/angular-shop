@@ -3,6 +3,14 @@
   <div class="panel-body">
     <form [formGroup]="profileForm" (ngSubmit)="submit()">
       <div class="form-group">
+        <label for="name">Your location:</label>
+
+        <agm-map [latitude]="gmap.lat" [longitude]="gmap.lng" [zoom]="gmap.zoom" style="height: 400px">
+          <agm-marker [latitude]="profileForm.value['location'].lat" [longitude]="profileForm.value['location'].lng" [iconUrl]="clientMarkerUrl"
+            [markerDraggable]="editMode" (dragEnd)="changeUserPos($event)"></agm-marker>
+        </agm-map>
+      </div>
+      <div class="form-group">
         <label for="name">Name:</label> {{user.name}}
         <input type="text" class="form-control" id="name" *ngIf="editMode" formControlName="name">
       </div>

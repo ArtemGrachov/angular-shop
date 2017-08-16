@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 
+import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsAPIWrapper } from '@agm/core';
 
 import { DashRoutingModule } from './dash-routing.module';
 import { DashMainComponent } from './dash-main/dash-main.component';
@@ -13,7 +15,9 @@ import { DashRatedProvidersComponent } from './dash-rated-providers/dash-rated-p
 @NgModule({
   imports: [
     SharedModule,
-    DashRoutingModule
+    DashRoutingModule,
+    AgmCoreModule,
+    GoogleMapsAPIWrapper
   ],
   declarations: [
     DashMainComponent,
