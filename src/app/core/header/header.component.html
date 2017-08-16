@@ -13,11 +13,20 @@
     <li routerLinkActive="active">
       <a routerLink="/providers">Our providers</a>
     </li>
-    <li routerLinkActive="active">
+    <li routerLinkActive="active" *ngIf="isAuth">
       <a routerLink="/dash">Dashboard</a>
     </li>
-    <li routerLinkActive="active">
+    <li routerLinkActive="active" *ngIf="checkUserCategory(['admin'])">
       <a routerLink="/admin">Admin</a>
+    </li>
+    <li routerLinkActive="active" *ngIf="!isAuth">
+      <a routerLink="/login">Login</a>
+    </li>
+    <li routerLinkActive="active" *ngIf="isAuth" (click)="logout()" style="cursor: pointer">
+      <a>Logout</a>
+    </li>
+    <li routerLinkActive="active" *ngIf="!isAuth">
+      <a routerLink="/reg">Registration</a>
     </li>
   </ul>
 </nav>

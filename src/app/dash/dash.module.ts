@@ -5,6 +5,7 @@ import { AgmCoreModule } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core';
 
 import { DashRoutingModule } from './dash-routing.module';
+
 import { DashMainComponent } from './dash-main/dash-main.component';
 import { DashOrdersComponent } from './dash-orders/dash-orders.component';
 import { DashProfileComponent } from './dash-profile/dash-profile.component';
@@ -16,8 +17,7 @@ import { DashRatedProvidersComponent } from './dash-rated-providers/dash-rated-p
   imports: [
     SharedModule,
     DashRoutingModule,
-    AgmCoreModule,
-    GoogleMapsAPIWrapper
+    AgmCoreModule
   ],
   declarations: [
     DashMainComponent,
@@ -26,6 +26,7 @@ import { DashRatedProvidersComponent } from './dash-rated-providers/dash-rated-p
     DashRatedProductsComponent,
     DashRatedNewsComponent,
     DashRatedProvidersComponent
-  ]
+  ],
+  providers: [GoogleMapsAPIWrapper]
 })
 export class DashModule { }

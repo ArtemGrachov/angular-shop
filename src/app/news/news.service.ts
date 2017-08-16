@@ -7,7 +7,7 @@ import { News } from '../shared/models/news.model';
 @Injectable()
 export class NewsService {
     usersService: UsersService;
-    constructor(
+    constructor( // ???????
         @Inject(UsersService) usersService: UsersService
     ) {
         this.usersService = usersService;
@@ -36,7 +36,7 @@ export class NewsService {
             'Test',
             'Aliqua irure Lorem id excepteur occaecat consequat exercitation dolor reprehenderit.',
             0,
-            '0',
+            '1',
             new Date(2017, 10, 9, 17, 26, 1, 1)
         )
     ];

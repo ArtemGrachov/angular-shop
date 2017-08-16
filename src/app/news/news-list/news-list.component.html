@@ -1,4 +1,4 @@
-<a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Add post</a>
+<a routerLink="new" *ngIf="checkUserCategory(['admin','provider'])" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Add post</a>
 <hr>
 <div class="panel-group">
   <ul class="list-group">

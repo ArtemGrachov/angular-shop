@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
+import { AuthService } from '../../auth/auth.service';
+
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Product } from '../../shared/models/product.model';
@@ -20,10 +22,15 @@ export class ProductsDetailsComponent implements OnInit {
   constructor(
     public productsService: ProductsService,
     public providersService: ProvidersService,
+    public authService: AuthService,
     public router: Router,
     public route: ActivatedRoute,
     public location: Location
   ) { }
+
+  checkUserCategory(categories: string[]) {
+    return this.authService.checkUserCategory(categories);
+  }
 
   ngOnInit() {
     this.route.params.subscribe(

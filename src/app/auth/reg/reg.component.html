@@ -1,21 +1,42 @@
-<form>
-  <div class="form-group">
-    <label for="email">Email:</label>
-    <input type="email" class="form-control" id="email">
-  </div>
-  <div class="form-group">
-    <label for="email">Password:</label>
-    <input type="password" class="form-control" id="password">
-  </div>
-  <div class="form-group">
-    <label for="email">Birthdate:</label>
-    <input type="date" class="form-control" id="birthdate">
-  </div>
-  <div class="form-group">
-    <label for="gender">Gender:</label>
-    <select class="form-control" id="gender">
+<form [formGroup]="regForm" class="panel panel-default" (ngSubmit)="reg()">
+  <div class="panel-heading">Registration</div>
+  <div class="panel-body">
+    <div class="form-group">
+      <label>Location:</label>
+      <agm-map [latitude]="gmap.lat" [longitude]="gmap.lng" [zoom]="gmap.zoom" style="height: 400px">
+        <agm-marker [latitude]="gmap.lat" [longitude]="gmap.lng" [iconUrl]="clientMarkerUrl" [markerDraggable]="true" (dragEnd)="changeUserPos($event)"
+          #userMarker></agm-marker>
+      </agm-map>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+    </div>
+    <div class="form-group">
+      <label for="email">Password:</label>
+      <input type="password" class="form-control" id="password" formControlName="password">
+    </div>
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" id="name" formControlName="name">
+    </div>
+    <div class="form-group">
+      <label for="email">Birthdate:</label>
+      <input type="date" class="form-control" id="birthdate" formControlName="birthdate">
+    </div>
+    <div class="form-group">
+      <label for="email">Phone number:</label>
+      <input type="text" class="form-control" id="phone" formControlName="phone">
+    </div>
+    <div class="form-group">
+      <label for="gender">Gender:</label>
+      <select class="form-control" id="gender" formControlName="gender">
       <option value="male">Male</option>
       <option value="female">Female</option>
     </select>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <button class="btn btn-primary" type="submit" [disabled]="!regForm.valid">Apply</button>
   </div>
 </form>

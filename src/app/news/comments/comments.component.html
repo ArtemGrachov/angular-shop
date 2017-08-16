@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary btn-xs" (click)="toggleNewComentForm()"><span class="glyphicon glyphicon-comment"></span> Write a comment</button>
+<button type="button" class="btn btn-primary btn-xs" (click)="toggleNewComentForm()" *ngIf="isAuth"><span class="glyphicon glyphicon-comment"></span> Write a comment</button>
 <hr>
 <form *ngIf="commentFormActive" (ngSubmit)="sendComment()" [formGroup]="commentForm">
   <div class="panel panel-default">
@@ -22,7 +22,7 @@
       <div class="panel-body">
         {{comment.content}}
       </div>
-      <div class="panel-footer">
+      <div class="panel-footer" *ngIf="checkUserCategory(['admin'])">
         <a class="btn btn-xs btn-danger" (click)="deleteComment(comment.id)">
             <span class="glyphicon glyphicon-remove"></span> Delete
         </a>

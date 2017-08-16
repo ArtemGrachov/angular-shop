@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 
+import { SharedModule } from '../shared/shared.module';
+
 import { AppRoutingModule } from '../app-routing.module';
 
 import { NewsService } from '../news/news.service';
@@ -8,12 +10,13 @@ import { ProvidersService } from '../providers/providers.service';
 import { CommentsService } from '../news/comments.service';
 import { UsersService } from '../admin/users.service';
 import { OrdersService } from '../admin/orders.service';
+import { AuthService } from '../auth/auth.service';
 
 import { HeaderComponent } from './header/header.component';
 
 @NgModule({
     declarations: [HeaderComponent],
-    imports: [AppRoutingModule],
+    imports: [SharedModule, AppRoutingModule],
     exports: [HeaderComponent, AppRoutingModule],
     providers: [
         NewsService,
@@ -21,7 +24,8 @@ import { HeaderComponent } from './header/header.component';
         ProvidersService,
         CommentsService,
         UsersService,
-        OrdersService
+        OrdersService,
+        AuthService
     ],
 })
 export class CoreModule { }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
+import { AuthService } from '../../auth/auth.service';
+
 import { NewsService } from '../../news/news.service';
 import { UsersService } from '../../admin/users.service';
 
@@ -14,6 +16,15 @@ import { User } from '../../shared/models/user.model';
   styleUrls: ['./news-edit.component.css']
 })
 export class NewsEditComponent implements OnInit {
+  constructor(
+    public newsService: NewsService,
+    public usersService: UsersService,
+    public authService: AuthService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public fb: FormBuilder
+  ) { }
+
   post: News = new News(
     '0',
     '',
@@ -27,14 +38,6 @@ export class NewsEditComponent implements OnInit {
   editMode = false;
   newsEditForm: FormGroup;
   users: User[] = [];
-
-  constructor(
-    public newsService: NewsService,
-    public usersService: UsersService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public fb: FormBuilder
-  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -51,9 +54,13 @@ export class NewsEditComponent implements OnInit {
 
     this.buildPostForm();
   }
+
+  checkUserCategory(categories: string[]) {
+    return this.authService.checkUserCategory(categories);
+  }
+
   submitPost() {
     if (this.editMode) {
-      // ?????????????????????
       let editedPost = this.newsEditForm.value;
       editedPost.id = this.postId;
       this.newsService.updatePost(editedPost);

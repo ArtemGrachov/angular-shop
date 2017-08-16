@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AuthService } from '../../auth/auth.service';
+
 import { News } from '../../shared/models/news.model';
 
 import { NewsService } from '../news.service';
@@ -14,6 +16,7 @@ export class NewsListComponent implements OnInit {
 
   constructor(
     public newsService: NewsService,
+    public authService: AuthService,
     public usersService: UsersService
   ) { }
 
@@ -24,6 +27,10 @@ export class NewsListComponent implements OnInit {
     this.newsService.emit.subscribe(
       () => this.refreshNews()
     );
+  }
+
+  checkUserCategory(categories: string[]) {
+    return this.authService.checkUserCategory(categories);
   }
 
   refreshNews() {

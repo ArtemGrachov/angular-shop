@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { AuthService } from '../../auth/auth.service';
+
 import { CommentsService } from '../comments.service';
 
 import { Comment } from '../../shared/models/comment.model';
@@ -12,12 +14,14 @@ import { Comment } from '../../shared/models/comment.model';
 })
 export class CommentsComponent implements OnInit {
   @Input() postId: string;
+  isAuth: boolean = this.authService.checkAuth();
 
   comments: Comment[] = [];
   commentFormActive: Boolean = false;
   commentForm: FormGroup;
   constructor(
-    private commentsService: CommentsService,
+    public commentsService: CommentsService,
+    public authService: AuthService,
     public fb: FormBuilder
   ) { }
 
@@ -32,7 +36,13 @@ export class CommentsComponent implements OnInit {
     this.commentForm = this.fb.group({
       'commentText': ['']
     });
+    this.authService.emit.subscribe(
+      () => this.isAuth = this.authService.checkAuth()
+    );
+  }
 
+  checkUserCategory(categories: string[]) {
+    return this.authService.checkUserCategory(categories);
   }
 
   deleteComment(id: string) {

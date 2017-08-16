@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 
+import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsAPIWrapper } from '@agm/core';
+
 import { AdminRoutingModule } from './admin-routing.module';
 
 import { AdminMainComponent } from './admin-main/admin-main.component';
@@ -13,7 +16,8 @@ import { AdminCommentsComponent } from './admin-comments/admin-comments.componen
 @NgModule({
   imports: [
     SharedModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    AgmCoreModule
   ],
   declarations: [
     AdminMainComponent,
@@ -22,6 +26,7 @@ import { AdminCommentsComponent } from './admin-comments/admin-comments.componen
     AdminUserProfileComponent,
     AdminStatComponent,
     AdminCommentsComponent
-  ]
+  ],
+  providers: [GoogleMapsAPIWrapper]
 })
 export class AdminModule { }

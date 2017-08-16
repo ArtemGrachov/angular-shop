@@ -3,6 +3,13 @@
   <div class="panel-body">
     <form [formGroup]="userForm" (ngSubmit)="submit()">
       <div class="form-group">
+        <label>User's location:</label>
+        <agm-map [latitude]="gmap.lat" [longitude]="gmap.lng" [zoom]="gmap.zoom" style="height: 400px">
+          <agm-marker [latitude]="userForm.value['location'].lat" [longitude]="userForm.value['location'].lng" [iconUrl]="clientMarkerUrl"
+            [markerDraggable]="editMode" (dragEnd)="changeUserPos($event)" #userMarker></agm-marker>
+        </agm-map>
+      </div>
+      <div class="form-group">
         <label>ID:</label> {{user.id}}
       </div>
       <div class="form-group">
@@ -25,6 +32,10 @@
       <div class="form-group">
         <label for="age">Birthdate:</label> {{user.birthdate | date:'medium'}}
         <input type="date" class="form-control" id="birthdate" *ngIf="editMode" formControlName="birthdate">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone number:</label> {{user.phone }}
+        <input type="text" class="form-control" id="phone" *ngIf="editMode" formControlName="phone">
       </div>
       <div class="form-group">
         <label for="gender">Gender:</label> {{user.gender}}

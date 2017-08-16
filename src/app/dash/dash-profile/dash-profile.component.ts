@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { GoogleMapsAPIWrapper } from '@agm/core';
@@ -18,6 +18,8 @@ export class DashProfileComponent implements OnInit {
     public fb: FormBuilder,
     public gmapAPI: GoogleMapsAPIWrapper
   ) { }
+
+  @ViewChild('userMarker') userMarker: ElementRef;
 
   editMode: Boolean = false;
   user: User;
@@ -58,8 +60,6 @@ export class DashProfileComponent implements OnInit {
       'gender': [this.user.gender, Validators.required],
       'phone': [this.user.phone, Validators.required],
       'location': [this.user.location, Validators.required],
-      'id': this.user.id,
-      'regdate': this.user.regdate
     });
   }
 
@@ -68,7 +68,14 @@ export class DashProfileComponent implements OnInit {
   }
 
   submit() {
-    this.usersService.updateUser(this.profileForm.value);
+    let updUser = this.profileForm.value;
+    updUser.id = this.user.id;
+    updUser.regdate = this.user.regdate;
+    updUser.ratedNews = this.user.ratedNews;
+    updUser.ratedProducts = this.user.ratedProducts;
+    updUser.ratedProviders = this.user.ratedProviders;
+
+    this.usersService.updateUser(updUser);
     this.editMode = false;
   }
 }

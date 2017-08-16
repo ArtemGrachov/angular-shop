@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { GoogleMapsAPIWrapper } from '@agm/core';
 
 import { UsersService } from '../users.service';
 
@@ -12,6 +14,14 @@ import { User } from '../../shared/models/user.model';
   styleUrls: ['./admin-user-profile.component.css']
 })
 export class AdminUserProfileComponent implements OnInit {
+  constructor(
+    public usersService: UsersService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public fb: FormBuilder,
+    public gmapAPI: GoogleMapsAPIWrapper
+  ) { }
+
   editMode: Boolean = false;
   newMode: Boolean = false;
   user = new User(
@@ -30,15 +40,15 @@ export class AdminUserProfileComponent implements OnInit {
   );
   userId: String = '';
   usersCategories: string[] = [];
+  gmap = {
+    lat: this.usersService.getCurrentUser().location.lat,
+    lng: this.usersService.getCurrentUser().location.lng,
+    zoom: 16
+  };
+  clientMarkerUrl: string = 'assets/img/client.png';
+  @ViewChild('userMarker') userMarker: ElementRef;
 
   userForm: FormGroup;
-
-  constructor(
-    public usersService: UsersService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public fb: FormBuilder
-  ) { }
 
   ngOnInit() {
     this.usersCategories = this.usersService.getCategories();
@@ -63,6 +73,10 @@ export class AdminUserProfileComponent implements OnInit {
     this.user = this.usersService.getUser(this.userId);
   }
 
+  changeUserPos(newPos) {
+    this.userForm.get('location').patchValue(newPos.coords);
+  }
+
   toggleEditMode() {
     if (this.newMode) {
       this.router.navigate(['../'], { relativeTo: this.route });
@@ -76,19 +90,26 @@ export class AdminUserProfileComponent implements OnInit {
       'name': [this.user.name, Validators.required],
       'email': [this.user.email, [Validators.required, Validators.email]],
       'category': [{ value: this.user.category, disabled: (this.userId === '0' ? true : false) }],
+      'phone': this.user.phone,
       'birthdate': this.user.birthdate,
       'gender': [this.user.gender, Validators.required],
-      'id': this.user.id,
-      'regdate': this.user.regdate
+      'location': [this.user.location, Validators.required],
     });
   }
 
   submit() {
+    let updUser = this.userForm.value;
+    updUser.id = this.user.id;
+    updUser.regdate = this.user.regdate;
+    updUser.ratedNews = this.user.ratedNews;
+    updUser.ratedProducts = this.user.ratedProducts;
+    updUser.ratedProviders = this.user.ratedProviders;
+
     if (this.newMode) {
-      this.usersService.addUser(this.userForm.value);
+      this.usersService.addUser(updUser);
       this.router.navigate(['../'], { relativeTo: this.route });
     } else {
-      this.usersService.updateUser(this.userForm.value);
+      this.usersService.updateUser(updUser);
       this.editMode = false;
     }
   }

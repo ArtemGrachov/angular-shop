@@ -1,9 +1,10 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 
 import { User } from '../shared/models/user.model';
 
 @Injectable()
 export class UsersService {
+
     users: User[] = [
         new User(
             '0',
@@ -24,7 +25,7 @@ export class UsersService {
             'Test user',
             'admin@mail.com',
             new Date(),
-            'user',
+            'provider',
             new Date(),
             'male',
             { lat: 48.648243, lng: 26.521834 },
@@ -57,6 +58,10 @@ export class UsersService {
 
     getCurrentUser() {
         return this.getUser(this.currentUserId);
+    }
+
+    setCurrentUserId(id: string) {
+        this.currentUserId = id;
     }
 
     getUser(id) {
@@ -111,5 +116,4 @@ export class UsersService {
     getCount(): number {
         return this.users.length;
     }
-
 }

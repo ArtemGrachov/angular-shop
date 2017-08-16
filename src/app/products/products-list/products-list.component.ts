@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AuthService } from '../../auth/auth.service';
+
 import { Product } from '../../shared/models/product.model';
 
 import { ProductsService } from '../products.service';
@@ -16,6 +18,7 @@ export class ProductsListComponent implements OnInit {
 
   constructor(
     public productsService: ProductsService,
+    public authService: AuthService,
     public providersService: ProvidersService
   ) { }
 
@@ -24,6 +27,9 @@ export class ProductsListComponent implements OnInit {
     this.productsService.emit.subscribe(
       () => this.refreshProducts()
     );
+  }
+  checkUserCategory(categories: string[]) {
+    return this.authService.checkUserCategory(categories);
   }
 
   refreshProducts() {

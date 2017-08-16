@@ -12,17 +12,17 @@
     <span class="glyphicon glyphicon-calendar"></span> {{post.date | date:'medium'}}
   </li>
 </ul>
-<div class="btn-group">
+<div class="btn-group" *ngIf="isAuth">
   <a class="btn btn-sm btn-success" role="button" (click)="postRate(1)">
       <span class="glyphicon glyphicon-thumbs-up"></span>
     </a>
   <a class="btn btn-sm btn-danger" role="button" (click)="postRate(-1)">
       <span class="glyphicon glyphicon-thumbs-down"></span>
     </a>
-  <a class="btn btn-sm btn-primary" role="button" routerLink="edit">
-      <span class="glyphicon glyphicon-pencil" ></span> Edit
+  <a class="btn btn-sm btn-primary" role="button" routerLink="edit" *ngIf="checkEditAccess()">
+      <span class="glyphicon glyphicon-pencil"></span> Edit
     </a>
-  <a class="btn btn-sm btn-danger" role="button" (click)="postDelete()">
+  <a class="btn btn-sm btn-danger" role="button" (click)="postDelete()" *ngIf="checkEditAccess()">
       <span class="glyphicon glyphicon-remove"></span> Delete
     </a>
 </div>

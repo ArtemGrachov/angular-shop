@@ -1,0 +1,65 @@
+import { Injectable, Inject, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+
+import { UsersService } from '../admin/users.service';
+
+import { User } from '../shared/models/user.model';
+
+@Injectable()
+export class AuthService {
+    usersService: UsersService;
+    constructor(
+        @Inject(UsersService) usersService: UsersService,
+        public router: Router,
+        public route: ActivatedRoute
+    ) {
+        this.usersService = usersService;
+    }
+
+    isAuth: boolean = false;
+    emit: EventEmitter<any> = new EventEmitter();
+
+    login(email: string, password: string) {
+        // test
+        let testId = '0';
+        console.log(email);
+        if (email === 'admin@mail') {
+            testId = '0';
+        } else {
+            testId = '1';
+        }
+        // test
+        console.log(testId);
+
+        this.isAuth = true;
+        this.usersService.setCurrentUserId(testId);
+        this.emit.emit();
+        this.router.navigate(['/home']);
+    }
+
+    logout() {
+        this.isAuth = false;
+        this.emit.emit();
+    }
+
+    registration(newUser) {
+        console.log(newUser);
+        this.router.navigate(['/login']);
+        this.emit.emit();
+    }
+
+    checkAuth() {
+        return this.isAuth;
+    }
+
+    checkUserCategory(categories: string[]) {
+        if (this.checkAuth()) {
+            if (categories.indexOf(
+                this.usersService.getCurrentUser().category
+            ) > -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

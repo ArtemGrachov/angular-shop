@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
+import { AuthService } from '../../auth/auth.service';
+
 import { ProvidersService } from '../providers.service';
 import { ProductsService } from '../../products/products.service';
 
@@ -20,7 +22,8 @@ export class ProvidersDetailsComponent implements OnInit {
     public providersService: ProvidersService,
     public productsService: ProductsService,
     public router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -31,6 +34,10 @@ export class ProvidersDetailsComponent implements OnInit {
         this.providerProducts = this.productsService.getProductsByProvider(this.providerId);
       }
     );
+  }
+
+  checkUserCategory(categories: string[]) {
+    return this.authService.checkUserCategory(categories);
   }
 
   delete() {
