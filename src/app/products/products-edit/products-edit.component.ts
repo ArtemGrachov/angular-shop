@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ProductsService } from '../products.service';
 import { ProvidersService } from '../../providers/providers.service';
+import { AuthService } from '../../auth/auth.service';
 
 import { Product } from '../../shared/models/product.model';
 import { Provider } from '../../shared/models/provider.model';
@@ -36,6 +37,7 @@ export class ProductsEditComponent implements OnInit {
   constructor(
     public router: Router,
     public route: ActivatedRoute,
+    public authService: AuthService,
     public productsService: ProductsService,
     public providersService: ProvidersService,
     public fb: FormBuilder
@@ -52,6 +54,10 @@ export class ProductsEditComponent implements OnInit {
     );
     this.providersList = this.providersService.getProviders();
     this.buildProductForm();
+  }
+
+  checkUserCategory(categories: string[]) {
+    return this.authService.checkUserCategory(categories);
   }
 
   buildProductForm() {

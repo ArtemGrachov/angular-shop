@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 
 import { ProvidersService } from '../providers.service';
+import { UsersService } from '../../admin/users.service';
 import { ProductsService } from '../../products/products.service';
 
 import { Provider } from '../../shared/models/provider.model';
@@ -21,6 +22,7 @@ export class ProvidersDetailsComponent implements OnInit {
   constructor(
     public providersService: ProvidersService,
     public productsService: ProductsService,
+    public usersService: UsersService,
     public router: Router,
     public route: ActivatedRoute,
     public authService: AuthService
@@ -36,8 +38,11 @@ export class ProvidersDetailsComponent implements OnInit {
     );
   }
 
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
+  checkEditAccess() {
+    return this.authService.checkUserCategory(['admin'])
+      || this.providersService
+        .getProvider(this.providerId).users
+        .indexOf(this.usersService.getCurrentUser().id) > -1;
   }
 
   delete() {

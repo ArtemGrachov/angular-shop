@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AdminGuard } from '../auth/admin-guard.service';
+import { ProductsEditGuard } from '../auth/products-edit-guard.service';
 
 import { ProductsCartComponent } from './products-cart/products-cart.component';
 import { ProductsEditComponent } from './products-edit/products-edit.component';
@@ -11,7 +11,7 @@ import { ProductsDetailsComponent } from './products-details/products-details.co
 import { ProductsOrderingComponent } from './products-ordering/products-ordering.component';
 
 const productsRoutes = [
-    { path: 'products/new', component: ProductsEditComponent, canActivate: [AdminGuard] },
+    { path: 'products/new', component: ProductsEditComponent, canActivate: [ProductsEditGuard] },
     { path: 'products/ordering', component: ProductsOrderingComponent },
     {
         path: 'products', component: ProductsMainComponent, children: [
@@ -19,7 +19,7 @@ const productsRoutes = [
             { path: ':id', component: ProductsDetailsComponent },
         ]
     },
-    { path: 'products/:id/edit', component: ProductsEditComponent, canActivate: [AdminGuard] }
+    { path: 'products/:id/edit', component: ProductsEditComponent, canActivate: [ProductsEditGuard] }
 ];
 
 @NgModule({
@@ -27,6 +27,6 @@ const productsRoutes = [
         RouterModule.forChild(productsRoutes)
     ],
     exports: [RouterModule],
-    providers: [AdminGuard]
+    providers: [ProductsEditGuard]
 })
 export class ProductsRoutingModule { }

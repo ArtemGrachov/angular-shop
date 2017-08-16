@@ -5,6 +5,7 @@ export class Provider {
         public logoUrl: string,
         public description: string,
         public email: string,
+        public users: string[],
         public rating: number
     ) { }
 }

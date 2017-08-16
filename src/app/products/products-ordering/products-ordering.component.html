@@ -72,7 +72,7 @@
       </div>
       <div class="panel-footer">
         <div class="btn-group">
-          <button type="submit" class="btn btn-success">Apply</button>
+          <button type="submit" class="btn btn-success" [disabled]="!orderForm.valid">Apply</button>
         </div>
       </div>
     </form>

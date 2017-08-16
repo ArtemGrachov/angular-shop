@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-
-import { AuthService } from '../../auth/auth.service';
-
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Product } from '../../shared/models/product.model';
-
+import { AuthService } from '../../auth/auth.service';
 import { ProductsService } from '../products.service';
 import { ProvidersService } from '../../providers/providers.service';
+
+import { UsersService } from '../../admin/users.service';
+import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-products-details',
@@ -22,6 +21,7 @@ export class ProductsDetailsComponent implements OnInit {
   constructor(
     public productsService: ProductsService,
     public providersService: ProvidersService,
+    public usersService: UsersService,
     public authService: AuthService,
     public router: Router,
     public route: ActivatedRoute,
@@ -30,6 +30,18 @@ export class ProductsDetailsComponent implements OnInit {
 
   checkUserCategory(categories: string[]) {
     return this.authService.checkUserCategory(categories);
+  }
+
+  checkEditAccess() {
+    return (this.authService.checkUserCategory(['admin'])
+      || this.providersService
+        .getProvider(
+        this.product.providerId
+        ).users
+        .indexOf(
+        this.usersService.getCurrentUser()
+          .id
+        ) > -1);
   }
 
   ngOnInit() {

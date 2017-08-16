@@ -22,14 +22,12 @@ export class AuthService {
     login(email: string, password: string) {
         // test
         let testId = '0';
-        console.log(email);
         if (email === 'admin@mail') {
             testId = '0';
         } else {
             testId = '1';
         }
         // test
-        console.log(testId);
 
         this.isAuth = true;
         this.usersService.setCurrentUserId(testId);

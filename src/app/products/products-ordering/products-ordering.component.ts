@@ -6,6 +6,7 @@ import { GoogleMapsAPIWrapper } from '@agm/core';
 import { ProductsService } from '../products.service';
 import { OrdersService } from '../../admin/orders.service';
 import { UsersService } from '../../admin/users.service';
+import { AuthService } from '../../auth/auth.service';
 
 import { Product } from '../../shared/models/product.model';
 import { Order } from '../../shared/models/order.model';
@@ -36,6 +37,7 @@ export class ProductsOrderingComponent implements OnInit {
     public productsService: ProductsService,
     public ordersService: OrdersService,
     public gmapAPI: GoogleMapsAPIWrapper,
+    public authService: AuthService,
     public usersService: UsersService,
     public fb: FormBuilder
   ) {
@@ -77,12 +79,21 @@ export class ProductsOrderingComponent implements OnInit {
   }
 
   buildForm() {
-    this.orderForm = this.fb.group({
-      'location': this.usersService.getCurrentUser().location,
-      'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-      'phone': this.usersService.getCurrentUser().phone,
-      'type': 'DRIVING'
-    });
+    if (this.authService.checkAuth()) {
+      this.orderForm = this.fb.group({
+        'location': this.usersService.getCurrentUser().location,
+        'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
+        'phone': [this.usersService.getCurrentUser().phone, Validators.required],
+        'type': 'DRIVING'
+      });
+    } else {
+      this.orderForm = this.fb.group({
+        'location': { lat: this.gmap.lat, lng: this.gmap.lng },
+        'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
+        'phone': ['', Validators.required],
+        'type': 'DRIVING'
+      });
+    }
   }
 
   mapReady(event) {

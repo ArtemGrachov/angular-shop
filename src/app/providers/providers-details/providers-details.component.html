@@ -3,7 +3,7 @@
     {{provider.name}}
   </div>
   <div class="panel-body">
-    <div class="btn-group btn-group-xs" *ngIf="checkUserCategory(['admin'])">
+    <div class="btn-group btn-group-xs" *ngIf="checkEditAccess()">
       <a class="btn btn-default" routerLink="edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
       <a class="btn btn-danger" (click)="delete()"><span class="glyphicon glyphicon-remove"></span> Delete</a>
     </div>
