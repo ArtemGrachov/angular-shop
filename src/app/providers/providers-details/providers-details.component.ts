@@ -19,6 +19,10 @@ export class ProvidersDetailsComponent implements OnInit {
   providerId: string = '';
   provider: Provider;
   providerProducts: Product[];
+  isAuth: boolean = this.authService.checkAuth();
+  authSubcr;
+
+
   constructor(
     public providersService: ProvidersService,
     public productsService: ProductsService,
@@ -35,6 +39,9 @@ export class ProvidersDetailsComponent implements OnInit {
         this.provider = this.providersService.getProvider(this.providerId);
         this.providerProducts = this.productsService.getProductsByProvider(this.providerId);
       }
+    );
+    this.authSubcr = this.authService.emit.subscribe(
+      () => this.isAuth = this.authService.checkAuth()
     );
   }
 

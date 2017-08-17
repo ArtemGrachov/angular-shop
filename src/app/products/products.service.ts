@@ -117,29 +117,36 @@ export class ProductsService {
 
     addProduct(newProduct: Product) {
         newProduct.id = (new Date).getTime().toString();
-        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${newProduct.id}.json`, newProduct).subscribe();
-        this.loadProducts();
-        this.emit.emit();
+        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${newProduct.id}.json`, newProduct).subscribe(
+            () => {
+                this.loadProducts();
+                this.emit.emit();
+            }
+        );
     }
 
     updateProduct(updatedProduct: Product) {
-        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${updatedProduct.id}.json`, updatedProduct).subscribe();
-        this.loadProducts();
-        this.emit.emit();
+        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${updatedProduct.id}.json`, updatedProduct).subscribe(
+            () => {
+                this.loadProducts();
+                this.emit.emit();
+            }
+        );
     }
 
     deleteProduct(id: string) {
-        this.http.delete(`https://angular-shop-e7657.firebaseio.com/products/${id}.json`).subscribe();
-        this.loadProducts();
-        this.emit.emit();
+        this.http.delete(`https://angular-shop-e7657.firebaseio.com/products/${id}.json`).subscribe(
+            () => {
+                this.loadProducts();
+                this.emit.emit();
+            }
+        );
     }
 
     rateProduct(id: string, rating: number) {
-        if (this.usersService.getCurrentUser().ratedProducts.indexOf(id) < 0) {
-            this.usersService.getCurrentUser().ratedProducts.push(id);
-            this.getProduct(id).rating += rating;
-            this.emit.emit();
-        }
+        let updProduct = this.getProduct(id);
+        updProduct.rating += rating;
+        this.updateProduct(updProduct);
     }
 
     sendOrder(val: any) {

@@ -1,5 +1,5 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { Http, Response } from '@angular/http';
 
 import { UsersService } from '../admin/users.service';
 
@@ -9,47 +9,26 @@ import { News } from '../shared/models/news.model';
 export class NewsService {
     constructor(
         public usersService: UsersService,
-        public db: AngularFireDatabase
+        public http: Http
     ) { }
 
     news: News[] = [
-        // new News(
-        //     '1',
-        //     'Hello world!',
-        //     'This is the first news post in Angular Shop app',
-        //     0,
-        //     '0',
-        //     new Date(2017, 8, 9, 17, 24, 1, 1)
-        // ),
-
-        // new News(
-        //     '2',
-        //     'Hello again',
-        //     'This is the second news post in Angular Shop app, maked because of news component & service testing',
-        //     0,
-        //     '0',
-        //     new Date(2017, 4, 9, 17, 26, 1, 1)
-        // ),
-        // new News(
-        //     '3',
-        //     'Test',
-        //     'Aliqua irure Lorem id excepteur occaecat consequat exercitation dolor reprehenderit.',
-        //     0,
-        //     '1',
-        //     new Date(2017, 10, 9, 17, 26, 1, 1)
-        // )
     ];
 
     emit: EventEmitter<any> = new EventEmitter();
 
     loadNews() {
-        this.db.list('/news').subscribe(
-            res => {
-                console.log(res);
-                this.news = res;
+        this.http.get('https://angular-shop-e7657.firebaseio.com/news.json')
+            .subscribe(
+            (res: Response) => {
+                let resJson = res.json(),
+                    newNewsList = [];
+                for (let i in resJson) {
+                    newNewsList.push(resJson[i]);
+                }
+                this.news = newNewsList;
                 this.emit.emit();
-            }
-        );
+            });
     }
 
     getNews() {
@@ -70,19 +49,27 @@ export class NewsService {
 
     addPost(newPost: News) {
         newPost.id = (new Date).getTime().toString();
-        this.db.list('/news').set(newPost.id, newPost);
-        this.loadNews();
+        this.http.put(`https://angular-shop-e7657.firebaseio.com/news/${newPost.id}.json`, newPost).subscribe(
+            () => {
+                this.loadNews();
+            }
+        );
     }
 
     updatePost(updatedPost: News) {
-        console.log(updatedPost.id);
-        this.db.list('/news').set(updatedPost.id, updatedPost);
-        this.loadNews();
+        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${updatedPost.id}.json`, updatedPost).subscribe(
+            () => {
+                this.loadNews();
+            }
+        );
     }
 
     deletePost(id: string) {
-        this.db.list('/news/' + id).remove();
-        this.loadNews();
+        this.http.delete(`https://angular-shop-e7657.firebaseio.com/news/${id}.json`).subscribe(
+            () => {
+                this.loadNews();
+            }
+        );
     }
 
     getLatest(count: number): News[] {
