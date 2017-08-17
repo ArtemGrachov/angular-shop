@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
@@ -15,13 +15,13 @@ import { Product } from '../../shared/models/product.model';
   templateUrl: './providers-details.component.html',
   styleUrls: ['./providers-details.component.css']
 })
-export class ProvidersDetailsComponent implements OnInit {
+export class ProvidersDetailsComponent implements OnInit, OnDestroy {
   providerId: string = '';
   provider: Provider;
   providerProducts: Product[];
   isAuth: boolean = this.authService.checkAuth();
   authSubcr;
-
+  providerSubscr;
 
   constructor(
     public providersService: ProvidersService,
@@ -36,13 +36,24 @@ export class ProvidersDetailsComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.providerId = params['id'];
-        this.provider = this.providersService.getProvider(this.providerId);
-        this.providerProducts = this.productsService.getProductsByProvider(this.providerId);
       }
     );
     this.authSubcr = this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
     );
+    this.providerSubscr = this.providersService.emit.subscribe(
+      () => this.refreshProvider()
+    );
+  }
+
+  ngOnDestroy() {
+    this.authSubcr.unsubscribe();
+    this.providerSubscr.unsubscribe();
+  }
+
+  refreshProvider() {
+    this.provider = this.providersService.getProvider(this.providerId);
+    this.providerProducts = this.productsService.getProductsByProvider(this.providerId);
   }
 
   checkEditAccess() {

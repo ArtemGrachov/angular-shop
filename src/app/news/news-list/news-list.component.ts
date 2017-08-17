@@ -22,7 +22,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   newsSubscr;
 
-  public newsList: News[];
+  public newsList: News[] = [];
 
   ngOnInit() {
     this.refreshNews();
@@ -41,16 +41,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   refreshNews() {
-    this.newsList = this.newsService.getNews().sort(
-      function (a, b) {
-        if (a.date < b.date) {
-          return 1;
-        } else if (a.date > b.date) {
-          return - 1;
-        }
-        return 0;
-      }
-    );
+    this.newsList = this.newsService.getNews();
+    // this.sortNewsByDate();
   }
 
   getAuthorName(id: string): string {

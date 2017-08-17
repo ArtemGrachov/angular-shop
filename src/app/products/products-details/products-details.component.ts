@@ -90,7 +90,10 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
   }
 
   getProviderName(id) {
-    return this.providersService.getProvider(id).name;
+    if (this.providersService.getProvider(id)) {
+      return this.providersService.getProvider(id).name;
+    }
+    return 'Angular Shop';
   }
 
   goToPrevPage() {

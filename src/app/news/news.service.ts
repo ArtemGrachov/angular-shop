@@ -12,8 +12,7 @@ export class NewsService {
         public http: Http
     ) { }
 
-    news: News[] = [
-    ];
+    news: News[] = [];
 
     emit: EventEmitter<any> = new EventEmitter();
 
@@ -21,6 +20,7 @@ export class NewsService {
         this.http.get('https://angular-shop-e7657.firebaseio.com/news.json')
             .subscribe(
             (res: Response) => {
+                console.log(res);
                 let resJson = res.json(),
                     newNewsList = [];
                 for (let i in resJson) {
@@ -32,6 +32,7 @@ export class NewsService {
     }
 
     getNews() {
+        console.log(this.news);
         return this.news.slice();
     }
 
@@ -57,7 +58,8 @@ export class NewsService {
     }
 
     updatePost(updatedPost: News) {
-        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${updatedPost.id}.json`, updatedPost).subscribe(
+
+        this.http.put(`https://angular-shop-e7657.firebaseio.com/news/${updatedPost.id}.json`, updatedPost).subscribe(
             () => {
                 this.loadNews();
             }
