@@ -6,12 +6,9 @@ import { News } from '../shared/models/news.model';
 
 @Injectable()
 export class NewsService {
-    usersService: UsersService;
-    constructor( // ???????
-        @Inject(UsersService) usersService: UsersService
-    ) {
-        this.usersService = usersService;
-    }
+    constructor(
+        public usersService: UsersService
+    ) { }
 
     news: News[] = [
         new News(

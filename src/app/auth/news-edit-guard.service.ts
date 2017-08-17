@@ -7,18 +7,11 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class NewsEditGuard implements CanActivate {
-    usersService: UsersService;
-    newsService: NewsService;
-    authService: AuthService;
-
     constructor(
-        @Inject(UsersService) usersService: UsersService,
-        @Inject(NewsService) newsService: NewsService,
-        @Inject(AuthService) authService: AuthService
+        public usersService: UsersService,
+        public newsService: NewsService,
+        public authService: AuthService
     ) {
-        this.usersService = usersService;
-        this.newsService = newsService;
-        this.authService = authService;
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

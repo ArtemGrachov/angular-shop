@@ -8,22 +8,12 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class ProductsEditGuard implements CanActivate {
-    usersService: UsersService;
-    productsService: ProductsService;
-    providersService: ProvidersService;
-    authService: AuthService;
-
     constructor(
-        @Inject(UsersService) usersService: UsersService,
-        @Inject(ProductsService) productsService: ProductsService,
-        @Inject(ProvidersService) providersService: ProvidersService,
-        @Inject(AuthService) authService: AuthService
-    ) {
-        this.usersService = usersService;
-        this.productsService = productsService;
-        this.providersService = providersService;
-        this.authService = authService;
-    }
+        public usersService: UsersService,
+        public productsService: ProductsService,
+        public providersService: ProvidersService,
+        public authService: AuthService
+    ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (this.authService.checkAuth()) {

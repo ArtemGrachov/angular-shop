@@ -52,12 +52,25 @@ export class ProductsDetailsComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.productId = params['id'];
-        this.product = this.productsService.getProduct(this.productId);
+        this.refreshProduct();
       }
     );
+
+    this.productsService.emit.subscribe(
+      () => this.refreshProduct()
+    );
+
     this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
     );
+
+    if (!this.product) {
+      this.productsService.loadProducts();
+    }
+  }
+
+  refreshProduct() {
+    this.product = this.productsService.getProduct(this.productId);
   }
 
   addToCart(id: number) {

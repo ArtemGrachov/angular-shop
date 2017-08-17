@@ -97,12 +97,12 @@ export class ProductsEditComponent implements OnInit {
         this.product.price,
         [Validators.required,
           greaterZero]
-      ],
-      'id': this.product.id
+      ]
     });
   }
-  // ID?
+
   submit() {
+    this.productForm.value.id = this.product.id;
     if (this.editMode) {
       this.productsService.updateProduct(this.productForm.value);
     } else {

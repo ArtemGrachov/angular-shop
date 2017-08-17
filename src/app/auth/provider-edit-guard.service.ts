@@ -7,19 +7,11 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class ProviderEditGuard implements CanActivate {
-    usersService: UsersService;
-    providersService: ProvidersService;
-    authService: AuthService;
-
     constructor(
-        @Inject(UsersService) usersService: UsersService,
-        @Inject(ProvidersService) providersService: ProvidersService,
-        @Inject(AuthService) authService: AuthService
-    ) {
-        this.usersService = usersService;
-        this.providersService = providersService;
-        this.authService = authService;
-    }
+        public usersService: UsersService,
+        public providersService: ProvidersService,
+        public authService: AuthService
+    ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (this.authService.checkAuth()) {

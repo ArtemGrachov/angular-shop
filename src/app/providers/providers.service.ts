@@ -6,12 +6,9 @@ import { Provider } from '../shared/models/provider.model';
 
 @Injectable()
 export class ProvidersService {
-    usersService: UsersService;
     constructor(
-        @Inject(UsersService) usersService: UsersService
-    ) {
-        this.usersService = usersService;
-    }
+        public usersService: UsersService
+    ) { }
 
     private providers: Provider[] = [
         new Provider('0',

@@ -24,6 +24,7 @@ export class ProductsListComponent implements OnInit {
 
   ngOnInit() {
     this.refreshProducts();
+    this.productsService.loadProducts();
     this.productsService.emit.subscribe(
       () => this.refreshProducts()
     );
@@ -33,6 +34,7 @@ export class ProductsListComponent implements OnInit {
   }
 
   refreshProducts() {
+
     this.products = this.productsService.getProducts();
   }
 

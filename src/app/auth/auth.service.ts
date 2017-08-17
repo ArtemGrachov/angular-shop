@@ -7,14 +7,11 @@ import { User } from '../shared/models/user.model';
 
 @Injectable()
 export class AuthService {
-    usersService: UsersService;
     constructor(
-        @Inject(UsersService) usersService: UsersService,
+        public usersService: UsersService,
         public router: Router,
         public route: ActivatedRoute
-    ) {
-        this.usersService = usersService;
-    }
+    ) { }
 
     isAuth: boolean = false;
     emit: EventEmitter<any> = new EventEmitter();

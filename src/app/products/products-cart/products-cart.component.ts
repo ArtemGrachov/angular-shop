@@ -60,5 +60,4 @@ export class ProductsCartComponent implements OnInit {
   calcDiscount() {
     return +(this.price * 0.97).toFixed(2);
   }
-
 }
