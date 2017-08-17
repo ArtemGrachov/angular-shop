@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { Http, Response } from '@angular/http';
 
 import { UsersService } from '../admin/users.service';
 
@@ -9,7 +9,7 @@ import { Product } from '../shared/models/product.model';
 export class ProductsService {
     constructor(
         public usersService: UsersService,
-        public db: AngularFireDatabase
+        public http: Http
     ) { }
 
     products: Product[] = [];
@@ -19,13 +19,17 @@ export class ProductsService {
     cart: Product[] = this.loadCart();
 
     loadProducts() {
-        this.db.list('/products').subscribe(
-            res => {
-                console.log(res);
-                this.products = res;
+        this.http.get('https://angular-shop-e7657.firebaseio.com/products.json')
+            .subscribe(
+            (res: Response) => {
+                let resJson = res.json(),
+                    newProductsList = [];
+                for (let i in resJson) {
+                    newProductsList.push(resJson[i]);
+                }
+                this.products = newProductsList;
                 this.emit.emit();
-            }
-        );
+            });
     }
 
     getProducts(): Product[] {
@@ -113,18 +117,21 @@ export class ProductsService {
 
     addProduct(newProduct: Product) {
         newProduct.id = (new Date).getTime().toString();
-        this.db.list('/products').set(newProduct.id, newProduct);
+        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${newProduct.id}.json`, newProduct).subscribe();
         this.loadProducts();
+        this.emit.emit();
     }
 
     updateProduct(updatedProduct: Product) {
-        this.db.list('/products').set(updatedProduct.id, updatedProduct);
+        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${updatedProduct.id}.json`, updatedProduct).subscribe();
         this.loadProducts();
+        this.emit.emit();
     }
 
     deleteProduct(id: string) {
-        this.db.list('/products/' + id).remove();
+        this.http.delete(`https://angular-shop-e7657.firebaseio.com/products/${id}.json`).subscribe();
         this.loadProducts();
+        this.emit.emit();
     }
 
     rateProduct(id: string, rating: number) {

@@ -43,7 +43,7 @@ export class NewsService {
     emit: EventEmitter<any> = new EventEmitter();
 
     loadNews() {
-        let sbscr = this.db.list('/news').subscribe(
+        this.db.list('/news').subscribe(
             res => {
                 console.log(res);
                 this.news = res;
