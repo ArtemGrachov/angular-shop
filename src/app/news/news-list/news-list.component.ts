@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 
@@ -12,7 +12,7 @@ import { UsersService } from '../../admin/users.service';
   templateUrl: './news-list.component.html',
   styleUrls: ['./news-list.component.css']
 })
-export class NewsListComponent implements OnInit {
+export class NewsListComponent implements OnInit, OnDestroy {
 
   constructor(
     public newsService: NewsService,
@@ -20,13 +20,20 @@ export class NewsListComponent implements OnInit {
     public usersService: UsersService
   ) { }
 
-  public newsList: News[] = [];
+  newsSubscr;
+
+  public newsList: News[];
 
   ngOnInit() {
     this.refreshNews();
-    this.newsService.emit.subscribe(
+    this.newsService.loadNews();
+    this.newsSubscr = this.newsService.emit.subscribe(
       () => this.refreshNews()
     );
+  }
+
+  ngOnDestroy() {
+    this.newsSubscr.unsubscribe();
   }
 
   checkUserCategory(categories: string[]) {

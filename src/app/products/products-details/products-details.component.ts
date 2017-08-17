@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -14,10 +14,12 @@ import { Product } from '../../shared/models/product.model';
   templateUrl: './products-details.component.html',
   styleUrls: ['./products-details.component.css']
 })
-export class ProductsDetailsComponent implements OnInit {
+export class ProductsDetailsComponent implements OnInit, OnDestroy {
   productId: string;
   product: Product;
   isAuth: boolean = this.authService.checkAuth();
+  prodSubsrc;
+  authSubsrc;
 
   constructor(
     public productsService: ProductsService,
@@ -56,17 +58,23 @@ export class ProductsDetailsComponent implements OnInit {
       }
     );
 
-    this.productsService.emit.subscribe(
+    this.prodSubsrc = this.productsService.emit.subscribe(
       () => this.refreshProduct()
     );
 
-    this.authService.emit.subscribe(
+    this.authSubsrc = this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
     );
 
     if (!this.product) {
       this.productsService.loadProducts();
     }
+  }
+
+
+  ngOnDestroy() {
+    this.authSubsrc.unsubscribe();
+    this.prodSubsrc.unsubscribe();
   }
 
   refreshProduct() {
@@ -93,5 +101,4 @@ export class ProductsDetailsComponent implements OnInit {
     this.productsService.deleteProduct(this.productId);
     this.router.navigate(['products']);
   }
-
 }

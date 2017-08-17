@@ -1,10 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import { UsersService } from '../admin/users.service';
 
 import { Product } from '../shared/models/product.model';
-
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 @Injectable()
 export class ProductsService {

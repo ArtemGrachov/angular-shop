@@ -25,7 +25,6 @@ export class CommentsComponent implements OnInit {
     public fb: FormBuilder
   ) { }
 
-
   ngOnInit() {
     this.refreshComments();
     this.commentsService.emit

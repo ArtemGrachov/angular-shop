@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 
@@ -12,9 +12,10 @@ import { ProvidersService } from '../../providers/providers.service';
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.css']
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit, OnDestroy {
 
   public products: Product[] = [];
+  prodSubscr;
 
   constructor(
     public productsService: ProductsService,
@@ -25,17 +26,20 @@ export class ProductsListComponent implements OnInit {
   ngOnInit() {
     this.refreshProducts();
     this.productsService.loadProducts();
-    this.productsService.emit.subscribe(
+    this.prodSubscr = this.productsService.emit.subscribe(
       () => this.refreshProducts()
     );
   }
+
+  ngOnDestroy() {
+    this.prodSubscr.unsubscribe();
+  }
+
   checkUserCategory(categories: string[]) {
     return this.authService.checkUserCategory(categories);
   }
 
   refreshProducts() {
-
     this.products = this.productsService.getProducts();
   }
-
 }

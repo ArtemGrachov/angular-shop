@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
@@ -13,10 +13,12 @@ import { UsersService } from '../../admin/users.service';
   templateUrl: './news-post.component.html',
   styleUrls: ['./news-post.component.css']
 })
-export class NewsPostComponent implements OnInit {
+export class NewsPostComponent implements OnInit, OnDestroy {
   post: News;
   postId: string;
   isAuth: boolean = this.authService.checkAuth();
+  authSubcr;
+  newsSubscr;
 
   constructor(public newsService: NewsService,
     public usersService: UsersService,
@@ -29,12 +31,26 @@ export class NewsPostComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.postId = params['id'];
-        this.post = this.newsService.getNewsPost(this.postId);
       }
     );
-    this.authService.emit.subscribe(
+    this.authSubcr = this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
     );
+    this.newsSubscr = this.newsService.emit.subscribe(
+      () => this.refreshPost()
+    );
+    if (!this.post) {
+      this.newsService.loadNews();
+    }
+  }
+  ngOnDestroy() {
+    this.authSubcr.unsubscribe();
+    this.newsSubscr.unsubscribe();
+  }
+
+  refreshPost() {
+    this.post = this.newsService.getNewsPost(this.postId);
+
   }
 
   checkEditAccess() {
