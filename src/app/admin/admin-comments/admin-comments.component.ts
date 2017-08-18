@@ -25,9 +25,9 @@ export class AdminCommentsComponent implements OnInit {
 
   ngOnInit() {
     this.refreshComments();
-    this.commentsService.emit.subscribe(
-      () => this.refreshComments()
-    );
+    // this.commentsService.emit.subscribe(
+    //   () => this.refreshComments()
+    // );
   }
 
   deleteComment(id: string) {
@@ -43,15 +43,15 @@ export class AdminCommentsComponent implements OnInit {
   }
 
   refreshComments() {
-    this.comments = this.commentsService.getComments();
-    this.newsTitles = this.newsService.getNews().map(
-      function (post: News) {
-        return {
-          id: post.id,
-          title: post.title
-        };
-      }
-    );
+    // this.comments = this.commentsService.getComments();
+    // this.newsTitles = this.newsService.getNews().map(
+    //   function (post: News) {
+    //     return {
+    //       id: post.id,
+    //       title: post.title
+    //     };
+    //   }
+    // );
   }
 
 }

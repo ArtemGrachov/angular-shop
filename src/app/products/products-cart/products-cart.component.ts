@@ -11,12 +11,7 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./products-cart.component.css']
 })
 export class ProductsCartComponent implements OnInit {
-  cart: Product[] = [];
-  price = 0;
-  discount = {
-    available: false,
-    discountPrice: 0
-  };
+  cart;
 
   constructor(
     public productsService: ProductsService,
@@ -24,12 +19,8 @@ export class ProductsCartComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.refreshCart();
-    this.productsService.emit.subscribe(
-      () => {
-        this.refreshCart();
-      }
-    );
+    this.cart = this.productsService.getCart();
+    console.log(this.cart);
   }
 
   removeFromCart(index: string) {
@@ -38,26 +29,5 @@ export class ProductsCartComponent implements OnInit {
 
   clearCart() {
     this.productsService.clearCart();
-  }
-
-  refreshCart() {
-    this.cart = this.productsService.getCart();
-    this.price = this.calcTotalPrice();
-    if (this.authService.checkUserCategory(['premium'])) {
-      this.discount.discountPrice = this.calcDiscount();
-      this.discount.available = true;
-    }
-  }
-
-  calcTotalPrice() {
-    let price = 0;
-    for (const product of this.cart) {
-      price += product.price;
-    }
-    return +price.toFixed(2);
-  }
-
-  calcDiscount() {
-    return +(this.price * 0.97).toFixed(2);
   }
 }

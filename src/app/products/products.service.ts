@@ -1,6 +1,7 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Injectable } from '@angular/core';
+import 'rxjs/Rx';
 
+import { DataService } from '../shared/data.service';
 import { UsersService } from '../admin/users.service';
 
 import { Product } from '../shared/models/product.model';
@@ -8,150 +9,143 @@ import { Product } from '../shared/models/product.model';
 @Injectable()
 export class ProductsService {
     constructor(
-        public usersService: UsersService,
-        public http: Http
+        public dataService: DataService,
+        public usersService: UsersService
     ) { }
 
     products: Product[] = [];
 
-    emit: EventEmitter<any> = new EventEmitter();
-
-    cart: Product[] = this.loadCart();
+    cart = {
+        list: [],
+        price: 0
+    };
 
     loadProducts() {
-        this.http.get('https://angular-shop-e7657.firebaseio.com/products.json')
-            .subscribe(
-            (res: Response) => {
-                let resJson = res.json(),
-                    newProductsList = [];
-                for (let i in resJson) {
-                    newProductsList.push(resJson[i]);
-                }
-                this.products = newProductsList;
-                this.emit.emit();
-            });
+        return this.dataService.loadDataList('products');
     }
 
-    getProducts(): Product[] {
-        return this.products.slice();
-    }
-
-    getProductsByProvider(providerId): Product[] {
-        let products: Product[] = [];
-        for (const product of this.products) {
-            if (product.providerId === providerId) {
-                products.push(product);
-            }
-        }
-        return products;
-    }
-
-    getProduct(id): Product {
-        return this.products.find(
-            (product) => product.id === id
-        );
-    }
-
-    getCart(): Product[] {
-        return this.cart.slice();
-    }
-
-    getLatest(count: number): Product[] {
-        const sortedProducts: Product[] = this.products.slice().sort(
-            function (a, b) {
-                if (a.date < b.date) {
-                    return 1;
-                } else if (a.date > b.date) {
-                    return - 1;
-                } else {
-                    return 0;
+    getProductsByProvider(providerId) {
+        return this.loadProducts().map(
+            res => {
+                let products: Product[] = [];
+                for (const product of res) {
+                    if (product.providerId === providerId) {
+                        products.push(product);
+                    }
                 }
             }
         );
-        return sortedProducts.slice(0, count);
     }
 
-    getCount(): number {
-        return this.products.length;
+    loadProduct(id: string) {
+        return this.dataService.loadDataObj(`products/${id}`);
     }
 
-    addToCart(id: number) {
-        if (this.getProduct(id).count > 0) {
-            this.getProduct(id).count--;
-            this.cart.push(this.getProduct(id));
-            this.updateLocalStorageCart();
-            this.emit.emit();
-        }
+    getLatest(count: number) {
+        return this.loadProducts().map(
+            res => {
+                res.sort(
+                    function (a, b) {
+                        if (a.date < b.date) {
+                            return 1;
+                        } else if (a.date > b.date) {
+                            return - 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                );
+                return res.slice(0, count);
+            }
+        );
     }
 
-    removeFromCart(index: string) {
-        this.cart[index].count++;
-        this.cart.splice(+index, 1);
-        this.updateLocalStorageCart();
-        this.emit.emit();
-    }
-
-    updateLocalStorageCart() {
-        localStorage.setItem('cart', JSON.stringify(this.cart));
-    }
-
-    loadCart() {
-        if (localStorage.getItem('cart')) {
-            return JSON.parse(localStorage.getItem('cart'));
-        }
-        return [];
-    }
-
-    clearCart() {
-        while (this.cart.length > 0) {
-            this.removeFromCart('0');
-        }
-        this.emit.emit();
-    }
-
-    bookCart() {
-        this.cart = [];
-        this.updateLocalStorageCart();
-        this.emit.emit();
+    getCount() {
+        return this.loadProducts().map(
+            res => res.length
+        );
     }
 
     addProduct(newProduct: Product) {
         newProduct.id = (new Date).getTime().toString();
-        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${newProduct.id}.json`, newProduct).subscribe(
-            () => {
-                this.loadProducts();
-                this.emit.emit();
-            }
-        );
+        return this.dataService.putData('products', newProduct);
     }
 
     updateProduct(updatedProduct: Product) {
-        this.http.put(`https://angular-shop-e7657.firebaseio.com/products/${updatedProduct.id}.json`, updatedProduct).subscribe(
-            () => {
-                this.loadProducts();
-                this.emit.emit();
-            }
-        );
+        return this.dataService.putData('products', updatedProduct);
     }
 
     deleteProduct(id: string) {
-        this.http.delete(`https://angular-shop-e7657.firebaseio.com/products/${id}.json`).subscribe(
-            () => {
-                this.loadProducts();
-                this.emit.emit();
+        return this.dataService.deleteData('products/' + id);
+    }
+
+    rateProduct(id: string, rate: number) {
+        this.loadProduct(id).subscribe(
+            post => {
+                post.rating += rate;
+                this.updateProduct(post);
             }
         );
     }
 
-    rateProduct(id: string, rating: number) {
-        let updProduct = this.getProduct(id);
-        updProduct.rating += rating;
-        this.updateProduct(updProduct);
+    getCart() {
+        this.loadCart();
+        this.calcPrice();
+        return this.cart;
+    }
+
+    addToCart(product: Product) {
+        this.cart.list.push(product);
+        this.updateCart();
+    }
+
+    removeFromCart(index: string) {
+        this.cart.list.splice(+index, 1);
+        this.updateCart();
+    }
+
+    updateCart() {
+        this.calcPrice();
+        localStorage.setItem('cart', JSON.stringify(
+            this.cart.list.map(
+                (product) => product.id
+            )
+        ));
+    }
+
+    calcPrice() {
+        let newPrise = 0;
+        for (const product of this.cart.list) {
+            newPrise += product.price;
+        }
+        this.cart.price = +newPrise.toFixed(2);
+    }
+
+    loadCart() {
+        const idList = JSON.parse(localStorage.getItem('cart'));
+        if (idList) {
+            for (let id of idList) {
+                this.loadProduct(id).subscribe(
+                    res => this.cart.list.push(res)
+                );
+            }
+            return JSON.parse(localStorage.getItem('cart'));
+        }
+    }
+
+    clearCart() {
+        localStorage.removeItem('cart');
+        this.calcPrice();
+    }
+
+    ///// !!!!!!
+    bookCart() {
+        this.cart.list = [];
+        this.updateCart();
     }
 
     sendOrder(val: any) {
-        this.cart = [];
+        this.cart.list = [];
         console.log(arguments, this.cart);
-        this.emit.emit();
     }
 }

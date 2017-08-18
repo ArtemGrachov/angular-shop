@@ -4,19 +4,14 @@
   </div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let product of cart; let i = index">
+      <li class="list-group-item" *ngFor="let product of cart.list; let i = index">
         <span (click)="removeFromCart(i)" class="glyphicon glyphicon-remove"></span> {{product.name}}
         <span class="badge">${{product.price}}</span>
       </li>
     </ul>
   </div>
   <div class="panel-footer">
-    <span [style.text-decoration]="discount.available ? 'line-through' : 'none'">
-    ${{price}}
-    </span>
-    <div class="alert alert-success" *ngIf="discount.available">
-      Only <strong>${{discount.discountPrice}}</strong> with discount!
-    </div>
+    ${{cart.price}}
   </div>
 </div>
 

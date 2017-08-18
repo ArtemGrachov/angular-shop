@@ -71,11 +71,11 @@ export class ProductsOrderingComponent implements OnInit {
     display: false
   };
   ngOnInit() {
-    this.refreshOrders();
-    this.productsService.emit.subscribe(
-      () => this.refreshOrders()
-    );
-    this.buildForm();
+    // this.refreshOrders();
+    // this.productsService.emit.subscribe(
+    //   () => this.refreshOrders()
+    // );
+    // this.buildForm();
   }
 
   buildForm() {
@@ -146,7 +146,7 @@ export class ProductsOrderingComponent implements OnInit {
   }
 
   refreshOrders() {
-    this.cart = this.productsService.getCart();
+    // this.cart = this.productsService.getCart();
     this.prodPrice = this.calcProductsPrice();
     this.totalPrice = this.calcTotalPrice();
   }

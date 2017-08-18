@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import { ProvidersService } from '../../providers/providers.service';
 import { AuthService } from '../../auth/auth.service';
+import { UsersService } from '../../admin/users.service';
 
 import { Product } from '../../shared/models/product.model';
 import { Provider } from '../../shared/models/provider.model';
@@ -18,6 +19,16 @@ import { isInteger } from '../../shared/validators/integer.validator';
   styleUrls: ['./products-edit.component.css']
 })
 export class ProductsEditComponent implements OnInit {
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    public authService: AuthService,
+    public productsService: ProductsService,
+    public providersService: ProvidersService,
+    public usersService: UsersService,
+    public fb: FormBuilder
+  ) { }
+
   product: Product = new Product(
     '0',
     '',
@@ -30,30 +41,42 @@ export class ProductsEditComponent implements OnInit {
     new Date()
   );
   productId: string;
-  providersList: Provider[];
+  providersList: { id: string, name: string }[] = [{ id: '0', name: 'test' }];
   productForm: FormGroup;
   editMode: Boolean = false;
-
-  constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    public authService: AuthService,
-    public productsService: ProductsService,
-    public providersService: ProvidersService,
-    public fb: FormBuilder
-  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         if (this.productId = params['id']) {
-          this.product = this.productsService.getProduct(this.productId);
+          this.loadProduct();
           this.editMode = true;
+        } else {
+          this.buildProductForm();
         }
       }
     );
-    this.providersList = this.providersService.getProviders();
-    this.buildProductForm();
+    this.providersService.loadProviders();
+
+    // update after providers.service!
+    if (this.authService.checkUserCategory(['admin'])) {
+      // this.providersList = this.providersService.getProviders().map(
+      //   (provider) => {
+      //     return { id: provider.id, name: provider.name };
+      //   }
+      // );
+    } else {
+      // this.providersList = this.providersService.getProvidersByUserId(this.usersService.currentUserId);
+    }
+  }
+
+  loadProduct() {
+    this.productsService.loadProduct(this.productId).subscribe(
+      res => {
+        this.product = res;
+        this.buildProductForm();
+      }
+    );
   }
 
   checkUserCategory(categories: string[]) {
@@ -104,11 +127,14 @@ export class ProductsEditComponent implements OnInit {
   submit() {
     this.productForm.value.id = this.product.id;
     if (this.editMode) {
-      this.productsService.updateProduct(this.productForm.value);
+      this.productsService.updateProduct(this.productForm.value).subscribe(
+        () => this.router.navigate(['../'], { relativeTo: this.route })
+      );
     } else {
-      this.productsService.addProduct(this.productForm.value);
+      this.productsService.addProduct(this.productForm.value).subscribe(
+        () => this.router.navigate(['../'], { relativeTo: this.route })
+      );
     }
-    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   delete() {

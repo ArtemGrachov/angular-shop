@@ -36,6 +36,7 @@ export class ProvidersDetailsComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(
       (params: Params) => {
         this.providerId = params['id'];
+        this.providersService.loadProviders();
       }
     );
     this.authSubcr = this.authService.emit.subscribe(
@@ -53,7 +54,7 @@ export class ProvidersDetailsComponent implements OnInit, OnDestroy {
 
   refreshProvider() {
     this.provider = this.providersService.getProvider(this.providerId);
-    this.providerProducts = this.productsService.getProductsByProvider(this.providerId);
+    // this.providerProducts = this.productsService.getProductsByProvider(this.providerId);
   }
 
   checkEditAccess() {

@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        this.products = this.productsService.getProductsByProvider(this.route.snapshot.parent.params['id']);
+        // this.products = this.productsService.getProductsByProvider(this.route.snapshot.parent.params['id']);
       }
     );
   }

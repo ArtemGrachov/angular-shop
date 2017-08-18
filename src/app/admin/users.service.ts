@@ -25,7 +25,7 @@ export class UsersService {
             'Test user',
             'admin@mail.com',
             new Date(),
-            'premium',
+            'provider',
             new Date(),
             'male',
             { lat: 48.648243, lng: 26.521834 },

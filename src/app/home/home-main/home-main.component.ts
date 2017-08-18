@@ -22,8 +22,8 @@ export class HomeMainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.products = this.productsService.getLatest(4);
-    this.news = this.newsService.getLatest(3);
+    // this.products = this.productsService.getLatest(4);
+    // this.news = this.newsService.getLatest(3);
   }
 
 }

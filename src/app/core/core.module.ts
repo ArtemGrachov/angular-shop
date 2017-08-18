@@ -11,6 +11,7 @@ import { CommentsService } from '../news/comments.service';
 import { UsersService } from '../admin/users.service';
 import { OrdersService } from '../admin/orders.service';
 import { AuthService } from '../auth/auth.service';
+import { DataService } from '../shared/data.service';
 
 import { HeaderComponent } from './header/header.component';
 
@@ -25,7 +26,8 @@ import { HeaderComponent } from './header/header.component';
         CommentsService,
         UsersService,
         OrdersService,
-        AuthService
+        AuthService,
+        DataService
     ],
 })
 export class CoreModule { }

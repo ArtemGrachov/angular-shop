@@ -74,7 +74,6 @@ export class ProvidersService {
             });
     }
 
-
     getProviders() {
         return this.providers.slice();
     }
@@ -113,7 +112,6 @@ export class ProvidersService {
         );
     }
 
-
     rateProvider(id: string, rating: number) {
         if (this.usersService.getCurrentUser().ratedProviders.indexOf(id) < 0) {
             this.usersService.getCurrentUser().ratedProviders.push(id);
@@ -132,5 +130,19 @@ export class ProvidersService {
     deleteComment(providerId: string, commentIndex: string) {
         this.getProvider(providerId).comments.splice(+commentIndex, 1);
         this.emit.emit();
+    }
+
+    getProvidersByUserId(userId: string) {
+        if (this.providers.length <= 0) {
+            this.loadProviders();
+        }
+        let providersIds = [];
+        for (let provider of this.providers) {
+            console.log(provider);
+            if (provider.users.indexOf(userId) > -1) {
+                providersIds.push({ id: provider.id, name: provider.name });
+            }
+        }
+        return providersIds;
     }
 }

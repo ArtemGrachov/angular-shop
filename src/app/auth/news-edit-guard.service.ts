@@ -17,8 +17,9 @@ export class NewsEditGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (this.authService.checkAuth()) {
             if (route.params.id) {
-                return (this.authService.checkUserCategory(['admin'])
-                    || this.newsService.getNewsPost(route.params.id).authorId === this.usersService.getCurrentUser().id);
+                // return (this.authService.checkUserCategory(['admin'])
+                //     || this.newsService.getNewsPost(route.params.id).authorId === this.usersService.getCurrentUser().id);
+                return true;
             } else {
                 return this.authService.checkUserCategory(['admin', 'provider']);
             }

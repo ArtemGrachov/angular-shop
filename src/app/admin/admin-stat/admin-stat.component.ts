@@ -43,16 +43,23 @@ export class AdminStatComponent implements OnInit {
   usersCount: number;
 
   ngOnInit() {
-    this.products = this.productsService.getLatest(3);
-    this.productsCount = this.productsService.getCount();
-    this.comments = this.commentsService.getLatest(3);
-    this.commenstCount = this.commentsService.getCount();
-    this.news = this.newsService.getLatest(3);
-    this.newsCount = this.newsService.getCount();
-    this.orders = this.ordersService.getLatest(3);
-    this.ordersCount = this.ordersService.getCount();
-    this.users = this.usersService.getLatest(3);
-    this.usersCount = this.usersService.getCount();
+    // this.products = this.productsService.getLatest(3);
+    // this.productsCount = this.productsService.getCount();
+    // this.comments = this.commentsService.getLatest(3);
+    // this.commenstCount = this.commentsService.getCount();
+    // this.news = this.newsService.getLatest(3);
+    // this.orders = this.ordersService.getLatest(3);
+    // this.ordersCount = this.ordersService.getCount();
+    // this.users = this.usersService.getLatest(3);
+    // this.usersCount = this.usersService.getCount();
+
+
+    this.newsService.getCount().subscribe(
+      res => this.newsCount = res
+    );
+    this.newsService.getLatest(3).subscribe(
+      res => this.news = res
+    );
   }
 
   getOrderProductsCount(id: string): number {

@@ -19,13 +19,13 @@ export class DashRatedProductsComponent implements OnInit {
   products: Product[] = [];
 
   ngOnInit() {
-    this.usersService.getCurrentUser().ratedProducts.map(
-      (id) => {
-        this.products.push(
-          this.productsService.getProduct(id)
-        );
-      }
-    );
+    // this.usersService.getCurrentUser().ratedProducts.map(
+    //   (id) => {
+    //     this.products.push(
+    //       this.productsService.getProduct(id)
+    //     );
+    //   }
+    // );
   }
 
 }

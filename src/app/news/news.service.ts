@@ -1,95 +1,68 @@
-import { Injectable, Inject, EventEmitter } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Injectable, Inject } from '@angular/core';
+import 'rxjs/Rx';
 
-import { UsersService } from '../admin/users.service';
+import { DataService } from '../shared/data.service';
 
 import { News } from '../shared/models/news.model';
 
 @Injectable()
 export class NewsService {
     constructor(
-        public usersService: UsersService,
-        public http: Http
+        public dataService: DataService
     ) { }
 
-    news: News[] = [];
-
-    emit: EventEmitter<any> = new EventEmitter();
-
     loadNews() {
-        this.http.get('https://angular-shop-e7657.firebaseio.com/news.json')
-            .subscribe(
-            (res: Response) => {
-                console.log(res);
-                let resJson = res.json(),
-                    newNewsList = [];
-                for (let i in resJson) {
-                    newNewsList.push(resJson[i]);
-                }
-                this.news = newNewsList;
-                this.emit.emit();
-            });
+        return this.dataService.loadDataList('news');
     }
 
-    getNews() {
-        console.log(this.news);
-        return this.news.slice();
-    }
-
-    getNewsPost(id) {
-        return this.news.find(
-            (post) => post.id === id
-        );
+    loadPost(id: string) {
+        return this.dataService.loadDataObj(`news/${id}`);
     }
 
     ratePost(id: string, rate: number) {
-        this.loadNews();
-        this.getNewsPost(id).rating += rate;
-        this.updatePost(this.getNewsPost(id));
+        this.loadPost(id).subscribe(
+            post => {
+                post.rating += rate;
+                this.updatePost(post);
+            }
+        );
     }
 
     addPost(newPost: News) {
         newPost.id = (new Date).getTime().toString();
-        this.http.put(`https://angular-shop-e7657.firebaseio.com/news/${newPost.id}.json`, newPost).subscribe(
-            () => {
-                this.loadNews();
-            }
-        );
+        return this.dataService.putData('news', newPost);
     }
 
     updatePost(updatedPost: News) {
-
-        this.http.put(`https://angular-shop-e7657.firebaseio.com/news/${updatedPost.id}.json`, updatedPost).subscribe(
-            () => {
-                this.loadNews();
-            }
-        );
+        return this.dataService.putData('news', updatedPost);
     }
 
     deletePost(id: string) {
-        this.http.delete(`https://angular-shop-e7657.firebaseio.com/news/${id}.json`).subscribe(
-            () => {
-                this.loadNews();
+        return this.dataService.deleteData('news/' + id);
+    }
+
+    getLatest(count: number) {
+        return this.loadNews().map(
+            res => {
+                res.sort(
+                    function (a, b) {
+                        if (a.date < b.date) {
+                            return 1;
+                        } else if (a.date > b.date) {
+                            return - 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                );
+                return res.slice(0, count);
             }
         );
     }
 
-    getLatest(count: number): News[] {
-        const sortedNews: News[] = this.news.slice().sort(
-            function (a, b) {
-                if (a.date < b.date) {
-                    return 1;
-                } else if (a.date > b.date) {
-                    return - 1;
-                } else {
-                    return 0;
-                }
-            }
+    getCount() {
+        return this.loadNews().map(
+            res => res.length
         );
-        return sortedNews.slice(0, count);
-    }
-
-    getCount(): number {
-        return this.news.length;
     }
 }

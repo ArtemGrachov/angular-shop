@@ -18,7 +18,6 @@ export class NewsPostComponent implements OnInit, OnDestroy {
   postId: string;
   isAuth: boolean = this.authService.checkAuth();
   authSubcr;
-  newsSubscr;
 
   constructor(public newsService: NewsService,
     public usersService: UsersService,
@@ -31,26 +30,20 @@ export class NewsPostComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(
       (params: Params) => {
         this.postId = params['id'];
+        this.newsService.loadPost(this.postId)
+          .subscribe(
+          res => {
+            this.post = res;
+          }
+          );
       }
     );
     this.authSubcr = this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
     );
-    this.newsSubscr = this.newsService.emit.subscribe(
-      () => this.refreshPost()
-    );
-    if (!this.post) {
-      this.newsService.loadNews();
-    }
   }
   ngOnDestroy() {
     this.authSubcr.unsubscribe();
-    this.newsSubscr.unsubscribe();
-  }
-
-  refreshPost() {
-    this.post = this.newsService.getNewsPost(this.postId);
-
   }
 
   checkEditAccess() {
@@ -61,13 +54,10 @@ export class NewsPostComponent implements OnInit, OnDestroy {
     this.newsService.ratePost(this.postId, rating);
   }
 
-  postEdit() {
-    console.log('post edit');
-  }
-
   postDelete() {
-    this.newsService.deletePost(this.postId);
-    this.router.navigate(['/news']);
+    this.newsService.deletePost(this.postId).subscribe(
+      () => this.router.navigate(['/news'])
+    );
   }
 
   getAuthorName(id: string): string {

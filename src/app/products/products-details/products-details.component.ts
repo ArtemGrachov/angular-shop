@@ -18,7 +18,6 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
   productId: string;
   product: Product;
   isAuth: boolean = this.authService.checkAuth();
-  prodSubsrc;
   authSubsrc;
 
   constructor(
@@ -36,53 +35,44 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
   }
 
   checkEditAccess() {
-    if (this.authService.checkAuth()) {
-      return (this.authService.checkUserCategory(['admin'])
-        || this.providersService
-          .getProvider(
-          this.product.providerId
-          ).users
-          .indexOf(
-          this.usersService.getCurrentUser()
-            .id
-          ) > -1);
-    }
-    return false;
+    // if (this.authService.checkAuth()) {
+    //   return (this.authService.checkUserCategory(['admin'])
+    //     || this.providersService
+    //       .getProvider(
+    //       this.product.providerId
+    //       ).users
+    //       .indexOf(
+    //       this.usersService.getCurrentUser()
+    //         .id
+    //       ) > -1);
+    // }
+    return true;
   }
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.productId = params['id'];
-        this.refreshProduct();
+        this.loadProduct();
       }
     );
-
-    this.prodSubsrc = this.productsService.emit.subscribe(
-      () => this.refreshProduct()
-    );
-
     this.authSubsrc = this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
     );
-
-    if (!this.product) {
-      this.productsService.loadProducts();
-    }
   }
 
+  loadProduct() {
+    this.productsService.loadProduct(this.productId).subscribe(
+      res => this.product = res
+    );
+  }
 
   ngOnDestroy() {
     this.authSubsrc.unsubscribe();
-    this.prodSubsrc.unsubscribe();
   }
 
-  refreshProduct() {
-    this.product = this.productsService.getProduct(this.productId);
-  }
-
-  addToCart(id: number) {
-    this.productsService.addToCart(id);
+  addToCart(product: Product) {
+    this.productsService.addToCart(product);
   }
 
   rateProduct(id: string, rate: number) {
@@ -101,7 +91,8 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    this.productsService.deleteProduct(this.productId);
-    this.router.navigate(['products']);
+    this.productsService.deleteProduct(this.productId).subscribe(
+      () => this.router.navigate(['products'])
+    );
   }
 }

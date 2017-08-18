@@ -44,15 +44,19 @@ export class NewsEditComponent implements OnInit {
       (params: Params) => {
         if (params['id']) {
           this.postId = params['id'];
-          this.post = this.newsService.getNewsPost(this.postId);
+          this.newsService.loadPost(this.postId).subscribe(
+            res => {
+              this.post = res;
+              this.buildPostForm();
+            }
+          );
           this.editMode = true;
+        } else {
+          this.buildPostForm();
         }
         this.users = this.usersService.getUsers();
-        console.log();
       }
     );
-
-    this.buildPostForm();
   }
 
   checkUserCategory(categories: string[]) {
@@ -63,11 +67,14 @@ export class NewsEditComponent implements OnInit {
     if (this.editMode) {
       let editedPost = this.newsEditForm.value;
       editedPost.id = this.postId;
-      this.newsService.updatePost(editedPost);
+      this.newsService.updatePost(editedPost).subscribe(
+        () => this.router.navigate(['../'], { relativeTo: this.route })
+      );
     } else {
-      this.newsService.addPost(this.newsEditForm.value);
+      this.newsService.addPost(this.newsEditForm.value).subscribe(
+        () => this.router.navigate(['../'], { relativeTo: this.route })
+      );
     }
-    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   buildPostForm() {
@@ -100,8 +107,9 @@ export class NewsEditComponent implements OnInit {
   }
 
   delete() {
-    this.newsService.deletePost(this.post.id);
-    this.router.navigate(['../', { relativeTo: this.route }]);
+    this.newsService.deletePost(this.post.id).subscribe(
+      () => this.router.navigate(['../', { relativeTo: this.route }])
+    );
   }
 
   cancel() {

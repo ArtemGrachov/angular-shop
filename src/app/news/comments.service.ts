@@ -1,77 +1,62 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import 'rxjs/Rx';
+
+import { DataService } from '../shared/data.service';
 
 import { Comment } from '../shared/models/comment.model';
 
 @Injectable()
 export class CommentsService {
     constructor(
-        public http: Http
+        public http: Http,
+        public dataService: DataService
     ) { }
+    comments: Comment[] = [];
 
-    comments: Comment[] = [
-        new Comment('0', '0', '1', 'Hello!', new Date()),
-        new Comment('1', '1', '1', 'Voluptate sunt minim culpa Lorem laborum aliqua enim.', new Date()),
-        new Comment('2', '0', '2', 'Do et qui ipsum ut reprehenderit nisi dolor amet occaecat.', new Date())
-    ];
-    emit: EventEmitter<any> = new EventEmitter();
+    loadAllComments() {
+        return this.dataService.loadDataList('comments');
+    }
 
-    loadComments() {
-        this.http.get('https://angular-shop-e7657.firebaseio.com/comments.json')
-            .subscribe(
-            (res: Response) => {
-                let resJson = res.json(),
-                    newCommentsList = [];
-                for (let i in resJson) {
-                    newCommentsList.push(resJson[i]);
+    loadPostComments(postId: string) {
+        return this.dataService.loadDataList('comments')
+            .map(
+            res => {
+                let comments: Comment[] = [];
+                for (const comment of res) {
+                    if (comment.postId === postId) {
+                        comments.push(comment);
+                    }
                 }
-                this.comments = newCommentsList;
-                this.emit.emit();
+                return comments;
             });
-    }
-
-    getComments() {
-        return this.comments.slice();
-    }
-
-    getCommentsToPost(postId: string) {
-        let comments: Comment[] = [];
-        for (const comment of this.comments) {
-            if (comment.postId === postId) {
-                comments.push(comment);
-            }
-        }
-        return comments;
     }
 
     addComment(newComment: Comment) {
         newComment.id = (new Date).getTime().toString();
-        this.http.put(`https://angular-shop-e7657.firebaseio.com/comments/${newComment.id}.json`, newComment).subscribe(
-            () => this.loadComments()
-        );
+        return this.dataService.putData('comments', newComment);
     }
 
     deleteComment(id: string) {
-        this.http.delete(`https://angular-shop-e7657.firebaseio.com/comments/${id}.json`).subscribe(
-            () => {
-                this.loadComments();
-            }
-        );
+        return this.dataService.deleteData(`comments/${id}`);
     }
 
-    getLatest(count: number): Comment[] {
-        const sortedComments: Comment[] = this.comments.slice().sort(
-            function (a, b) {
-                if (a.date < b.date) {
-                    return 1;
-                } else if (a.date > b.date) {
-                    return - 1;
-                } else {
-                    return 0;
-                }
-            }
-        );
-        return sortedComments.slice(0, count);
+    getLatest(count: number) {
+        return this.loadAllComments()
+            .map(
+            res => {
+                res.sort(
+                    (a, b) => {
+                        if (a.date < b.date) {
+                            return 1;
+                        } else if (a.date > b.date) {
+                            return - 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                );
+            });
     }
 
     getCount(): number {

@@ -19,13 +19,13 @@ export class DashRatedNewsComponent implements OnInit {
   news: News[] = [];
 
   ngOnInit() {
-    this.usersService.getCurrentUser().ratedNews.map(
-      (id) => {
-        this.news.push(
-          this.newsService.getNewsPost(id)
-        );
-      }
-    );
+    // this.usersService.getCurrentUser().ratedNews.map(
+    //   (id) => {
+    //     this.news.push(
+    //       // this.newsService.getNewsPost(id)
+    //     );
+    //   }
+    // );
   }
 
   getAuthorName(id: string): string {

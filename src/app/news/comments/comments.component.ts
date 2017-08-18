@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../auth/auth.service';
@@ -12,9 +12,10 @@ import { Comment } from '../../shared/models/comment.model';
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
 })
-export class CommentsComponent implements OnInit {
+export class CommentsComponent implements OnInit, OnDestroy {
   @Input() postId: string;
   isAuth: boolean = this.authService.checkAuth();
+  authSubscr;
 
   comments: Comment[] = [];
   commentFormActive: Boolean = false;
@@ -26,17 +27,24 @@ export class CommentsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.refreshComments();
-    this.commentsService.emit
-      .subscribe(
-      () => this.refreshComments()
-      );
-
+    this.loadComments();
     this.commentForm = this.fb.group({
       'commentText': ['', Validators.required]
     });
-    this.authService.emit.subscribe(
+    this.authSubscr = this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
+    );
+  }
+
+  ngOnDestroy() {
+    this.authSubscr.unsubscribe();
+  }
+
+  loadComments() {
+    this.commentsService.loadPostComments(this.postId).subscribe(
+      res => {
+        this.comments = res;
+      }
     );
   }
 
@@ -52,10 +60,7 @@ export class CommentsComponent implements OnInit {
     this.commentFormActive = !this.commentFormActive;
   }
 
-  refreshComments() {
-    this.comments = this.commentsService.getCommentsToPost(this.postId);
-  }
-
+  // !!! user's id!
   sendComment() {
     this.commentsService.addComment(
       new Comment(
@@ -65,8 +70,9 @@ export class CommentsComponent implements OnInit {
         this.commentForm.value['commentText'],
         new Date()
       )
-    );
+    ).subscribe(
+      () => this.loadComments()
+      );
     this.commentForm.reset();
   }
-
 }
