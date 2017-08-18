@@ -150,28 +150,23 @@ export class ProductsOrderingComponent implements OnInit {
     this.productsService.removeFromCart(index);
   }
 
-  // sendOrder() {
-  //   const products: { name: string, price: number }[] = [];
-  //   for (const product of this.cart) {
-  //     products.push({
-  //       name: product.name,
-  //       price: product.price
-  //     });
-  //   }
-  //   this.ordersService.addOrder(
-  //     new Order(
-  //       '0',
-  //       '0',
-  //       products,
-  //       new Date(),
-  //       0
-  //     )
-  //   );
-  //   this.productsService.sendOrder(
-  //     [this.calcTotalPrice(),
-  //     this.orderForm.value]
-  //   );
-  //   this.successMsg = true;
-  // }
+  sendOrder() {
+    const products: { name: string, price: number }[] = [];
 
+    for (const product of this.cart.list) {
+      products.push({
+        name: product.name,
+        price: product.price
+      });
+    }
+    this.ordersService.addOrder(
+      new Order(
+        '0',
+        '0',
+        products,
+        new Date(),
+        this.orderForm.get('location').value
+      )
+    ).subscribe(() => this.successMsg = true);
+  }
 }

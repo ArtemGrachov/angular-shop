@@ -26,23 +26,21 @@ export class DashOrdersComponent implements OnInit {
   ngOnInit() {
     this.currentUserId = this.usersService.getCurrentUser().id;
     this.getUsersOrder();
-    this.ordersService.emit.subscribe(
-      () => this.getUsersOrder
-    );
+
   }
 
   getUsersOrder() {
-    this.orders = this.ordersService.getOrdersByUser(this.currentUserId).sort(
-      function (a, b) {
-        if (a.date < b.date) {
-          return 1;
-        } else if (a.date > b.date) {
-          return - 1;
-        } else {
-          return 0;
-        }
-      }
-    );
+    // this.orders = this.ordersService.getOrdersByUser(this.currentUserId).sort(
+    //   function (a, b) {
+    //     if (a.date < b.date) {
+    //       return 1;
+    //     } else if (a.date > b.date) {
+    //       return - 1;
+    //     } else {
+    //       return 0;
+    //     }
+    //   }
+    // );
   }
 
 }

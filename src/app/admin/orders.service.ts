@@ -1,92 +1,76 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
+
+import { DataService } from '../shared/data.service';
 
 import { Order } from '../shared/models/order.model';
 
 @Injectable()
 export class OrdersService {
-    orders: Order[] = [
-        // new Order('0', '0', [
-        //     { name: 'Coca-Cola', price: 1.99 },
-        //     { name: 'Bread', price: 0.99 },
-        //     { name: 'Apple', price: 0.99 },
-        // ], new Date(), 0),
-        // new Order('1', '1', [
-        //     { name: 'Banana', price: 1.99 },
-        //     { name: 'Onion', price: 0.99 },
-        //     { name: 'Honey', price: 3.99 },
-        // ], new Date(), 0),
-        // new Order('2', '0', [
-        //     { name: 'Apple', price: 0.99 },
-        //     { name: 'Mineral water', price: 1.99 }
-        // ], new Date(), 0)
-    ];
+    constructor(
+        public dataService: DataService
+    ) { }
 
-    emit: EventEmitter<any> = new EventEmitter();
+    orders: Order[] = [];
 
-    getOrders(): Order[] {
-        return this.orders.slice();
+    loadOrders() {
+        return this.dataService.loadDataList('orders');
     }
 
-    getOrder(id: string): Order {
-        for (const order of this.orders) {
-            if (order.id === id) {
-                return order;
-            }
-        }
+    loadOrder(id: string) {
+        return this.dataService.loadDataObj(`orders/${id}`);
     }
 
-    getOrdersByUser(id: string): Order[] {
-        let orders: Order[] = [];
-        for (const order of this.orders) {
-            if (order.userId === id) {
-                orders.push(order);
+    getOrdersByUser(id: string) {
+        return this.loadOrders().map(
+            res => {
+                let orders = [];
+                for (const order of this.orders) {
+                    if (order.userId === id) {
+                        orders.push(order);
+                    }
+                }
+                return orders;
             }
-        }
-        return orders;
+        );
     }
 
     addOrder(newOrder: Order) {
-        // test 'unique' id
-        const testId = Math.floor(Math.random() * 1000);
-        newOrder.id = testId.toString();
-        // test 'unique' id
-
-        this.orders.push(newOrder);
+        newOrder.id = (new Date).getTime().toString();
+        return this.dataService.putData('orders', newOrder);
     }
 
     deleteOrder(id: string) {
-        for (const index in this.orders) {
-            if (this.orders[index].id === id) {
-                this.orders.splice(+index, 1);
-            }
-        }
-        this.emit.emit();
+        return this.dataService.deleteData('orders/' + id);
     }
 
-    getLatest(count: number): Order[] {
-        const sortedOrder: Order[] = this.orders.slice().sort(
-            function (a, b) {
-                if (a.date < b.date) {
-                    return 1;
-                } else if (a.date > b.date) {
-                    return - 1;
-                } else {
-                    return 0;
-                }
+    getLatest(count: number) {
+        return this.loadOrders().map(
+            res => {
+                res.sort(
+                    function (a, b) {
+                        if (a.date < b.date) {
+                            return 1;
+                        } else if (a.date > b.date) {
+                            return - 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                );
+                return res.slice(0, count);
             }
         );
-        return sortedOrder.slice(0, count);
     }
 
-    getCount(): number {
-        return this.orders.length;
+    getCount() {
+        return this.loadOrders().map(
+            res => res.length
+        );
     }
 
-    getOrderPrice(id: string): number {
-        let price: number = 0;
-        for (const product of this.getOrder(id).products) {
-            price += product.price;
-        }
-        return +price.toFixed(2);
+    getOrderPrice(order) {
+        return +(order.products.reduce(
+            (sum, product) => { return sum + product.price }, 0
+        )).toFixed(2);
     }
 }

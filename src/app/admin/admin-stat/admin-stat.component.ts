@@ -60,6 +60,20 @@ export class AdminStatComponent implements OnInit {
     this.newsService.getLatest(3).subscribe(
       res => this.news = res
     );
+
+    this.commentsService.getCount().subscribe(
+      res => this.commenstCount = res
+    );
+    this.commentsService.getLatest(3).subscribe(
+      res => this.comments = res
+    );
+
+    this.ordersService.getCount().subscribe(
+      res => this.ordersCount = res
+    );
+    this.ordersService.getLatest(3).subscribe(
+      res => this.orders = res
+    );
   }
 
   getOrderProductsCount(id: string): number {
@@ -70,8 +84,7 @@ export class AdminStatComponent implements OnInit {
     }
   }
 
-  getOrderPrice(id: string): number {
-    return this.ordersService.getOrderPrice(id);
+  getOrderPrice(order) {
+    return this.ordersService.getOrderPrice(order);
   }
-
 }

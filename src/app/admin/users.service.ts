@@ -46,7 +46,7 @@ export class UsersService {
 
     emit: EventEmitter<any> = new EventEmitter();
 
-    currentUserId: string = '';
+    currentUserId: string = '0';
 
     getUsers() {
         return this.users.slice();

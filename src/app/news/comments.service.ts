@@ -45,7 +45,7 @@ export class CommentsService {
         return this.loadAllComments()
             .map(
             res => {
-                res.sort(
+                return res.sort(
                     (a, b) => {
                         if (a.date < b.date) {
                             return 1;
@@ -59,7 +59,9 @@ export class CommentsService {
             });
     }
 
-    getCount(): number {
-        return this.comments.length;
+    getCount() {
+        return this.loadAllComments().map(
+            res => res.length
+        );
     }
 }

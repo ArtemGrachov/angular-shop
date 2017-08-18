@@ -53,7 +53,9 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   deleteComment(id: string) {
-    this.commentsService.deleteComment(id);
+    this.commentsService.deleteComment(id).subscribe(
+      () => this.loadComments()
+    );
   }
 
   toggleNewComentForm() {

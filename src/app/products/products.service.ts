@@ -152,9 +152,4 @@ export class ProductsService {
         this.cart.list = [];
         this.updateCart();
     }
-
-    sendOrder(val: any) {
-        this.cart.list = [];
-        console.log(arguments, this.cart);
-    }
 }

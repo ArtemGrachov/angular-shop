@@ -13,7 +13,7 @@ export class AuthService {
         public route: ActivatedRoute
     ) { }
 
-    isAuth: boolean = false;
+    isAuth: boolean = true;
     emit: EventEmitter<any> = new EventEmitter();
 
     login(email: string, password: string) {

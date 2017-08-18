@@ -67,8 +67,9 @@ export class ProvidersDetailsComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    this.providersService.deleteProvider(this.providerId);
-    this.router.navigate(['providers']);
+    this.providersService.deleteProvider(this.providerId).subscribe(
+      () => this.router.navigate(['providers'])
+    );
   }
 
   providerRate(rate: number) {

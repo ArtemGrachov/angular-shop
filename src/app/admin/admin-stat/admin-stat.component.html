@@ -25,7 +25,7 @@
       <li class="list-group-item" *ngFor="let order of orders">
         <span class="glyphicon glyphicon-calendar"></span> {{order.date | date:'medium'}}
         <span class="badge">
-          ${{getOrderPrice(order.id)}}
+          ${{getOrderPrice(order)}}
           <span class="glyphicon glyphicon-shopping-cart"></span> {{getOrderProductsCount(order.id)}}
         </span>
       </li>

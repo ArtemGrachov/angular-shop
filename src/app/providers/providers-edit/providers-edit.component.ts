@@ -53,11 +53,14 @@ export class ProvidersEditComponent implements OnInit {
 
   submit() {
     if (this.editMode) {
-      this.providersService.updateProvider(this.providerForm.value);
+      this.providersService.updateProvider(this.providerForm.value).subscribe(
+        () => this.router.navigate(['../'], { relativeTo: this.route })
+      );
     } else {
-      this.providersService.addProvider(this.providerForm.value);
+      this.providersService.addProvider(this.providerForm.value).subscribe(
+        () => this.router.navigate(['../'], { relativeTo: this.route })
+      );
     }
-    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   buildProviderForm() {
@@ -77,7 +80,10 @@ export class ProvidersEditComponent implements OnInit {
   }
 
   delete() {
-    this.providersService.deleteProvider(this.providerId);
-    this.router.navigate(['providers']);
+    this.providersService.deleteProvider(this.providerId).subscribe(
+      () => {
+        this.router.navigate(['providers']);
+      }
+    );
   }
 }
