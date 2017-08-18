@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 
@@ -11,7 +11,7 @@ import { Provider } from '../../shared/models/provider.model';
   templateUrl: './providers-list.component.html',
   styleUrls: ['./providers-list.component.css']
 })
-export class ProvidersListComponent implements OnInit, OnDestroy {
+export class ProvidersListComponent implements OnInit {
   public providers: Provider[] = [];
   providerSubscr;
 
@@ -22,21 +22,16 @@ export class ProvidersListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.providersService.loadProviders();
-    this.providerSubscr = this.providersService.emit.subscribe(
-      () => this.refreshProviders()
-    );
+    this.loadProviders();
   }
 
-  ngOnDestroy() {
-    this.providerSubscr.unsubscribe();
+  loadProviders() {
+    this.providersService.loadProviders().subscribe(
+      res => this.providers = res
+    );
   }
 
   checkUserCategory(categories: string[]) {
     return this.authService.checkUserCategory(categories);
   }
-
-  refreshProviders() {
-    this.providers = this.providersService.getProviders();
-  }
-
 }

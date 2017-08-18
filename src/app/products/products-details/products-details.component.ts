@@ -15,11 +15,6 @@ import { Product } from '../../shared/models/product.model';
   styleUrls: ['./products-details.component.css']
 })
 export class ProductsDetailsComponent implements OnInit, OnDestroy {
-  productId: string;
-  product: Product;
-  isAuth: boolean = this.authService.checkAuth();
-  authSubsrc;
-
   constructor(
     public productsService: ProductsService,
     public providersService: ProvidersService,
@@ -29,6 +24,13 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public location: Location
   ) { }
+
+  productId: string;
+  product: Product;
+  providerName: string;
+  isAuth: boolean = this.authService.checkAuth();
+  authSubsrc;
+
 
   checkUserCategory(categories: string[]) {
     return this.authService.checkUserCategory(categories);
@@ -76,14 +78,19 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
   }
 
   rateProduct(id: string, rate: number) {
-    this.productsService.rateProduct(id, rate);
+    this.productsService.rateProduct(id, rate).subscribe(
+      updater => {
+        updater.subscribe(
+          () => this.loadProduct()
+        );
+      }
+    );
   }
 
   getProviderName(id) {
-    if (this.providersService.getProvider(id)) {
-      return this.providersService.getProvider(id).name;
-    }
-    return 'Angular Shop';
+    this.providersService.loadProvider(id).subscribe(
+      res => this.providerName = res.name
+    );
   }
 
   goToPrevPage() {

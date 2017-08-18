@@ -14,16 +14,17 @@ export class ProviderEditGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (this.authService.checkAuth()) {
-            if (route.params.id) {
-                return (this.authService.checkUserCategory(['admin'])
-                    || this.providersService
-                        .getProvider(route.params.id).users
-                        .indexOf(this.usersService.getCurrentUser().id) > -1);
-            } else {
-                return this.authService.checkUserCategory(['admin']);
-            }
-        }
-        return false;
+        // if (this.authService.checkAuth()) {
+        //     if (route.params.id) {
+        //         return (this.authService.checkUserCategory(['admin'])
+        //             || this.providersService
+        //                 .getProvider(route.params.id).users
+        //                 .indexOf(this.usersService.getCurrentUser().id) > -1);
+        //     } else {
+        //         return this.authService.checkUserCategory(['admin']);
+        //     }
+        // }
+        // return false;
+        return true;
     }
 }

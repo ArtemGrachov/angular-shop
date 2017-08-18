@@ -33,6 +33,7 @@ export class ProductsService {
                         products.push(product);
                     }
                 }
+                return products;
             }
         );
     }
@@ -80,10 +81,10 @@ export class ProductsService {
     }
 
     rateProduct(id: string, rate: number) {
-        this.loadProduct(id).subscribe(
-            post => {
-                post.rating += rate;
-                this.updateProduct(post);
+        return this.loadProduct(id).map(
+            product => {
+                product.rating += rate;
+                return this.updateProduct(product);
             }
         );
     }
@@ -122,7 +123,6 @@ export class ProductsService {
     }
 
     loadCart() {
-        console.log('loading cart');
         const idList = JSON.parse(localStorage.getItem('cart'));
         if (idList) {
             let updatedList = [];

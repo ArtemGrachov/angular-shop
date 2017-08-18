@@ -14,6 +14,7 @@ import { Product } from '../../../shared/models/product.model';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
+  providerId: string;
 
   constructor(
     public providersService: ProvidersService,
@@ -25,8 +26,15 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        // this.products = this.productsService.getProductsByProvider(this.route.snapshot.parent.params['id']);
+        this.providerId = this.route.snapshot.parent.params['id'];
+        this.loadProducts();
       }
+    );
+  }
+
+  loadProducts() {
+    this.productsService.getProductsByProvider(this.providerId).subscribe(
+      res => this.products = res
     );
   }
 

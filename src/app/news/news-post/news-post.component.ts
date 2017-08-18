@@ -30,20 +30,24 @@ export class NewsPostComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(
       (params: Params) => {
         this.postId = params['id'];
-        this.newsService.loadPost(this.postId)
-          .subscribe(
-          res => {
-            this.post = res;
-          }
-          );
+        this.loadPost();
       }
     );
     this.authSubcr = this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
     );
   }
+
   ngOnDestroy() {
     this.authSubcr.unsubscribe();
+  }
+
+  loadPost() {
+    this.newsService.loadPost(this.postId)
+      .subscribe(
+      res => {
+        this.post = res;
+      });
   }
 
   checkEditAccess() {
@@ -51,7 +55,13 @@ export class NewsPostComponent implements OnInit, OnDestroy {
   }
 
   postRate(rating: number) {
-    this.newsService.ratePost(this.postId, rating);
+    this.newsService.ratePost(this.postId, rating).subscribe(
+      updater => {
+        updater.subscribe(
+          () => this.loadPost()
+        );
+      }
+    );
   }
 
   postDelete() {

@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@angular/core';
-import 'rxjs/Rx';
 
 import { DataService } from '../shared/data.service';
 
@@ -20,10 +19,10 @@ export class NewsService {
     }
 
     ratePost(id: string, rate: number) {
-        this.loadPost(id).subscribe(
+        return this.loadPost(id).map(
             post => {
                 post.rating += rate;
-                this.updatePost(post);
+                return this.updatePost(post);
             }
         );
     }

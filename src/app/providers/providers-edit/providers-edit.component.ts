@@ -13,21 +13,6 @@ import { Provider } from '../../shared/models/provider.model';
   styleUrls: ['./providers-edit.component.css']
 })
 export class ProvidersEditComponent implements OnInit {
-  provider: Provider = new Provider(
-    '0',
-    '',
-    '',
-    '',
-    '',
-    [],
-    0,
-    []
-  );
-  providerId: string;
-  editMode: Boolean = false;
-  providerForm: FormGroup;
-  users: { id: string, name: string }[];
-
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -36,21 +21,34 @@ export class ProvidersEditComponent implements OnInit {
     public fb: FormBuilder
   ) { }
 
+  provider: Provider = new Provider('0', '', '', '', '', [], 0, []);
+  providerId: string;
+  editMode: Boolean = false;
+  providerForm: FormGroup;
+  users: { id: string, name: string }[];
+
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         if (this.providerId = params['id']) {
-          this.provider = this.providersService.getProvider(this.providerId);
+          this.providersService.loadProvider(this.providerId).subscribe(
+            res => {
+              this.provider = res;
+              this.buildProviderForm();
+            }
+          );
           this.editMode = true;
+        } else {
+          this.buildProviderForm();
         }
       }
     );
+    // !!!
     this.users = this.usersService.getUsers().map(
       (user) => {
         return { id: user.id, name: user.name };
       }
     );
-    this.buildProviderForm();
   }
 
   submit() {

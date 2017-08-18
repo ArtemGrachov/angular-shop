@@ -22,8 +22,10 @@ export class DashRatedProvidersComponent implements OnInit {
   ngOnInit() {
     this.usersService.getCurrentUser().ratedProviders.map(
       (id) => {
-        this.providers.push(
-          this.providersService.getProvider(id)
+        this.providersService.loadProvider(id).subscribe(
+          provider => {
+            this.providers.push(provider);
+          }
         );
       }
     );

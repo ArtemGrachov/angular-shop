@@ -21,7 +21,6 @@ export class ProvidersDetailsComponent implements OnInit, OnDestroy {
   providerProducts: Product[];
   isAuth: boolean = this.authService.checkAuth();
   authSubcr;
-  providerSubscr;
 
   constructor(
     public providersService: ProvidersService,
@@ -36,35 +35,35 @@ export class ProvidersDetailsComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(
       (params: Params) => {
         this.providerId = params['id'];
-        this.providersService.loadProviders();
+        this.loadProvider();
       }
     );
     this.authSubcr = this.authService.emit.subscribe(
       () => this.isAuth = this.authService.checkAuth()
     );
-    this.providerSubscr = this.providersService.emit.subscribe(
-      () => this.refreshProvider()
-    );
+  }
+
+  loadProvider() {
+    this.providersService.loadProvider(this.providerId)
+      .subscribe(
+      provider => {
+        this.provider = provider;
+      });
   }
 
   ngOnDestroy() {
     this.authSubcr.unsubscribe();
-    this.providerSubscr.unsubscribe();
-  }
-
-  refreshProvider() {
-    this.provider = this.providersService.getProvider(this.providerId);
-    // this.providerProducts = this.productsService.getProductsByProvider(this.providerId);
   }
 
   checkEditAccess() {
-    if (this.authService.checkAuth()) {
-      return this.authService.checkUserCategory(['admin'])
-        || this.providersService
-          .getProvider(this.providerId).users
-          .indexOf(this.usersService.getCurrentUser().id) > -1;
-    }
-    return false;
+    // if (this.authService.checkAuth()) {
+    //   return this.authService.checkUserCategory(['admin'])
+    //     || this.providersService
+    //       .getProvider(this.providerId).users
+    //       .indexOf(this.usersService.getCurrentUser().id) > -1;
+    // }
+    // return false;
+    return true;
   }
 
   delete() {
@@ -73,6 +72,12 @@ export class ProvidersDetailsComponent implements OnInit, OnDestroy {
   }
 
   providerRate(rate: number) {
-    this.providersService.rateProvider(this.providerId, rate);
+    this.providersService.rateProvider(this.providerId, rate).subscribe(
+      updater => {
+        updater.subscribe(
+          () => this.loadProvider()
+        );
+      }
+    );
   }
 }

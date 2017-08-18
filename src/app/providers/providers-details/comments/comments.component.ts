@@ -11,10 +11,6 @@ import { UsersService } from '../../../admin/users.service';
   styleUrls: ['./comments.component.css']
 })
 export class CommentsComponent implements OnInit {
-  comments: string[] = [];
-  providerId: string = '';
-  comment: string = '';
-
   constructor(
     public providersService: ProvidersService,
     public usersService: UsersService,
@@ -23,20 +19,35 @@ export class CommentsComponent implements OnInit {
     public route: ActivatedRoute,
   ) { }
 
+  comments: string[] = [];
+  providerId: string;
+  comment: string;
+
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.providerId = this.route.snapshot.parent.params['id'];
-        this.comments = this.providersService.getProvider(this.providerId).comments;
+        this.loadComments();
+      }
+    );
+  }
+
+  loadComments() {
+    this.providersService.loadProvider(this.providerId).subscribe(
+      provider => {
+        this.comments = provider.comments;
       }
     );
   }
 
   addComment() {
-    if (this.comment.length > 0) {
-      this.providersService.addComment(this.providerId, this.comment);
-      this.comment = '';
-    }
+    this.providersService.addComment(this.providerId, this.comment).subscribe(
+      updater => {
+        updater.subscribe(
+          () => this.loadComments()
+        );
+      }
+    );
   }
 
   checkUserCategory(categories: string[]) {
