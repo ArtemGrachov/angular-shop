@@ -122,19 +122,28 @@ export class ProductsService {
     }
 
     loadCart() {
+        console.log('loading cart');
         const idList = JSON.parse(localStorage.getItem('cart'));
         if (idList) {
+            let updatedList = [];
             for (let id of idList) {
                 this.loadProduct(id).subscribe(
-                    res => this.cart.list.push(res)
+                    res => {
+                        updatedList.push(res);
+                        if (updatedList.length === idList.length) {
+                            this.calcPrice();
+                        }
+                    }
                 );
             }
+            this.cart.list = updatedList;
             return JSON.parse(localStorage.getItem('cart'));
         }
     }
 
     clearCart() {
         localStorage.removeItem('cart');
+        this.cart.list = [];
         this.calcPrice();
     }
 

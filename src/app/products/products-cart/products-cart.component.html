@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div class="btn-group btn-group-justified" *ngIf="this.cart.length > 0">
+<div class="btn-group btn-group-justified" *ngIf="this.cart.list.length > 0">
   <a type="button" class="btn btn-success btn-sm" routerLink="ordering">Order all!</a>
   <a type="button" class="btn btn-danger btn-sm" (click)="clearCart()">Discard all</a>
 </div>

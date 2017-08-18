@@ -20,7 +20,6 @@ export class ProductsCartComponent implements OnInit {
 
   ngOnInit() {
     this.cart = this.productsService.getCart();
-    console.log(this.cart);
   }
 
   removeFromCart(index: string) {

@@ -4,7 +4,7 @@
   </div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let product of cart; let i = index">
+      <li class="list-group-item" *ngFor="let product of cart.list; let i = index">
         <img [src]="product.imgUrl" [alt]="product.name" style="max-height: 64px;">
         <h4>{{product.name}}</h4>
         <span class="badge">${{product.price}}</span>
@@ -28,9 +28,9 @@
       <strong>Thank you for order!</strong>
     </div>
     <div class="alert alert-info">
-      Total price for products: <strong>${{prodPrice}}</strong>
+      Total price for products: <strong>${{cart.price}}</strong>
     </div>
-    <form class="panel panel-default" [formGroup]="orderForm" (ngSubmit)="sendOrder()" *ngIf="cart.length > 0">
+    <form class="panel panel-default" [formGroup]="orderForm" (ngSubmit)="sendOrder()" *ngIf="cart.list.length > 0">
       <div class="panel-heading">
         Delivery details
       </div>

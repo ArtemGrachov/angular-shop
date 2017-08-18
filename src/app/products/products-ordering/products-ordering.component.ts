@@ -44,8 +44,8 @@ export class ProductsOrderingComponent implements OnInit {
   }
   orderForm: FormGroup;
 
-  cart: Product[] = [];
-  prodPrice = 0;
+  cart;
+
   totalPrice = 0;
   successMsg: boolean = false;
 
@@ -71,11 +71,8 @@ export class ProductsOrderingComponent implements OnInit {
     display: false
   };
   ngOnInit() {
-    // this.refreshOrders();
-    // this.productsService.emit.subscribe(
-    //   () => this.refreshOrders()
-    // );
-    // this.buildForm();
+    this.cart = this.productsService.getCart();
+    this.buildForm();
   }
 
   buildForm() {
@@ -145,50 +142,36 @@ export class ProductsOrderingComponent implements OnInit {
     this.calcDirection();
   }
 
-  refreshOrders() {
-    // this.cart = this.productsService.getCart();
-    this.prodPrice = this.calcProductsPrice();
-    this.totalPrice = this.calcTotalPrice();
-  }
-
-  calcProductsPrice() {
-    let price = 0;
-    for (const product of this.cart) {
-      price += product.price;
-    }
-    return +price.toFixed(2);
-  }
-
   calcTotalPrice(): number {
-    return +(this.calcProductsPrice() + this.deliveryInfo.price).toFixed(2);
+    return +(this.cart.price + this.deliveryInfo.price).toFixed(2);
   }
 
   removeFromCart(index: string) {
     this.productsService.removeFromCart(index);
   }
 
-  sendOrder() {
-    const products: { name: string, price: number }[] = [];
-    for (const product of this.cart) {
-      products.push({
-        name: product.name,
-        price: product.price
-      });
-    }
-    this.ordersService.addOrder(
-      new Order(
-        '0',
-        '0',
-        products,
-        new Date(),
-        0
-      )
-    );
-    this.productsService.sendOrder(
-      [this.calcTotalPrice(),
-      this.orderForm.value]
-    );
-    this.successMsg = true;
-  }
+  // sendOrder() {
+  //   const products: { name: string, price: number }[] = [];
+  //   for (const product of this.cart) {
+  //     products.push({
+  //       name: product.name,
+  //       price: product.price
+  //     });
+  //   }
+  //   this.ordersService.addOrder(
+  //     new Order(
+  //       '0',
+  //       '0',
+  //       products,
+  //       new Date(),
+  //       0
+  //     )
+  //   );
+  //   this.productsService.sendOrder(
+  //     [this.calcTotalPrice(),
+  //     this.orderForm.value]
+  //   );
+  //   this.successMsg = true;
+  // }
 
 }
