@@ -1,45 +1,20 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 
 import { AlertsService } from '../alerts/alerts.service';
+import { DataService } from '../shared/data.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { User } from '../shared/models/user.model';
 
 @Injectable()
 export class UsersService {
     constructor(
-        public alertsService: AlertsService
+        public alertsService: AlertsService,
+        public dataService: DataService,
+        public firebaseAuth: AngularFireAuth
     ) { }
 
-    users: User[] = [
-        new User(
-            '0',
-            'Admin',
-            'admin@mail.com',
-            new Date(),
-            'admin',
-            new Date(),
-            'male',
-            { lat: 48.678243, lng: 26.581834 },
-            '+380975554433',
-            [],
-            [],
-            []
-        ),
-        new User(
-            '1',
-            'Test user',
-            'admin@mail.com',
-            new Date(),
-            'provider',
-            new Date(),
-            'male',
-            { lat: 48.648243, lng: 26.521834 },
-            '+380987775511',
-            [],
-            [],
-            []
-        )
-    ];
+    users: User[] = [];
 
     categories: string[] = [
         'admin',
@@ -48,61 +23,49 @@ export class UsersService {
         'provider',
         'banned'
     ];
+    currentUserId: string = '';
 
-    emit: EventEmitter<any> = new EventEmitter();
-
-    currentUserId: string = '0';
-
-    getUsers() {
-        return this.users.slice();
-    }
-
-    getCategories() {
-        return this.categories.slice();
-    }
-
-    getCurrentUser() {
-        return this.getUser(this.currentUserId);
+    loadCurrentUser() {
+        return this.dataService.loadDataObj(`users/${this.currentUserId}`);
     }
 
     setCurrentUserId(id: string) {
         this.currentUserId = id;
     }
 
-    getUser(id) {
-        return this.users.find(
-            (user) => user.id === id
+    getCategories() {
+        return this.categories.slice();
+    }
+
+    loadUsers() {
+        return this.dataService.loadDataList('users');
+    }
+
+    loadUser(userId: string) {
+        return this.dataService.loadDataObj(`users/${userId}`);
+    }
+
+    addUser(newUser) {
+        // this.authService.registration(newUser);
+    }
+
+    updateUser(updatedUser) {
+        return this.dataService.putData('users', updatedUser).map(
+            () => this.alertsService.addAlert({ message: 'User updated', type: 'info' })
         );
     }
 
-    addUser(newUser: User) {
-        // test 'unique' id
-        const testId = Math.floor(Math.random() * 1000);
-        newUser.id = testId.toString();
-        // test 'unique' id
-        this.alertsService.addAlert({ message: 'User added', type: 'success' });
-        this.users.push(newUser);
-        this.emit.emit();
-    }
-
-    updateUser(updatedUser: User) {
-        for (const i in this.users) {
-            if (this.users[i].id === updatedUser.id) {
-                this.users[i] = updatedUser;
-                this.alertsService.addAlert({ message: 'User updated', type: 'info' });
-                this.emit.emit();
+    updateCurrentUser(updatedUser) {
+        let currentUser = this.firebaseAuth.auth.currentUser;
+        currentUser.updateEmail(updatedUser.email)
+            .then(
+            () => currentUser.updatePassword
+            ).then(
+            () => {
+                delete updatedUser.password;
+                this.updateUser(updatedUser);
             }
-        }
-    }
-
-    deleteUser(id: string) {
-        for (const index in this.users) {
-            if (this.users[index].id === id) {
-                this.users.splice(+index, 1);
-                this.alertsService.addAlert({ message: 'User deleted', type: 'warning' });
-                this.emit.emit();
-            }
-        }
+            );
     }
 
     getLatest(count: number): User[] {

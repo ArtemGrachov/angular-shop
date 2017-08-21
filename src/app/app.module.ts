@@ -15,20 +15,7 @@ import { AlertsModule } from './alerts/alerts.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-
 import { AppComponent } from './app.component';
-
-export const firebaseConfig = {
-  apiKey: 'AIzaSyAqS2b3hha6JNu2MNqrxUpWcS_MGjmihxI',
-  authDomain: 'angular-shop-e7657.firebaseapp.com',
-  databaseURL: 'https://angular-shop-e7657.firebaseio.com',
-  projectId: 'angular-shop-e7657',
-  storageBucket: '',
-  messagingSenderId: '903856699244'
-};
 
 @NgModule({
   declarations: [
@@ -47,10 +34,7 @@ export const firebaseConfig = {
     HomeModule,
     AlertsModule,
     SharedModule,
-    HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]

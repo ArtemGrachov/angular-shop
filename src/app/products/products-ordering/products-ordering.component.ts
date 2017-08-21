@@ -76,21 +76,23 @@ export class ProductsOrderingComponent implements OnInit {
   }
 
   buildForm() {
-    if (this.authService.checkAuth()) {
+    // if (this.authService.checkAuth()) {
+    if (true) {
       this.orderForm = this.fb.group({
-        'location': this.usersService.getCurrentUser().location,
+        'location': { lat: this.gmap.lat, lng: this.gmap.lng }, // !!! current user
         'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-        'phone': [this.usersService.getCurrentUser().phone, Validators.required],
-        'type': 'DRIVING'
-      });
-    } else {
-      this.orderForm = this.fb.group({
-        'location': { lat: this.gmap.lat, lng: this.gmap.lng },
-        'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-        'phone': ['', Validators.required],
+        'phone': ['', Validators.required], // current user phone!
         'type': 'DRIVING'
       });
     }
+    //  else {
+    //   this.orderForm = this.fb.group({
+    //     'location': { lat: this.gmap.lat, lng: this.gmap.lng },
+    //     'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
+    //     'phone': ['', Validators.required],
+    //     'type': 'DRIVING'
+    //   });
+    // }
   }
 
   mapReady(event) {

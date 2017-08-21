@@ -30,7 +30,7 @@ export class NewsEditComponent implements OnInit {
     '',
     '',
     0,
-    this.usersService.getCurrentUser().id,
+    this.usersService.currentUserId,
     new Date()
   );
 
@@ -54,13 +54,11 @@ export class NewsEditComponent implements OnInit {
         } else {
           this.buildPostForm();
         }
-        this.users = this.usersService.getUsers();
+        this.usersService.loadUsers().subscribe(
+          res => this.users = res
+        );
       }
     );
-  }
-
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
   }
 
   submitPost() {

@@ -41,7 +41,7 @@ export class ProductsEditComponent implements OnInit {
     new Date()
   );
   productId: string;
-  providersList: { id: string, name: string }[] = [];
+  providersList: { id: string, name: string }[] = [{ id: '1502977530352', name: 'test' }];
   productForm: FormGroup;
   editMode: Boolean = false;
 
@@ -59,26 +59,26 @@ export class ProductsEditComponent implements OnInit {
     this.providersService.loadProviders();
 
     // update after providers.service!
-    if (this.authService.checkUserCategory(['admin'])) {
-      this.providersService.loadProviders().subscribe(
-        res => {
-          this.providersList = res.map(
-            provider => {
-              return { id: provider.id, name: provider.name };
-            }
-          );
-        });
-    } else {
-      this.providersService.getProvidersByUserId(this.usersService.currentUserId).subscribe(
-        res => {
-          console.log(res);
-          this.providersList = res.map(
-            provider => {
-              return { id: provider.id, name: provider.name };
-            }
-          );
-        });
-    }
+    // if (this.authService.checkUserCategory(['admin'])) {
+    //   this.providersService.loadProviders().subscribe(
+    //     res => {
+    //       this.providersList = res.map(
+    //         provider => {
+    //           return { id: provider.id, name: provider.name };
+    //         }
+    //       );
+    //     });
+    // } else {
+    //   this.providersService.getProvidersByUserId(this.usersService.currentUserId).subscribe(
+    //     res => {
+    //       console.log(res);
+    //       this.providersList = res.map(
+    //         provider => {
+    //           return { id: provider.id, name: provider.name };
+    //         }
+    //       );
+    //     });
+    // }
   }
 
   loadProduct() {
@@ -88,10 +88,6 @@ export class ProductsEditComponent implements OnInit {
         this.buildProductForm();
       }
     );
-  }
-
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
   }
 
   buildProductForm() {

@@ -49,8 +49,4 @@ export class CommentsComponent implements OnInit {
       }
     );
   }
-
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
-  }
 }

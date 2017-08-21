@@ -13,15 +13,14 @@
         <label>ID:</label> {{user.id}}
       </div>
       <div class="form-group">
+        <label for="email">Email:</label> {{user.email}}
+      </div>
+      <div class="form-group">
         <label>Registration date:</label> {{user.regdate | date:'medium'}}
       </div>
       <div class="form-group">
         <label for="name">Name:</label> {{user.name}}
         <input type="text" class="form-control" id="name" *ngIf="editMode" formControlName="name">
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label> {{user.email}}
-        <input type="text" class="form-control" id="email" *ngIf="editMode" formControlName="email">
       </div>
       <div class="form-group">
         <label for="category">Category:</label> {{user.category}}
@@ -48,7 +47,6 @@
       <div class="btn-group" *ngIf="editMode">
         <button type="submit" class="btn btn-success" [disabled]="!userForm.valid">Apply</button>
         <button type="button" class="btn btn-info" (click)="reset()">Reset</button>
-        <button type="button" class="btn btn-danger" (click)="delete()" *ngIf="!newMode && user.id !='0'">Delete</button>
         <button type="button" class="btn btn-default" (click)="toggleEditMode()">Cancel</button>
       </div>
     </form>

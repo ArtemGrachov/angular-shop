@@ -26,10 +26,21 @@ export class DashRatedNewsComponent implements OnInit {
     //     );
     //   }
     // );
+
+    this.usersService.loadCurrentUser().subscribe(
+      res => {
+        for (const id of res.ratedNews) {
+          this.newsService.loadPost(id).subscribe(
+            post => this.news.push(res)
+          );
+        }
+      }
+    );
   }
 
   getAuthorName(id: string): string {
-    return this.usersService.getUser(id).name;
+    // !!!
+    return 'test user name';
   }
 
 }

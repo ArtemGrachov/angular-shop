@@ -1,60 +1,103 @@
-import { Injectable, Inject, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
+import { DataService } from '../shared/data.service';
+
 import { UsersService } from '../admin/users.service';
+import { AlertsService } from '../alerts/alerts.service';
 
 import { User } from '../shared/models/user.model';
+
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
     constructor(
         public usersService: UsersService,
         public router: Router,
-        public route: ActivatedRoute
-    ) { }
+        public route: ActivatedRoute,
+        public alertsService: AlertsService,
+        public dataService: DataService,
+        public firebaseAuth: AngularFireAuth
+    ) {
+        this.authState = firebaseAuth.authState;
+        this.authState.subscribe(
+            (res) => {
+                console.log('user', res);
+            }
+        );
+    }
 
-    isAuth: boolean = true;
-    emit: EventEmitter<any> = new EventEmitter();
+    authState: Observable<firebase.User>;
+
+    getAuth() {
+        return this.authState;
+    }
 
     login(email: string, password: string) {
-        // test
-        let testId = '0';
-        if (email === 'admin@mail') {
-            testId = '0';
-        } else {
-            testId = '1';
-        }
-        // test
+        this.firebaseAuth.auth.signInWithEmailAndPassword(email, password)
+            .then(
+            res => {
+                this.usersService.setCurrentUserId(res.uid);
+            })
+            .catch(
+            res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
+            );
 
-        this.isAuth = true;
-        this.usersService.setCurrentUserId(testId);
-        this.emit.emit();
-        this.router.navigate(['/home']);
+    }
+
+    loginGoogle() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        this.firebaseAuth.auth.signInWithPopup(provider)
+            .then(
+            res => {
+                this.usersService.setCurrentUserId(res.uid);
+            })
+            .catch(
+            res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
+            );
+    }
+
+    loginFacebook() {
+        const provider = new firebase.auth.FacebookAuthProvider();
+        this.firebaseAuth.auth.signInWithPopup(provider)
+            .then(
+            res => {
+                this.usersService.setCurrentUserId(res.uid);
+            })
+            .catch(
+            res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
+            );
     }
 
     logout() {
-        this.isAuth = false;
-        this.usersService.setCurrentUserId('');
-        this.emit.emit();
+        this.firebaseAuth.auth.signOut();
     }
 
     registration(newUser) {
-        this.router.navigate(['/login']);
-        this.emit.emit();
+        newUser.regDate = new Date();
+
+        this.firebaseAuth.auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
+            .then(
+            res => {
+                this.login(newUser.email, newUser.password);
+                this.createUserData(newUser, res.uid);
+            })
+            .catch(
+            res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
+            );
     }
 
-    checkAuth() {
-        return this.isAuth;
+    createUserData(newUser, uid: string) {
+        delete newUser.email;
+        delete newUser.password;
+        newUser.id = uid;
+        newUser.category = 'user',
+            this.dataService.putData('users/', newUser).subscribe(
+                res => console.log(res)
+            );
     }
 
-    checkUserCategory(categories: string[]) {
-        if (this.checkAuth()) {
-            if (categories.indexOf(
-                this.usersService.getCurrentUser().category
-            ) > -1) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

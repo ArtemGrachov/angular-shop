@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
@@ -15,12 +15,10 @@ import { Product } from '../../shared/models/product.model';
   templateUrl: './providers-details.component.html',
   styleUrls: ['./providers-details.component.css']
 })
-export class ProvidersDetailsComponent implements OnInit, OnDestroy {
+export class ProvidersDetailsComponent implements OnInit {
   providerId: string = '';
   provider: Provider;
   providerProducts: Product[];
-  isAuth: boolean = this.authService.checkAuth();
-  authSubcr;
 
   constructor(
     public providersService: ProvidersService,
@@ -38,9 +36,6 @@ export class ProvidersDetailsComponent implements OnInit, OnDestroy {
         this.loadProvider();
       }
     );
-    this.authSubcr = this.authService.emit.subscribe(
-      () => this.isAuth = this.authService.checkAuth()
-    );
   }
 
   loadProvider() {
@@ -49,10 +44,6 @@ export class ProvidersDetailsComponent implements OnInit, OnDestroy {
       provider => {
         this.provider = provider;
       });
-  }
-
-  ngOnDestroy() {
-    this.authSubcr.unsubscribe();
   }
 
   checkEditAccess() {

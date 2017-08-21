@@ -24,25 +24,12 @@ export class AdminUserProfileComponent implements OnInit {
 
   editMode: Boolean = false;
   newMode: Boolean = false;
-  user = new User(
-    '0',
-    '',
-    '',
-    new Date(),
-    'user',
-    new Date(),
-    'male',
-    { lat: 0, lng: 0 },
-    '',
-    [],
-    [],
-    []
-  );
-  userId: String = '';
+  user = new User('0', '', '', new Date(), 'user', new Date(), 'male', { lat: 0, lng: 0 }, '', [], [], []);
+  userId: string = '';
   usersCategories: string[] = [];
   gmap = {
-    lat: this.usersService.getCurrentUser().location.lat,
-    lng: this.usersService.getCurrentUser().location.lng,
+    lat: 0,
+    lng: 0,
     zoom: 16
   };
   clientMarkerUrl: string = 'assets/img/client.png';
@@ -56,7 +43,13 @@ export class AdminUserProfileComponent implements OnInit {
       (params: Params) => {
         if (params['id']) {
           this.userId = params['id'];
-          this.refreshUser();
+          this.usersService.loadUser(this.userId).subscribe(
+            res => {
+              this.gmap.lat = res.location.lat;
+              this.gmap.lng = res.location.lng;
+              this.user = res;
+            }
+          );
         } else {
           this.newMode = true;
           this.editMode = true;
@@ -64,13 +57,6 @@ export class AdminUserProfileComponent implements OnInit {
       }
     );
     this.buildUserForm();
-    this.usersService.emit.subscribe(
-      () => this.refreshUser()
-    );
-  }
-
-  refreshUser() {
-    this.user = this.usersService.getUser(this.userId);
   }
 
   changeUserPos(newPos) {
@@ -118,8 +104,4 @@ export class AdminUserProfileComponent implements OnInit {
     this.userForm.patchValue(this.user);
   }
 
-  delete() {
-    this.usersService.deleteUser(this.user.id);
-    this.router.navigate(['../'], { relativeTo: this.route });
-  }
 }

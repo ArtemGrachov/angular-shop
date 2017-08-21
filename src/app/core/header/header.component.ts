@@ -12,19 +12,11 @@ export class HeaderComponent implements OnInit {
     public authService: AuthService
   ) { }
 
-  isAuth: boolean = this.authService.checkAuth();
-
   ngOnInit() {
-    this.authService.emit.subscribe(
-      () => this.isAuth = this.authService.checkAuth()
-    );
+
   }
 
   logout() {
     this.authService.logout();
-  }
-
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
   }
 }

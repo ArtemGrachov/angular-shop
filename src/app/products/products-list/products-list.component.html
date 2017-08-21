@@ -1,4 +1,4 @@
-<a routerLink="new" class="btn btn-primary btn-sm" *ngIf="checkUserCategory(['admin','provider'])"><span class="glyphicon glyphicon-plus"></span> Add product</a>
+<a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add product</a>
 <ul class="list-group">
   <a class="list-group-item" *ngFor="let product of products" [routerLink]="product.id">
     <img [src]="product.imgUrl" [alt]="product.name" style="max-height: 64px;">

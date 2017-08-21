@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
@@ -13,11 +13,9 @@ import { UsersService } from '../../admin/users.service';
   templateUrl: './news-post.component.html',
   styleUrls: ['./news-post.component.css']
 })
-export class NewsPostComponent implements OnInit, OnDestroy {
+export class NewsPostComponent implements OnInit {
   post: News;
   postId: string;
-  isAuth: boolean = this.authService.checkAuth();
-  authSubcr;
 
   constructor(public newsService: NewsService,
     public usersService: UsersService,
@@ -33,13 +31,6 @@ export class NewsPostComponent implements OnInit, OnDestroy {
         this.loadPost();
       }
     );
-    this.authSubcr = this.authService.emit.subscribe(
-      () => this.isAuth = this.authService.checkAuth()
-    );
-  }
-
-  ngOnDestroy() {
-    this.authSubcr.unsubscribe();
   }
 
   loadPost() {
@@ -51,7 +42,8 @@ export class NewsPostComponent implements OnInit, OnDestroy {
   }
 
   checkEditAccess() {
-    return (this.authService.checkUserCategory(['admin']) || this.usersService.getCurrentUser().id === this.post.authorId);
+    // !!!
+    return true;
   }
 
   postRate(rating: number) {
@@ -71,6 +63,7 @@ export class NewsPostComponent implements OnInit, OnDestroy {
   }
 
   getAuthorName(id: string): string {
-    return this.usersService.getUser(id).name;
+    // !!!
+    return 'test username';
   }
 }

@@ -25,22 +25,19 @@ export class DashProfileComponent implements OnInit {
   user: User;
   profileForm: FormGroup;
   gmap = {
-    lat: this.usersService.getCurrentUser().location.lat,
-    lng: this.usersService.getCurrentUser().location.lng,
+    lat: 0,
+    lng: 0,
     zoom: 16
   };
   clientMarkerUrl: string = 'assets/img/client.png';
 
   ngOnInit() {
-    this.refreshUser();
-    this.usersService.emit.subscribe(
-      () => this.refreshUser()
+    this.usersService.loadCurrentUser().subscribe(
+      res => {
+        this.user = res;
+        this.buildProfileForm();
+      }
     );
-    this.buildProfileForm();
-  }
-
-  refreshUser() {
-    this.user = this.usersService.getCurrentUser();
   }
 
   toggleEditMode() {

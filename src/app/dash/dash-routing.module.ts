@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from '../auth/auth-guard.service';
-
 import { DashMainComponent } from './dash-main/dash-main.component';
 import { DashOrdersComponent } from './dash-orders/dash-orders.component';
 import { DashProfileComponent } from './dash-profile/dash-profile.component';
@@ -12,7 +10,7 @@ import { DashRatedProvidersComponent } from './dash-rated-providers/dash-rated-p
 
 const dashRoutes: Routes = [
   {
-    path: 'dash', component: DashMainComponent, canActivate: [AuthGuard], children: [
+    path: 'dash', component: DashMainComponent, children: [
       { path: '', component: DashProfileComponent },
       { path: 'orders', component: DashOrdersComponent },
       { path: 'products', component: DashRatedProductsComponent },
@@ -25,6 +23,6 @@ const dashRoutes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(dashRoutes)],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: []
 })
 export class DashRoutingModule { }

@@ -24,7 +24,7 @@ export class DashOrdersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentUserId = this.usersService.getCurrentUser().id;
+    this.currentUserId = this.usersService.currentUserId;
     this.getUsersOrder();
 
   }

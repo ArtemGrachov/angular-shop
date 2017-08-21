@@ -17,15 +17,8 @@ export class AdminUsersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.refreshUsers();
+    this.usersService.loadUsers().subscribe(
+      res => this.users = res
+    );
   }
-
-  refreshUsers() {
-    this.users = this.usersService.getUsers();
-  }
-
-  delete(id: string) {
-    this.usersService.deleteUser(id);
-  }
-
 }

@@ -42,7 +42,14 @@ export class LoginComponent implements OnInit {
 
   login() {
     console.log(this.loginForm.get('email'));
-    this.authService.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
+    // this.authService.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
   }
 
+  loginGoogle() {
+    // this.authService.loginGoogle();
+  }
+
+  loginFacebook() {
+    // this.authService.loginFacebook();
+  }
 }

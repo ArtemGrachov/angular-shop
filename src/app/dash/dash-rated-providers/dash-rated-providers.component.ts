@@ -20,13 +20,13 @@ export class DashRatedProvidersComponent implements OnInit {
   providers: Provider[] = [];
 
   ngOnInit() {
-    this.usersService.getCurrentUser().ratedProviders.map(
-      (id) => {
-        this.providersService.loadProvider(id).subscribe(
-          provider => {
-            this.providers.push(provider);
-          }
-        );
+    this.usersService.loadCurrentUser().subscribe(
+      res => {
+        for (const id of res.providers) {
+          this.providersService.loadProvider(id).subscribe(
+            provider => this.providers.push(provider)
+          );
+        }
       }
     );
   }

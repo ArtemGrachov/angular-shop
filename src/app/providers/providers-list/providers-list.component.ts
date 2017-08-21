@@ -30,8 +30,4 @@ export class ProvidersListComponent implements OnInit {
       res => this.providers = res
     );
   }
-
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
-  }
 }

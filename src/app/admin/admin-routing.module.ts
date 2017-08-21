@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AdminGuard } from '../auth/admin-guard.service';
-
 import { AdminMainComponent } from './admin-main/admin-main.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
@@ -12,7 +10,7 @@ import { AdminCommentsComponent } from './admin-comments/admin-comments.componen
 
 const adminRoutes = [
     {
-        path: 'admin', component: AdminMainComponent, canActivate: [AdminGuard], children: [
+        path: 'admin', component: AdminMainComponent, children: [
             { path: '', component: AdminStatComponent },
             { path: 'users', component: AdminUsersComponent },
             { path: 'users/new', component: AdminUserProfileComponent },
@@ -28,6 +26,6 @@ const adminRoutes = [
         RouterModule.forChild(adminRoutes)
     ],
     exports: [RouterModule],
-    providers: [AdminGuard]
+    providers: []
 })
 export class AdminRoutingModule { }

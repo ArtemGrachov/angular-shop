@@ -40,11 +40,7 @@ export class NewsListComponent implements OnInit {
     );
   }
 
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
-  }
-
   getAuthorName(id: string): string {
-    return this.usersService.getUser(id).name;
+    return 'test';
   }
 }

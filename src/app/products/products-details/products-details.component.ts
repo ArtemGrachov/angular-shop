@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { Product } from '../../shared/models/product.model';
   templateUrl: './products-details.component.html',
   styleUrls: ['./products-details.component.css']
 })
-export class ProductsDetailsComponent implements OnInit, OnDestroy {
+export class ProductsDetailsComponent implements OnInit {
   constructor(
     public productsService: ProductsService,
     public providersService: ProvidersService,
@@ -27,30 +27,7 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
 
   productId: string;
   product: Product;
-  // providerName: string;
-  isAuth: boolean = this.authService.checkAuth();
-  authSubsrc;
-
   providerName;
-
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
-  }
-
-  checkEditAccess() {
-    // if (this.authService.checkAuth()) {
-    //   return (this.authService.checkUserCategory(['admin'])
-    //     || this.providersService
-    //       .getProvider(
-    //       this.product.providerId
-    //       ).users
-    //       .indexOf(
-    //       this.usersService.getCurrentUser()
-    //         .id
-    //       ) > -1);
-    // }
-    return true;
-  }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -58,9 +35,6 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
         this.productId = params['id'];
         this.loadProduct();
       }
-    );
-    this.authSubsrc = this.authService.emit.subscribe(
-      () => this.isAuth = this.authService.checkAuth()
     );
   }
 
@@ -73,10 +47,6 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
         );
       }
     );
-  }
-
-  ngOnDestroy() {
-    this.authSubsrc.unsubscribe();
   }
 
   addToCart(product: Product) {
@@ -101,8 +71,6 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
       }
     );
   }
-
-
 
   goToPrevPage() {
     this.location.back();

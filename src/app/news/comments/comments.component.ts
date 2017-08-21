@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../auth/auth.service';
@@ -12,7 +12,7 @@ import { Comment } from '../../shared/models/comment.model';
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
 })
-export class CommentsComponent implements OnInit, OnDestroy {
+export class CommentsComponent implements OnInit {
   @Input() postId: string;
   constructor(
     public commentsService: CommentsService,
@@ -21,8 +21,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
     public fb: FormBuilder
   ) { }
 
-  isAuth: boolean = this.authService.checkAuth();
-  authSubscr;
 
   comments: Comment[] = [];
   commentFormActive: Boolean = false;
@@ -33,13 +31,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.commentForm = this.fb.group({
       'commentText': ['', Validators.required]
     });
-    this.authSubscr = this.authService.emit.subscribe(
-      () => this.isAuth = this.authService.checkAuth()
-    );
-  }
-
-  ngOnDestroy() {
-    this.authSubscr.unsubscribe();
   }
 
   loadComments() {
@@ -51,11 +42,8 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   getCommentAuthorName(userId) {
-    return this.usersService.getUser(userId).name;
-  }
-
-  checkUserCategory(categories: string[]) {
-    return this.authService.checkUserCategory(categories);
+    // !!!
+    return 'test username';
   }
 
   deleteComment(id: string) {
@@ -73,7 +61,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.commentsService.addComment(
       new Comment(
         '0',
-        this.usersService.getCurrentUser().id,
+        this.usersService.currentUserId,
         this.postId,
         this.commentForm.value['commentText'],
         new Date()
