@@ -1,9 +1,14 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 
+import { AlertsService } from '../alerts/alerts.service';
+
 import { User } from '../shared/models/user.model';
 
 @Injectable()
 export class UsersService {
+    constructor(
+        public alertsService: AlertsService
+    ) { }
 
     users: User[] = [
         new User(
@@ -75,7 +80,7 @@ export class UsersService {
         const testId = Math.floor(Math.random() * 1000);
         newUser.id = testId.toString();
         // test 'unique' id
-
+        this.alertsService.addAlert({ message: 'User added', type: 'success' });
         this.users.push(newUser);
         this.emit.emit();
     }
@@ -84,6 +89,7 @@ export class UsersService {
         for (const i in this.users) {
             if (this.users[i].id === updatedUser.id) {
                 this.users[i] = updatedUser;
+                this.alertsService.addAlert({ message: 'User updated', type: 'info' });
                 this.emit.emit();
             }
         }
@@ -93,6 +99,7 @@ export class UsersService {
         for (const index in this.users) {
             if (this.users[index].id === id) {
                 this.users.splice(+index, 1);
+                this.alertsService.addAlert({ message: 'User deleted', type: 'warning' });
                 this.emit.emit();
             }
         }

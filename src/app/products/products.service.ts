@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
 
+import { AlertsService } from '../alerts/alerts.service';
+
 import { DataService } from '../shared/data.service';
 import { UsersService } from '../admin/users.service';
 
@@ -10,7 +12,8 @@ import { Product } from '../shared/models/product.model';
 export class ProductsService {
     constructor(
         public dataService: DataService,
-        public usersService: UsersService
+        public usersService: UsersService,
+        public alertsService: AlertsService
     ) { }
 
     products: Product[] = [];
@@ -69,22 +72,28 @@ export class ProductsService {
 
     addProduct(newProduct: Product) {
         newProduct.id = (new Date).getTime().toString();
-        return this.dataService.putData('products', newProduct);
+        return this.dataService.putData('products', newProduct).map(
+            () => this.alertsService.addAlert({ message: 'Product added', type: 'success' })
+        );
     }
 
     updateProduct(updatedProduct: Product) {
-        return this.dataService.putData('products', updatedProduct);
+        return this.dataService.putData('products', updatedProduct).map(
+            () => this.alertsService.addAlert({ message: 'Product updated', type: 'info' })
+        );
     }
 
     deleteProduct(id: string) {
-        return this.dataService.deleteData('products/' + id);
+        return this.dataService.deleteData('products/' + id).map(
+            () => this.alertsService.addAlert({ message: 'Product deleted', type: 'danger' })
+        );
     }
 
     rateProduct(id: string, rate: number) {
         return this.loadProduct(id).map(
             product => {
                 product.rating += rate;
-                return this.updateProduct(product);
+                return this.dataService.putData('products', product);
             }
         );
     }
@@ -117,7 +126,9 @@ export class ProductsService {
     calcPrice() {
         let newPrise = 0;
         for (const product of this.cart.list) {
-            newPrise += product.price;
+            if (product.count > 0) {
+                newPrise += product.price;
+            }
         }
         this.cart.price = +newPrise.toFixed(2);
     }
@@ -145,11 +156,12 @@ export class ProductsService {
         localStorage.removeItem('cart');
         this.cart.list = [];
         this.calcPrice();
+        this.alertsService.addAlert({ message: 'Product cart cleared', type: 'warning' });
     }
 
-    ///// !!!!!!
-    bookCart() {
-        this.cart.list = [];
-        this.updateCart();
+    clearCartOrder() {
+        this.cart.list = this.cart.list.filter(
+            (product) => product.count <= 0
+        );
     }
 }

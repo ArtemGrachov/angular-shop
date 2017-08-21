@@ -1,5 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 
+import { AlertsService } from '../alerts/alerts.service';
+
 import { DataService } from '../shared/data.service';
 
 import { News } from '../shared/models/news.model';
@@ -7,7 +9,8 @@ import { News } from '../shared/models/news.model';
 @Injectable()
 export class NewsService {
     constructor(
-        public dataService: DataService
+        public dataService: DataService,
+        public alertsService: AlertsService
     ) { }
 
     loadNews() {
@@ -22,22 +25,28 @@ export class NewsService {
         return this.loadPost(id).map(
             post => {
                 post.rating += rate;
-                return this.updatePost(post);
+                return this.dataService.putData('news', post);
             }
         );
     }
 
     addPost(newPost: News) {
         newPost.id = (new Date).getTime().toString();
-        return this.dataService.putData('news', newPost);
+        return this.dataService.putData('news', newPost).map(
+            () => this.alertsService.addAlert({ message: 'Post added', type: 'success' })
+        );
     }
 
     updatePost(updatedPost: News) {
-        return this.dataService.putData('news', updatedPost);
+        return this.dataService.putData('news', updatedPost).map(
+            () => this.alertsService.addAlert({ message: 'Post updated', type: 'info' })
+        );
     }
 
     deletePost(id: string) {
-        return this.dataService.deleteData('news/' + id);
+        return this.dataService.deleteData('news/' + id).map(
+            () => this.alertsService.addAlert({ message: 'Post deleted', type: 'warning' })
+        );
     }
 
     getLatest(count: number) {

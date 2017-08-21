@@ -16,7 +16,7 @@
   <li class="list-group-item" *ngFor="let comment of comments">
     <div class="panel panel-default">
       <div class="panel-heading">
-        {{comment.authorId}}
+        {{getCommentAuthorName(comment.authorId)}}
         <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
       </div>
       <div class="panel-body">

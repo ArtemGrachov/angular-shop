@@ -108,7 +108,9 @@ export class NewsEditComponent implements OnInit {
 
   delete() {
     this.newsService.deletePost(this.post.id).subscribe(
-      () => this.router.navigate(['../', { relativeTo: this.route }])
+      () => {
+        this.router.navigate(['../', { relativeTo: this.route }]);
+      }
     );
   }
 

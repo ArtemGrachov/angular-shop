@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../auth/auth.service';
-
+import { UsersService } from '../../admin/users.service';
 import { CommentsService } from '../comments.service';
 
 import { Comment } from '../../shared/models/comment.model';
@@ -14,17 +14,19 @@ import { Comment } from '../../shared/models/comment.model';
 })
 export class CommentsComponent implements OnInit, OnDestroy {
   @Input() postId: string;
+  constructor(
+    public commentsService: CommentsService,
+    public authService: AuthService,
+    public usersService: UsersService,
+    public fb: FormBuilder
+  ) { }
+
   isAuth: boolean = this.authService.checkAuth();
   authSubscr;
 
   comments: Comment[] = [];
   commentFormActive: Boolean = false;
   commentForm: FormGroup;
-  constructor(
-    public commentsService: CommentsService,
-    public authService: AuthService,
-    public fb: FormBuilder
-  ) { }
 
   ngOnInit() {
     this.loadComments();
@@ -47,6 +49,11 @@ export class CommentsComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  getCommentAuthorName(userId) {
+    return this.usersService.getUser(userId).name;
+  }
+
 
   checkUserCategory(categories: string[]) {
     return this.authService.checkUserCategory(categories);

@@ -18,7 +18,6 @@ import { User } from '../../shared/models/user.model';
   styleUrls: ['./admin-stat.component.css']
 })
 export class AdminStatComponent implements OnInit {
-
   constructor(
     public productsService: ProductsService,
     public commentsService: CommentsService,
@@ -28,52 +27,30 @@ export class AdminStatComponent implements OnInit {
   ) { }
 
   products: Product[];
-  productsCount: number;
+  productsCount;
 
   comments: Comment[];
-  commenstCount: number;
+  commenstCount;
 
   news: News[];
-  newsCount: number;
+  newsCount;
 
   orders: Order[];
-  ordersCount: number;
+  ordersCount;
 
   users: User[];
   usersCount: number;
 
   ngOnInit() {
-    // this.products = this.productsService.getLatest(3);
-    // this.productsCount = this.productsService.getCount();
-    // this.comments = this.commentsService.getLatest(3);
-    // this.commenstCount = this.commentsService.getCount();
-    // this.news = this.newsService.getLatest(3);
-    // this.orders = this.ordersService.getLatest(3);
-    // this.ordersCount = this.ordersService.getCount();
-    // this.users = this.usersService.getLatest(3);
-    // this.usersCount = this.usersService.getCount();
+    this.newsService.getLatest(3).subscribe(res => this.news = res);
+    this.commentsService.getLatest(3).subscribe(res => this.comments = res);
+    this.ordersService.getLatest(3).subscribe(res => this.orders = res);
+    this.productsService.getLatest(3).subscribe(res => this.products = res);
 
-
-    this.newsService.getCount().subscribe(
-      res => this.newsCount = res
-    );
-    this.newsService.getLatest(3).subscribe(
-      res => this.news = res
-    );
-
-    this.commentsService.getCount().subscribe(
-      res => this.commenstCount = res
-    );
-    this.commentsService.getLatest(3).subscribe(
-      res => this.comments = res
-    );
-
-    this.ordersService.getCount().subscribe(
-      res => this.ordersCount = res
-    );
-    this.ordersService.getLatest(3).subscribe(
-      res => this.orders = res
-    );
+    this.newsCount = this.newsService.getCount();
+    this.ordersCount = this.ordersService.getCount();
+    this.productsCount = this.productsService.getCount();
+    this.commenstCount = this.commentsService.getCount();
   }
 
   getOrderProductsCount(id: string): number {

@@ -3,13 +3,16 @@ import { Injectable } from '@angular/core';
 import { DataService } from '../shared/data.service';
 import { UsersService } from '../admin/users.service';
 
+import { AlertsService } from '../alerts/alerts.service';
+
 import { Provider } from '../shared/models/provider.model';
 
 @Injectable()
 export class ProvidersService {
     constructor(
         public usersService: UsersService,
-        public dataService: DataService
+        public dataService: DataService,
+        public alertsService: AlertsService
     ) { }
 
     private providers: Provider[] = [];
@@ -24,22 +27,28 @@ export class ProvidersService {
 
     addProvider(newProvider: Provider) {
         newProvider.id = (new Date).getTime().toString();
-        return this.dataService.putData('providers', newProvider);
+        return this.dataService.putData('providers', newProvider).map(
+            () => this.alertsService.addAlert({ message: 'Provider added', type: 'success' })
+        );
     }
 
     updateProvider(updatedProvider: Provider) {
-        return this.dataService.putData('providers', updatedProvider);
+        return this.dataService.putData('providers', updatedProvider).map(
+            () => this.alertsService.addAlert({ message: 'Provider updated', type: 'info' })
+        );
     }
 
     deleteProvider(id: string) {
-        return this.dataService.deleteData('providers/' + id);
+        return this.dataService.deleteData('providers/' + id).map(
+            () => this.alertsService.addAlert({ message: 'Provider deleted', type: 'warning' })
+        );
     }
 
     rateProvider(id: string, rate: number) {
         return this.loadProvider(id).map(
             provider => {
                 provider.rating += rate;
-                return this.updateProvider(provider);
+                return this.dataService.putData('providers', provider);
             }
         );
     }
@@ -63,10 +72,10 @@ export class ProvidersService {
     }
 
     getProvidersByUserId(userId: string) {
-        this.loadProviders().map(
+        return this.loadProviders().map(
             res => {
                 let providers = [];
-                for (const provider of providers) {
+                for (const provider of res) {
                     if (provider.users.indexOf(userId) > -1) {
                         providers.push(provider);
                     }

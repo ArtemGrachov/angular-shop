@@ -1,0 +1,5 @@
+<div class="alerts" *ngIf="alerts.length > 0">
+  <div [ngClass]="['alert','alert-' + alert.type]" *ngFor="let alert of alerts; let i= index" (click)="removeAlert(i)">
+    {{alert.message}}
+  </div>
+</div>

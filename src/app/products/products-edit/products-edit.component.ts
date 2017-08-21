@@ -41,7 +41,7 @@ export class ProductsEditComponent implements OnInit {
     new Date()
   );
   productId: string;
-  providersList: { id: string, name: string }[] = [{ id: '0', name: 'test' }];
+  providersList: { id: string, name: string }[] = [];
   productForm: FormGroup;
   editMode: Boolean = false;
 
@@ -60,13 +60,24 @@ export class ProductsEditComponent implements OnInit {
 
     // update after providers.service!
     if (this.authService.checkUserCategory(['admin'])) {
-      // this.providersList = this.providersService.getProviders().map(
-      //   (provider) => {
-      //     return { id: provider.id, name: provider.name };
-      //   }
-      // );
+      this.providersService.loadProviders().subscribe(
+        res => {
+          this.providersList = res.map(
+            provider => {
+              return { id: provider.id, name: provider.name };
+            }
+          );
+        });
     } else {
-      // this.providersList = this.providersService.getProvidersByUserId(this.usersService.currentUserId);
+      this.providersService.getProvidersByUserId(this.usersService.currentUserId).subscribe(
+        res => {
+          console.log(res);
+          this.providersList = res.map(
+            provider => {
+              return { id: provider.id, name: provider.name };
+            }
+          );
+        });
     }
   }
 
@@ -138,8 +149,9 @@ export class ProductsEditComponent implements OnInit {
   }
 
   delete() {
-    this.productsService.deleteProduct(this.productId);
-    this.router.navigate(['products']);
+    this.productsService.deleteProduct(this.productId).subscribe(
+      () => this.router.navigate(['products'])
+    );
   }
 
   reset() {

@@ -13,7 +13,6 @@
           <img [src]="product.imgUrl" class="img-responsive" [alt]="product.name" width="128">
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -23,7 +22,14 @@
       Latest news:
     </div>
     <div class="panel-body">
-
+      <div class="row">
+        <div class="col-xs-12 col-sm-6" *ngFor="let post of news" [routerLink]="['../news', post.id]" style="cursor: pointer">
+          <span class="badge">by {{post.authorId}}</span>
+          <h2>{{post.title}}</h2>
+          <hr> {{post.content | slice:0:25}}...
+          <hr>
+        </div>
+      </div>
     </div>
   </div>
 </div>

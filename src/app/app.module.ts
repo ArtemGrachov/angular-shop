@@ -10,6 +10,7 @@ import { ProductsModule } from './products/products.module';
 import { ProvidersModule } from './providers/providers.module';
 import { DashModule } from './dash/dash.module';
 import { HomeModule } from './home/home.module';
+import { AlertsModule } from './alerts/alerts.module';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -44,6 +45,7 @@ export const firebaseConfig = {
     AuthModule,
     DashModule,
     HomeModule,
+    AlertsModule,
     SharedModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),

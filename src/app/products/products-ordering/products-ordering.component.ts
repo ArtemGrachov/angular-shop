@@ -152,12 +152,14 @@ export class ProductsOrderingComponent implements OnInit {
 
   sendOrder() {
     const products: { name: string, price: number }[] = [];
-
+    let cartList = this.cart.list;
     for (const product of this.cart.list) {
-      products.push({
-        name: product.name,
-        price: product.price
-      });
+      if (product.count > 0) {
+        products.push({
+          name: product.name,
+          price: product.price
+        });
+      }
     }
     this.ordersService.addOrder(
       new Order(
@@ -167,6 +169,10 @@ export class ProductsOrderingComponent implements OnInit {
         new Date(),
         this.orderForm.get('location').value
       )
-    ).subscribe(() => this.successMsg = true);
+    ).subscribe(
+      () => {
+        this.successMsg = true;
+        this.productsService.clearCartOrder();
+      });
   }
 }

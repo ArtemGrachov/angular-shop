@@ -12,6 +12,7 @@ import { UsersService } from '../admin/users.service';
 import { OrdersService } from '../admin/orders.service';
 import { AuthService } from '../auth/auth.service';
 import { DataService } from '../shared/data.service';
+import { AlertsService } from '../alerts/alerts.service';
 
 import { HeaderComponent } from './header/header.component';
 
@@ -27,7 +28,8 @@ import { HeaderComponent } from './header/header.component';
         UsersService,
         OrdersService,
         AuthService,
-        DataService
+        DataService,
+        AlertsService
     ],
 })
 export class CoreModule { }

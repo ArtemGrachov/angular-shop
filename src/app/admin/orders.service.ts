@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
+import { ProductsService } from '../products/products.service';
 
 import { Order } from '../shared/models/order.model';
 
 @Injectable()
 export class OrdersService {
     constructor(
-        public dataService: DataService
+        public dataService: DataService,
+        public productService: ProductsService
     ) { }
 
     orders: Order[] = [];

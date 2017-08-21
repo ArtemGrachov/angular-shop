@@ -21,12 +21,12 @@
           <li>
             <button class="btn btn-danger btn-xs" (click)="removeFromCart(i)"><span class="glyphicon glyphicon-remove"></span> Remove</button>
           </li>
+          <li *ngIf="product.count <= 0" style="color: red">
+            Sorry, no one left!
+          </li>
         </ul>
       </li>
     </ul>
-    <div class="alert alert-success" *ngIf="successMsg">
-      <strong>Thank you for order!</strong>
-    </div>
     <div class="alert alert-info">
       Total price for products: <strong>${{cart.price}}</strong>
     </div>

@@ -27,10 +27,11 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
 
   productId: string;
   product: Product;
-  providerName: string;
+  // providerName: string;
   isAuth: boolean = this.authService.checkAuth();
   authSubsrc;
 
+  providerName;
 
   checkUserCategory(categories: string[]) {
     return this.authService.checkUserCategory(categories);
@@ -65,7 +66,12 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
 
   loadProduct() {
     this.productsService.loadProduct(this.productId).subscribe(
-      res => this.product = res
+      res => {
+        this.product = res;
+        this.providerName = this.providersService.loadProvider(this.product.providerId).map(
+          provider => provider.name
+        );
+      }
     );
   }
 
@@ -74,7 +80,16 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
   }
 
   addToCart(product: Product) {
-    this.productsService.addToCart(product);
+    this.productsService.loadProduct(this.productId).subscribe(
+      res => {
+        if (res.count <= 0) {
+          alert('no products!');
+        } else {
+          this.productsService.addToCart(product);
+        }
+        this.product = res;
+      }
+    );
   }
 
   rateProduct(id: string, rate: number) {
@@ -87,11 +102,7 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  getProviderName(id) {
-    this.providersService.loadProvider(id).subscribe(
-      res => this.providerName = res.name
-    );
-  }
+
 
   goToPrevPage() {
     this.location.back();
@@ -100,6 +111,7 @@ export class ProductsDetailsComponent implements OnInit, OnDestroy {
   delete() {
     this.productsService.deleteProduct(this.productId).subscribe(
       () => this.router.navigate(['products'])
+
     );
   }
 }
