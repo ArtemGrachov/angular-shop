@@ -54,7 +54,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
     return this.usersService.getUser(userId).name;
   }
 
-
   checkUserCategory(categories: string[]) {
     return this.authService.checkUserCategory(categories);
   }
@@ -74,7 +73,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.commentsService.addComment(
       new Comment(
         '0',
-        '0',
+        this.usersService.getCurrentUser().id,
         this.postId,
         this.commentForm.value['commentText'],
         new Date()

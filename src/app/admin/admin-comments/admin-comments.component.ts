@@ -4,7 +4,6 @@ import { CommentsService } from '../../news/comments.service';
 import { NewsService } from '../../news/news.service';
 
 import { Comment } from '../../shared/models/comment.model';
-import { News } from '../../shared/models/news.model';
 
 @Component({
   selector: 'app-admin-comments',
@@ -19,19 +18,30 @@ export class AdminCommentsComponent implements OnInit {
   ) { }
 
   comments: Comment[];
-  commenstCount: number;
 
-  newsTitles: { id: string, title: string }[];
+  newsTitles: { id: string, title: string }[] = [];
 
   ngOnInit() {
-    this.refreshComments();
-    // this.commentsService.emit.subscribe(
-    //   () => this.refreshComments()
-    // );
+    this.loadComments();
+    this.newsService.loadNews().subscribe(
+      res => {
+        for (const post of res) {
+          this.newsTitles.push({ id: post.id, title: post.title });
+        }
+      }
+    );
+  }
+
+  loadComments() {
+    this.commentsService.loadAllComments().subscribe(
+      res => this.comments = res
+    );
   }
 
   deleteComment(id: string) {
-    this.commentsService.deleteComment(id);
+    this.commentsService.deleteComment(id).subscribe(
+      () => this.loadComments()
+    );
   }
 
   getPostTitle(id: string) {
@@ -41,17 +51,4 @@ export class AdminCommentsComponent implements OnInit {
       }
     }
   }
-
-  refreshComments() {
-    // this.comments = this.commentsService.getComments();
-    // this.newsTitles = this.newsService.getNews().map(
-    //   function (post: News) {
-    //     return {
-    //       id: post.id,
-    //       title: post.title
-    //     };
-    //   }
-    // );
-  }
-
 }

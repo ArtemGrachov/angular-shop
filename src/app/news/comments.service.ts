@@ -2,6 +2,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
+import { AlertsService } from '../alerts/alerts.service';
+
 import { DataService } from '../shared/data.service';
 
 import { Comment } from '../shared/models/comment.model';
@@ -10,7 +12,8 @@ import { Comment } from '../shared/models/comment.model';
 export class CommentsService {
     constructor(
         public http: Http,
-        public dataService: DataService
+        public dataService: DataService,
+        public alertsService: AlertsService
     ) { }
     comments: Comment[] = [];
 
@@ -34,11 +37,15 @@ export class CommentsService {
 
     addComment(newComment: Comment) {
         newComment.id = (new Date).getTime().toString();
-        return this.dataService.putData('comments', newComment);
+        return this.dataService.putData('comments', newComment).map(
+            () => this.alertsService.addAlert({ message: 'Comment added', type: 'success' })
+        );
     }
 
     deleteComment(id: string) {
-        return this.dataService.deleteData(`comments/${id}`);
+        return this.dataService.deleteData(`comments/${id}`).map(
+            () => this.alertsService.addAlert({ message: 'Comment deleted', type: 'warning' })
+        );
     }
 
     getLatest(count: number) {
