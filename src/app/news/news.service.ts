@@ -1,16 +1,19 @@
 import { Injectable, Inject } from '@angular/core';
 
+import { UsersService } from '../admin/users.service';
 import { AlertsService } from '../alerts/alerts.service';
-
 import { DataService } from '../shared/data.service';
 
 import { News } from '../shared/models/news.model';
 
+import { Observable } from 'rxjs/Observable';
+
 @Injectable()
 export class NewsService {
     constructor(
-        public dataService: DataService,
-        public alertsService: AlertsService
+        private dataService: DataService,
+        private usersService: UsersService,
+        private alertsService: AlertsService
     ) { }
 
     loadNews() {

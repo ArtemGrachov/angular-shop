@@ -1,5 +1,6 @@
-<div class="btn-group" *ngIf="addAccess | async">
+<div *ngIf="addAccess | async">
   <a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add product</a>
+  <hr>
 </div>
 <ul class="list-group">
   <a class="list-group-item" *ngFor="let product of products" [routerLink]="product.id">

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { ProvidersEditGuard } from '../auth/route-guard/providers-edit-guard.service';
+import { AdminGuard } from '../auth/route-guard/admin-guard.service';
+
 import { ProvidersDetailsComponent } from './providers-details/providers-details.component';
 import { ProvidersListComponent } from './providers-list/providers-list.component';
 import { ProvidersEditComponent } from './providers-edit/providers-edit.component';
@@ -11,7 +14,7 @@ import { DescriptionComponent } from './providers-details/description/descriptio
 const providersRoutes = [
     {
         path: 'providers', component: ProvidersListComponent, children: [
-            { path: 'new', component: ProvidersEditComponent },
+            { path: 'new', component: ProvidersEditComponent, canActivate: [AdminGuard] },
             {
                 path: ':id', component: ProvidersDetailsComponent, children: [
                     { path: 'comments', component: CommentsComponent },
@@ -20,7 +23,7 @@ const providersRoutes = [
                     { path: '', component: DescriptionComponent }
                 ]
             },
-            { path: ':id/edit', component: ProvidersEditComponent },
+            { path: ':id/edit', component: ProvidersEditComponent, canActivate: [ProvidersEditGuard] },
         ]
     }
 ];
@@ -30,6 +33,6 @@ const providersRoutes = [
         RouterModule.forChild(providersRoutes)
     ],
     exports: [RouterModule],
-    providers: []
+    providers: [ProvidersEditGuard, AdminGuard]
 })
 export class ProvidersRoutingModule { }

@@ -13,6 +13,8 @@ import { Provider } from '../../shared/models/provider.model';
 import { greaterZero } from '../../shared/validators/greater-zero.validator';
 import { isInteger } from '../../shared/validators/integer.validator';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-products-edit',
   templateUrl: './products-edit.component.html',
@@ -58,27 +60,27 @@ export class ProductsEditComponent implements OnInit {
     );
     this.providersService.loadProviders();
 
-    // update after providers.service!
-    // if (this.authService.checkUserCategory(['admin'])) {
-    //   this.providersService.loadProviders().subscribe(
-    //     res => {
-    //       this.providersList = res.map(
-    //         provider => {
-    //           return { id: provider.id, name: provider.name };
-    //         }
-    //       );
-    //     });
-    // } else {
-    //   this.providersService.getProvidersByUserId(this.usersService.currentUserId).subscribe(
-    //     res => {
-    //       console.log(res);
-    //       this.providersList = res.map(
-    //         provider => {
-    //           return { id: provider.id, name: provider.name };
-    //         }
-    //       );
-    //     });
-    // }
+
+    this.authService.getCurrentUser().subscribe(
+      (user: any) => {
+        let sub: Observable<any>;
+
+        if (user.category === 'admin') {
+          sub = this.providersService.loadProviders();
+        } else {
+          sub = this.providersService.getProvidersByUserId(user.id);
+        }
+        sub.subscribe(
+          res => {
+            this.providersList = res.map(
+              provider => {
+                return { id: provider.id, name: provider.name }
+              }
+            );
+          }
+        );
+      }
+    );
   }
 
   loadProduct() {

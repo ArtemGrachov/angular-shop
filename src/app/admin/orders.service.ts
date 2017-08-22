@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
 import { ProductsService } from '../products/products.service';
+import { AlertsService } from '../alerts/alerts.service';
 
 import { Order } from '../shared/models/order.model';
 
 @Injectable()
 export class OrdersService {
     constructor(
-        public dataService: DataService,
-        public productService: ProductsService
+        private dataService: DataService,
+        private alertService: AlertsService,
+        private productService: ProductsService
     ) { }
 
     orders: Order[] = [];
@@ -38,7 +40,9 @@ export class OrdersService {
 
     addOrder(newOrder: Order) {
         newOrder.id = (new Date).getTime().toString();
-        return this.dataService.putData('orders', newOrder);
+        return this.dataService.putData('orders', newOrder).map(
+            () => this.alertService.addAlert({ message: 'Thank you for order!', type: 'success' })
+        );
     }
 
     deleteOrder(id: string) {

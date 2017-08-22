@@ -22,6 +22,7 @@ export class CommentsComponent implements OnInit {
   comments: string[] = [];
   providerId: string;
   comment: string;
+  writeCommentAccess = this.authService.checkUserCategory(['admin', 'premium']);
 
   ngOnInit() {
     this.route.params.subscribe(

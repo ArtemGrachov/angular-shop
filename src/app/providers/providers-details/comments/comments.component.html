@@ -3,7 +3,7 @@
     {{comment}}
   </li>
 </ul>
-<div class="panel panel-default">
+<div class="panel panel-default" *ngIf="writeCommentAccess | async">
   <div class="panel-heading">
     Leave a comment
   </div>
