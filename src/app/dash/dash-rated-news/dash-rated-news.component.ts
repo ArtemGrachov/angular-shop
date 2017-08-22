@@ -20,17 +20,15 @@ export class DashRatedNewsComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(
-      obs => obs.subscribe(
-        res => {
-          if (res.ratedNews) {
-            for (let id of res.ratedNews) {
-              this.newsService.loadPost(id).subscribe(
-                post => this.news.push(post)
-              );
-            }
+      (res: any) => {
+        if (res.ratedNews) {
+          for (let id of res.ratedNews) {
+            this.newsService.loadPost(id).subscribe(
+              post => this.news.push(post)
+            );
           }
         }
-      )
+      }
     );
   }
 

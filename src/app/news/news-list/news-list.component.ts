@@ -7,6 +7,8 @@ import { News } from '../../shared/models/news.model';
 import { NewsService } from '../news.service';
 import { UsersService } from '../../admin/users.service';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-news-list',
   templateUrl: './news-list.component.html',
@@ -21,6 +23,9 @@ export class NewsListComponent implements OnInit {
   ) { }
 
   public newsList: News[] = [];
+
+  testname = this.usersService.loadUser('sszhB1O8aDeNsYePbLJPu4J9Mju2').map(res => res.name);
+
 
   ngOnInit() {
     this.newsService.loadNews().subscribe(
@@ -38,9 +43,5 @@ export class NewsListComponent implements OnInit {
         );
       }
     );
-  }
-
-  getAuthorName(id: string): string {
-    return 'test';
   }
 }

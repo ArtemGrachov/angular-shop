@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class ProviderGuard implements CanActivate {
     constructor(public authService: AuthService) { }
     private obs: Observable<boolean>;
 
@@ -14,7 +14,7 @@ export class AdminGuard implements CanActivate {
             observer => {
                 this.authService.getCurrentUser().subscribe(
                     (user: any) => {
-                        if (user.category === 'admin') {
+                        if (user.category === 'provider') {
                             observer.next(true);
                         } else {
                             observer.next(false);

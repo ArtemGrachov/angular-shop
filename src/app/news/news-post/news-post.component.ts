@@ -8,6 +8,8 @@ import { News } from '../..//shared/models/news.model';
 import { NewsService } from '../../news/news.service';
 import { UsersService } from '../../admin/users.service';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-news-post',
   templateUrl: './news-post.component.html',
@@ -32,6 +34,7 @@ export class NewsPostComponent implements OnInit {
         this.loadPost();
       }
     );
+
   }
 
   loadPost() {
@@ -40,11 +43,6 @@ export class NewsPostComponent implements OnInit {
       res => {
         this.post = res;
       });
-  }
-
-  checkEditAccess() {
-    // !!!
-    return true;
   }
 
   postRate(rating: number) {

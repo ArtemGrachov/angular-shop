@@ -46,11 +46,21 @@ export class AuthService {
     }
 
     getCurrentUser() {
-        return this.getAuth().map(
-            auth => {
-                return this.usersService.loadUser(auth.uid);
+        let obs = new Observable(
+            observer => {
+                this.getAuth().subscribe(
+                    auth => {
+                        this.usersService.loadUser(auth.uid).subscribe(
+                            res => {
+                                observer.next(res);
+                                observer.complete();
+                            }
+                        );
+                    }
+                );
             }
         );
+        return obs;
     }
 
     login(email: string, password: string) {

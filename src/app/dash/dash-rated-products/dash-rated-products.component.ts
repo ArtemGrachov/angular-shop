@@ -20,17 +20,15 @@ export class DashRatedProductsComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(
-      obs => obs.subscribe(
-        res => {
-          if (res.ratedProducts) {
-            for (let id of res.ratedProducts) {
-              this.productsService.loadProduct(id).subscribe(
-                product => this.products.push(product)
-              );
-            }
+      (res: any) => {
+        if (res.ratedProducts) {
+          for (let id of res.ratedProducts) {
+            this.productsService.loadProduct(id).subscribe(
+              product => this.products.push(product)
+            );
           }
         }
-      )
+      }
     );
   }
 

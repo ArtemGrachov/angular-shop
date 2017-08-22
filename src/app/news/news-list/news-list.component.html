@@ -4,7 +4,7 @@
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let post of newsList" style="cursor: pointer" [routerLink]="post.id">
       <h4>{{post.title}}</h4>
-      <span class="badge">{{getAuthorName(post.authorId)}}</span>
+      <span class="badge">{{2 + 2}}</span>
       <div>
         {{post.content | slice:0:45}}...
       </div>
