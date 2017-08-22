@@ -28,6 +28,7 @@ export class ProductsDetailsComponent implements OnInit {
   productId: string;
   product: Product;
   providerName;
+  auth = this.authService.getAuth();
 
   ngOnInit() {
     this.route.params.subscribe(

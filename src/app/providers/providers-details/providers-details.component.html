@@ -13,7 +13,7 @@
         <span class="glyphicon glyphicon-star-empty"></span> {{provider.rating}}
       </div>
     </div>
-    <div class="btn-group" *ngIf="isAuth">
+    <div class="btn-group" *ngIf="auth | async">
       <a class="btn btn-sm btn-success" role="button" (click)="providerRate(1)">
         <span class="glyphicon glyphicon-thumbs-up"></span>
       </a>

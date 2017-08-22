@@ -7,10 +7,11 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
   constructor(
     public authService: AuthService
   ) { }
+
+  auth = this.authService.getAuth();
 
   ngOnInit() {
 

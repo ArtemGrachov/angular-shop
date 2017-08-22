@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { GuestGuard } from '../auth/route-guard/guest-guard.service';
+
 import { LoginComponent } from './login/login.component';
 import { RegComponent } from './reg/reg.component';
 
-
 const authRoutes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'reg', component: RegComponent }
+    { path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
+    { path: 'reg', component: RegComponent, canActivate: [GuestGuard] }
 ];
 
 @NgModule({
@@ -15,6 +16,6 @@ const authRoutes = [
         RouterModule.forChild(authRoutes)
     ],
     exports: [RouterModule],
-    providers: []
+    providers: [GuestGuard]
 })
 export class AuthRoutingModule { }

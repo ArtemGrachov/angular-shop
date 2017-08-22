@@ -21,10 +21,10 @@ export class CommentsComponent implements OnInit {
     public fb: FormBuilder
   ) { }
 
-
   comments: Comment[] = [];
   commentFormActive: Boolean = false;
   commentForm: FormGroup;
+  auth = this.authService.getAuth();
 
   ngOnInit() {
     this.loadComments();
@@ -43,7 +43,7 @@ export class CommentsComponent implements OnInit {
 
   getCommentAuthorName(userId) {
     // !!!
-    return 'test username';
+    return userId;
   }
 
   deleteComment(id: string) {
@@ -61,7 +61,7 @@ export class CommentsComponent implements OnInit {
     this.commentsService.addComment(
       new Comment(
         '0',
-        this.usersService.currentUserId,
+        this.authService.getUid(),
         this.postId,
         this.commentForm.value['commentText'],
         new Date()

@@ -4,7 +4,7 @@ import 'rxjs/Rx';
 import { AlertsService } from '../alerts/alerts.service';
 
 import { DataService } from '../shared/data.service';
-import { UsersService } from '../admin/users.service';
+import { AuthService } from '../auth/auth.service';
 
 import { Product } from '../shared/models/product.model';
 
@@ -12,8 +12,8 @@ import { Product } from '../shared/models/product.model';
 export class ProductsService {
     constructor(
         public dataService: DataService,
-        public usersService: UsersService,
-        public alertsService: AlertsService
+        public alertsService: AlertsService,
+        public authService: AuthService
     ) { }
 
     products: Product[] = [];

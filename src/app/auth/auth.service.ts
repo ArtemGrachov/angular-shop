@@ -23,12 +23,26 @@ export class AuthService {
         public firebaseAuth: AngularFireAuth
     ) {
         this.authState = firebaseAuth.authState;
+        this.authState.subscribe(
+            res => {
+                if (res) {
+                    this.currentUid = res.uid;
+                } else {
+                    this.currentUid = '';
+                }
+            }
+        );
     }
 
-    authState: Observable<firebase.User>;
+    private authState: Observable<firebase.User>;
+    private currentUid: string = '';
 
     getAuth() {
         return this.authState;
+    }
+
+    getUid() {
+        return this.currentUid;
     }
 
     getCurrentUser() {

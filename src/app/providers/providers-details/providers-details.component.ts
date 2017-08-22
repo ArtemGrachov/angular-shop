@@ -16,10 +16,6 @@ import { Product } from '../../shared/models/product.model';
   styleUrls: ['./providers-details.component.css']
 })
 export class ProvidersDetailsComponent implements OnInit {
-  providerId: string = '';
-  provider: Provider;
-  providerProducts: Product[];
-
   constructor(
     public providersService: ProvidersService,
     public productsService: ProductsService,
@@ -28,6 +24,12 @@ export class ProvidersDetailsComponent implements OnInit {
     public route: ActivatedRoute,
     public authService: AuthService
   ) { }
+
+  providerId: string = '';
+  provider: Provider;
+  providerProducts: Product[];
+  auth = this.authService.getAuth();
+
 
   ngOnInit() {
     this.route.params.subscribe(

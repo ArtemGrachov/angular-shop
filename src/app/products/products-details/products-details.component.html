@@ -50,13 +50,13 @@
           <button type="button" class="btn btn-primary" (click)="addToCart(product)" [disabled]="product.count <= 0">
             <span class="glyphicon glyphicon-shopping-cart"></span> Add to cart!
           </button>
-          <ng-template [ngIf]="isAuth">
+          <ng-template [ngIf]="auth | async">
             <button type="button" class="btn btn-success" (click)="rateProduct(product.id, 1)">
-              <span class="glyphicon glyphicon-thumbs-up"></span>
-            </button>
+                  <span class="glyphicon glyphicon-thumbs-up"></span>
+                </button>
             <button type="button" class="btn btn-danger" (click)="rateProduct(product.id, -1)">
-                <span class="glyphicon glyphicon-thumbs-down"></span>
-            </button>
+                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                </button>
           </ng-template>
         </div>
       </div>

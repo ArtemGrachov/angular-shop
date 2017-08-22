@@ -14,15 +14,16 @@ import { UsersService } from '../../admin/users.service';
   styleUrls: ['./news-post.component.css']
 })
 export class NewsPostComponent implements OnInit {
-  post: News;
-  postId: string;
-
   constructor(public newsService: NewsService,
     public usersService: UsersService,
     public authService: AuthService,
     public router: Router,
     public route: ActivatedRoute
   ) { }
+
+  post: News;
+  postId: string;
+  auth = this.authService.getAuth();
 
   ngOnInit() {
     this.route.params.subscribe(
