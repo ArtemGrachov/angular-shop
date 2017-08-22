@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">{{user.name}}'s profile</div>
   <div class="panel-body">
-    <form [formGroup]="userForm" (ngSubmit)="submit()">
+    <form [formGroup]="userForm" (ngSubmit)="submit()" *ngIf="userForm">
       <div class="form-group">
         <label>User's location:</label>
         <agm-map [latitude]="gmap.lat" [longitude]="gmap.lng" [zoom]="gmap.zoom" style="height: 400px">
@@ -15,8 +15,8 @@
       <div class="form-group">
         <label for="email">Email:</label> {{user.email}}
       </div>
-      <div class="form-group">
-        <label>Registration date:</label> {{user.regdate | date:'medium'}}
+      <div class="form-group" *ngIf="!newMode">
+        <label>Registration date:</label> {{regDate | date:'medium'}}
       </div>
       <div class="form-group">
         <label for="name">Name:</label> {{user.name}}

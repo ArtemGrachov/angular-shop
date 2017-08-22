@@ -26,11 +26,12 @@ export class AdminUserProfileComponent implements OnInit {
   newMode: Boolean = false;
   user = new User('0', '', '', new Date(), 'user', new Date(), 'male', { lat: 0, lng: 0 }, '', [], [], []);
   userId: string = '';
+  regDate;
   usersCategories: string[] = [];
   gmap = {
     lat: 0,
     lng: 0,
-    zoom: 16
+    zoom: 12
   };
   clientMarkerUrl: string = 'assets/img/client.png';
   @ViewChild('userMarker') userMarker: ElementRef;
@@ -43,20 +44,29 @@ export class AdminUserProfileComponent implements OnInit {
       (params: Params) => {
         if (params['id']) {
           this.userId = params['id'];
-          this.usersService.loadUser(this.userId).subscribe(
-            res => {
-              this.gmap.lat = res.location.lat;
-              this.gmap.lng = res.location.lng;
-              this.user = res;
-            }
-          );
+          this.loadUser();
         } else {
           this.newMode = true;
           this.editMode = true;
+          this.buildUserForm();
         }
       }
     );
-    this.buildUserForm();
+  }
+
+  loadUser() {
+    this.usersService.loadUser(this.userId).subscribe(
+      res => {
+        this.gmap.lat = res.location.lat;
+        this.gmap.lng = res.location.lng;
+        this.user = res;
+        this.regDate = res.regDate;
+        console.log(res);
+        if (!this.userForm) {
+          this.buildUserForm();
+        }
+      }
+    );
   }
 
   changeUserPos(newPos) {
@@ -74,7 +84,6 @@ export class AdminUserProfileComponent implements OnInit {
   buildUserForm() {
     this.userForm = this.fb.group({
       'name': [this.user.name, Validators.required],
-      'email': [this.user.email, [Validators.required, Validators.email]],
       'category': [{ value: this.user.category, disabled: (this.userId === '0' ? true : false) }],
       'phone': this.user.phone,
       'birthdate': this.user.birthdate,
@@ -86,6 +95,7 @@ export class AdminUserProfileComponent implements OnInit {
   submit() {
     let updUser = this.userForm.value;
     updUser.id = this.user.id;
+    updUser.email = this.user.email;
     updUser.regdate = this.user.regdate;
     updUser.ratedNews = this.user.ratedNews;
     updUser.ratedProducts = this.user.ratedProducts;
@@ -95,8 +105,12 @@ export class AdminUserProfileComponent implements OnInit {
       this.usersService.addUser(updUser);
       this.router.navigate(['../'], { relativeTo: this.route });
     } else {
-      this.usersService.updateUser(updUser);
-      this.editMode = false;
+      this.usersService.updateUser(updUser).subscribe(
+        () => {
+          this.editMode = false;
+          this.loadUser();
+        }
+      );
     }
   }
 
