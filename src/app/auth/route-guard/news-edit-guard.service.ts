@@ -5,12 +5,12 @@ import { EditAccessService } from '../../shared/edit-access.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class ProductsEditGuard implements CanActivate {
+export class NewsEditGuard implements CanActivate {
     constructor(
         public editAccessService: EditAccessService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot) {
-        return this.editAccessService.productEditAccess(route.params.id);
+        return this.editAccessService.newsEditAccess(route.params.id);
     }
 }

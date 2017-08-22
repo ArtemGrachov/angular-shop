@@ -20,12 +20,14 @@
     <a class="btn btn-sm btn-danger" role="button" (click)="postRate(-1)">
         <span class="glyphicon glyphicon-thumbs-down"></span>
       </a>
-    <a class="btn btn-sm btn-primary" role="button" routerLink="edit">
+    <ng-template [ngIf]="editAccess | async">
+      <a class="btn btn-sm btn-primary" role="button" routerLink="edit">
         <span class="glyphicon glyphicon-pencil"></span> Edit
       </a>
-    <a class="btn btn-sm btn-danger" role="button" (click)="postDelete()">
+      <a class="btn btn-sm btn-danger" role="button" (click)="postDelete()">
         <span class="glyphicon glyphicon-remove"></span> Delete
       </a>
+    </ng-template>
   </div>
   <hr>
   <app-comments [postId]="post.id"></app-comments>

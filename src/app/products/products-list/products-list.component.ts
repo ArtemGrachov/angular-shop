@@ -13,13 +13,13 @@ import { ProvidersService } from '../../providers/providers.service';
   styleUrls: ['./products-list.component.css']
 })
 export class ProductsListComponent implements OnInit {
-  public products: Product[] = [];
-
   constructor(
-    public productsService: ProductsService,
-    public authService: AuthService,
-    public providersService: ProvidersService
+    private productsService: ProductsService,
+    private authService: AuthService,
+    private providersService: ProvidersService
   ) { }
+  private products: Product[] = [];
+  private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
 
   ngOnInit() {
     this.loadProducts();

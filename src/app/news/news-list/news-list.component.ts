@@ -15,7 +15,6 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./news-list.component.css']
 })
 export class NewsListComponent implements OnInit {
-
   constructor(
     public newsService: NewsService,
     public authService: AuthService,
@@ -24,8 +23,8 @@ export class NewsListComponent implements OnInit {
 
   public newsList: News[] = [];
 
-  testname = this.usersService.loadUser('sszhB1O8aDeNsYePbLJPu4J9Mju2').map(res => res.name);
-
+  private testname = this.usersService.loadUser('sszhB1O8aDeNsYePbLJPu4J9Mju2').map(res => res.name);
+  private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
 
   ngOnInit() {
     this.newsService.loadNews().subscribe(

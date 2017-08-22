@@ -12,13 +12,13 @@ import { Provider } from '../../shared/models/provider.model';
   styleUrls: ['./providers-list.component.css']
 })
 export class ProvidersListComponent implements OnInit {
-  public providers: Provider[] = [];
-  providerSubscr;
-
   constructor(
-    public providersService: ProvidersService,
-    public authService: AuthService
+    private providersService: ProvidersService,
+    private authService: AuthService
   ) { }
+
+  private providers: Provider[] = [];
+  private isAdmin = this.authService.checkUserCategory(['admin']);
 
   ngOnInit() {
     this.providersService.loadProviders();

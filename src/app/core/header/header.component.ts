@@ -12,9 +12,9 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   auth = this.authService.getAuth();
+  isAdmin = this.authService.checkUserCategory(['admin']);
 
   ngOnInit() {
-
   }
 
   logout() {

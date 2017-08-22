@@ -1,5 +1,7 @@
-<a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Add post</a>
-<hr>
+<div *ngIf="addAccess | async">
+  <a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Add post</a>
+  <hr>
+</div>
 <div class="panel-group">
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let post of newsList" style="cursor: pointer" [routerLink]="post.id">

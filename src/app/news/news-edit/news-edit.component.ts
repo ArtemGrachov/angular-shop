@@ -10,6 +10,8 @@ import { UsersService } from '../../admin/users.service';
 import { News } from '../../shared/models/news.model';
 import { User } from '../../shared/models/user.model';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-news-edit',
   templateUrl: './news-edit.component.html',
@@ -30,7 +32,7 @@ export class NewsEditComponent implements OnInit {
     '',
     '',
     0,
-    this.usersService.currentUserId,
+    this.authService.getUid(),
     new Date()
   );
 
@@ -38,6 +40,7 @@ export class NewsEditComponent implements OnInit {
   editMode = false;
   newsEditForm: FormGroup;
   users: User[] = [];
+  isAdmin = this.authService.checkUserCategory(['admin']);
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -115,4 +118,6 @@ export class NewsEditComponent implements OnInit {
   cancel() {
     this.router.navigate(['../', { relativeTo: this.route }]);
   }
+
+
 }

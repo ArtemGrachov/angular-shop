@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
+import { EditAccessService } from '../../shared/edit-access.service';
 
 import { News } from '../..//shared/models/news.model';
 
@@ -16,21 +17,24 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./news-post.component.css']
 })
 export class NewsPostComponent implements OnInit {
-  constructor(public newsService: NewsService,
-    public usersService: UsersService,
-    public authService: AuthService,
-    public router: Router,
-    public route: ActivatedRoute
+  constructor(private newsService: NewsService,
+    private usersService: UsersService,
+    private authService: AuthService,
+    private editAccessService: EditAccessService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   post: News;
   postId: string;
   auth = this.authService.getAuth();
+  editAccess;
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.postId = params['id'];
+        this.editAccess = this.editAccessService.newsEditAccess(this.postId);
         this.loadPost();
       }
     );

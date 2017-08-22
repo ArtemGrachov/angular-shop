@@ -16,28 +16,89 @@ export class EditAccessService {
         private newsService: NewsService
     ) { }
 
-
     productEditAccess(id: string) {
         return new Observable(
             observer => {
                 this.authService.getCurrentUser().subscribe(
                     (user: any) => {
-                        if (user.category === 'admin') {
-                            observer.next(true);
-                        } else if (user.category === 'provider') {
-                            this.productsService.loadProduct(id).subscribe(
-                                res => {
-                                    this.providersService.loadProvider(res.providerId).subscribe(
-                                        prov => {
-                                            if (prov.users.indexOf(this.authService.getUid()) > -1) {
-                                                observer.next(true);
-                                            } else {
-                                                observer.next(false);
+                        if (user) {
+                            if (user.category === 'admin') {
+                                observer.next(true);
+                            } else if (user.category === 'provider') {
+                                this.productsService.loadProduct(id).subscribe(
+                                    res => {
+                                        this.providersService.loadProvider(res.providerId).subscribe(
+                                            prov => {
+                                                if (prov.users.indexOf(user.id) > -1) {
+                                                    observer.next(true);
+                                                } else {
+                                                    observer.next(false);
+                                                }
                                             }
+                                        );
+                                    }
+                                );
+                            } else {
+                                observer.next(false);
+                            }
+                        } else {
+                            observer.next(false);
+                        }
+                    }
+                );
+            }
+        );
+    }
+
+    newsEditAccess(id: string) {
+        return new Observable(
+            observer => {
+                this.authService.getCurrentUser().subscribe(
+                    (user: any) => {
+                        if (user) {
+                            if (user.category === 'admin') {
+                                observer.next(true);
+                            } else {
+                                this.newsService.loadPost(id).subscribe(
+                                    res => {
+                                        if (res.authorId === user.id) {
+                                            observer.next(true);
+                                        } else {
+                                            observer.next(false);
                                         }
-                                    );
-                                }
-                            );
+                                    }
+                                );
+                            }
+                        } else {
+                            observer.next(false);
+                        }
+                    }
+                );
+            }
+        );
+    }
+
+    providerEditAccess(id: string) {
+        return new Observable(
+            observer => {
+                this.authService.getCurrentUser().subscribe(
+                    (user: any) => {
+                        if (user) {
+                            if (user.category === 'admin') {
+                                observer.next(true);
+                            } else if (user.category === 'provider') {
+                                this.providersService.loadProvider(id).subscribe(
+                                    prov => {
+                                        if (prov.users.indexOf(user.id) > -1) {
+                                            observer.next(true);
+                                        } else {
+                                            observer.next(false);
+                                        }
+                                    }
+                                );
+                            } else {
+                                observer.next(false);
+                            }
                         } else {
                             observer.next(false);
                         }

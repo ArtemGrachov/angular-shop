@@ -33,16 +33,14 @@ export class DashProfileComponent implements OnInit {
   }
 
   loadProfile() {
-    // this.authService.getCurrentUser().subscribe(
-    //   obs => obs.subscribe(
-    //     res => {
-    //       this.user = res;
-    //       if (!this.profileForm) {
-    //         this.buildProfileForm();
-    //       }
-    //     }
-    //   )
-    // );
+    this.authService.getCurrentUser().subscribe(
+      res => {
+        this.user = res;
+        if (!this.profileForm) {
+          this.buildProfileForm();
+        }
+      }
+    );
   }
 
   toggleEditMode() {

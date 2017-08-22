@@ -5,11 +5,11 @@ import { AuthService } from '../auth.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class AddItemGuard implements CanActivate {
     constructor(public authService: AuthService) { }
     private obs: Observable<boolean>;
 
     canActivate() {
-        return this.authService.checkUserCategory(['admin']);
+        return this.authService.checkUserCategory(['admin', 'provider']);
     }
 }

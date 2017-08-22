@@ -50,12 +50,14 @@ export class AuthService {
             observer => {
                 this.getAuth().subscribe(
                     auth => {
-                        this.usersService.loadUser(auth.uid).subscribe(
-                            res => {
-                                observer.next(res);
-                                observer.complete();
-                            }
-                        );
+                        if (auth) {
+                            this.usersService.loadUser(auth.uid).subscribe(
+                                res => {
+                                    observer.next(res);
+                                    observer.complete();
+                                }
+                            );
+                        }
                     }
                 );
             }
@@ -122,4 +124,19 @@ export class AuthService {
             );
     }
 
+    checkUserCategory(categories: string[]) {
+        return new Observable(
+            observer => {
+                this.getCurrentUser().subscribe(
+                    (user: any) => {
+                        if (categories.indexOf(user.category) > -1) {
+                            observer.next(true);
+                        } else {
+                            observer.next(false);
+                        }
+                    }
+                );
+            }
+        );
+    }
 }

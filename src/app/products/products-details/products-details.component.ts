@@ -6,6 +6,8 @@ import { AuthService } from '../../auth/auth.service';
 import { ProductsService } from '../products.service';
 import { ProvidersService } from '../../providers/providers.service';
 
+import { EditAccessService } from '../../shared/edit-access.service';
+
 import { UsersService } from '../../admin/users.service';
 import { Product } from '../../shared/models/product.model';
 
@@ -16,25 +18,28 @@ import { Product } from '../../shared/models/product.model';
 })
 export class ProductsDetailsComponent implements OnInit {
   constructor(
-    public productsService: ProductsService,
-    public providersService: ProvidersService,
-    public usersService: UsersService,
-    public authService: AuthService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public location: Location
+    private productsService: ProductsService,
+    private providersService: ProvidersService,
+    private usersService: UsersService,
+    private editAccessService: EditAccessService,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location
   ) { }
 
   productId: string;
   product: Product;
   providerName;
   auth = this.authService.getAuth();
+  editAccess;
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.productId = params['id'];
         this.loadProduct();
+        this.editAccess = this.editAccessService.productEditAccess(this.productId);
       }
     );
   }

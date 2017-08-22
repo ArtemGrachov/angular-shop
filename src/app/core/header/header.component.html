@@ -17,7 +17,7 @@
       <a routerLink="/dash" *ngIf="auth | async">Dashboard</a>
     </li>
     <li routerLinkActive="active">
-      <a routerLink="/admin" *ngIf="auth | async">Admin</a>
+      <a routerLink="/admin" *ngIf="isAdmin | async">Admin</a>
     </li>
     <li routerLinkActive="active">
       <a routerLink="/login" *ngIf="!(auth | async)">Login</a>

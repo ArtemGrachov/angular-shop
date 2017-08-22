@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
+import { EditAccessService } from '../../shared/edit-access.service';
 
 import { ProvidersService } from '../providers.service';
 import { UsersService } from '../../admin/users.service';
@@ -17,24 +18,26 @@ import { Product } from '../../shared/models/product.model';
 })
 export class ProvidersDetailsComponent implements OnInit {
   constructor(
-    public providersService: ProvidersService,
-    public productsService: ProductsService,
-    public usersService: UsersService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public authService: AuthService
+    private providersService: ProvidersService,
+    private productsService: ProductsService,
+    private editAccessService: EditAccessService,
+    private usersService: UsersService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) { }
 
   providerId: string = '';
   provider: Provider;
   providerProducts: Product[];
   auth = this.authService.getAuth();
-
+  editAccess;
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.providerId = params['id'];
+        this.editAccess = this.editAccessService.providerEditAccess(this.providerId);
         this.loadProvider();
       }
     );
@@ -46,17 +49,6 @@ export class ProvidersDetailsComponent implements OnInit {
       provider => {
         this.provider = provider;
       });
-  }
-
-  checkEditAccess() {
-    // if (this.authService.checkAuth()) {
-    //   return this.authService.checkUserCategory(['admin'])
-    //     || this.providersService
-    //       .getProvider(this.providerId).users
-    //       .indexOf(this.usersService.getCurrentUser().id) > -1;
-    // }
-    // return false;
-    return true;
   }
 
   delete() {
