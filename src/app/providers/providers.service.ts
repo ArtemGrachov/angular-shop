@@ -56,8 +56,11 @@ export class ProvidersService {
     addComment(providerId: string, comment: string) {
         return this.loadProvider(providerId).map(
             provider => {
+                if (!provider.comments) {
+                    provider.comments = [];
+                }
                 provider.comments.push(comment);
-                return this.updateProvider(provider);
+                return this.dataService.putData('providers', provider);
             }
         );
     }

@@ -69,6 +69,7 @@ export class AuthService {
         this.firebaseAuth.auth.signInWithEmailAndPassword(email, password)
             .then(
             res => {
+                this.loginRedirect();
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
@@ -80,6 +81,7 @@ export class AuthService {
         this.firebaseAuth.auth.signInWithPopup(provider)
             .then(
             res => {
+                this.loginRedirect();
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
@@ -91,6 +93,7 @@ export class AuthService {
         this.firebaseAuth.auth.signInWithPopup(provider)
             .then(
             res => {
+                this.loginRedirect();
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
@@ -99,6 +102,11 @@ export class AuthService {
 
     logout() {
         this.firebaseAuth.auth.signOut();
+        this.router.navigate(['/']);
+    }
+
+    loginRedirect() {
+        this.router.navigate(['dash']);
     }
 
     registration(newUser) {
