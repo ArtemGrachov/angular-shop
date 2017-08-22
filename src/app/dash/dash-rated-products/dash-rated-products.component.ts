@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UsersService } from '../../admin/users.service';
+import { AuthService } from '../../auth/auth.service';
 import { ProductsService } from '../../products/products.service';
 
 import { Product } from '../../shared/models/product.model';
@@ -12,20 +12,26 @@ import { Product } from '../../shared/models/product.model';
 })
 export class DashRatedProductsComponent implements OnInit {
   constructor(
-    public usersService: UsersService,
+    public authService: AuthService,
     public productsService: ProductsService
   ) { }
 
   products: Product[] = [];
 
   ngOnInit() {
-    // this.usersService.getCurrentUser().ratedProducts.map(
-    //   (id) => {
-    //     this.products.push(
-    //       this.productsService.getProduct(id)
-    //     );
-    //   }
-    // );
+    this.authService.getCurrentUser().subscribe(
+      obs => obs.subscribe(
+        res => {
+          if (res.ratedProducts) {
+            for (let id of res.ratedProducts) {
+              this.productsService.loadProduct(id).subscribe(
+                product => this.products.push(product)
+              );
+            }
+          }
+        }
+      )
+    );
   }
 
 }

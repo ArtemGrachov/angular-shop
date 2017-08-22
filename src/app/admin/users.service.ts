@@ -25,10 +25,6 @@ export class UsersService {
     ];
     currentUserId: string = '';
 
-    loadCurrentUser() {
-        return this.dataService.loadDataObj(`users/${this.currentUserId}`);
-    }
-
     setCurrentUserId(id: string) {
         this.currentUserId = id;
     }
@@ -56,16 +52,16 @@ export class UsersService {
     }
 
     updateCurrentUser(updatedUser) {
-        let currentUser = this.firebaseAuth.auth.currentUser;
-        currentUser.updateEmail(updatedUser.email)
-            .then(
-            () => currentUser.updatePassword
-            ).then(
+        const currentUser = this.firebaseAuth.auth.currentUser;
+        return this.updateUser(updatedUser).map(
             () => {
-                delete updatedUser.password;
-                this.updateUser(updatedUser);
+                if (updatedUser.password) {
+                    // reassign!
+                    currentUser.updatePassword(updatedUser.password);
+                }
+                currentUser.updateEmail(updatedUser.email);
             }
-            );
+        );
     }
 
     getLatest(count: number): User[] {

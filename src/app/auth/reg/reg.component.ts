@@ -92,7 +92,7 @@ export class RegComponent implements OnInit {
     newUser.ratedProducts = [];
     newUser.ratedProviders = [];
 
-    // this.authService.registration(newUser);
+    this.authService.registration(newUser);
   }
 
 }

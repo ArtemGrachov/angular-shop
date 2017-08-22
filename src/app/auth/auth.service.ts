@@ -23,11 +23,6 @@ export class AuthService {
         public firebaseAuth: AngularFireAuth
     ) {
         this.authState = firebaseAuth.authState;
-        this.authState.subscribe(
-            (res) => {
-                console.log('user', res);
-            }
-        );
     }
 
     authState: Observable<firebase.User>;
@@ -36,16 +31,22 @@ export class AuthService {
         return this.authState;
     }
 
+    getCurrentUser() {
+        return this.getAuth().map(
+            auth => {
+                return this.usersService.loadUser(auth.uid);
+            }
+        );
+    }
+
     login(email: string, password: string) {
         this.firebaseAuth.auth.signInWithEmailAndPassword(email, password)
             .then(
             res => {
-                this.usersService.setCurrentUserId(res.uid);
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
             );
-
     }
 
     loginGoogle() {
@@ -53,7 +54,6 @@ export class AuthService {
         this.firebaseAuth.auth.signInWithPopup(provider)
             .then(
             res => {
-                this.usersService.setCurrentUserId(res.uid);
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
@@ -65,7 +65,6 @@ export class AuthService {
         this.firebaseAuth.auth.signInWithPopup(provider)
             .then(
             res => {
-                this.usersService.setCurrentUserId(res.uid);
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
@@ -91,7 +90,6 @@ export class AuthService {
     }
 
     createUserData(newUser, uid: string) {
-        delete newUser.email;
         delete newUser.password;
         newUser.id = uid;
         newUser.category = 'user',

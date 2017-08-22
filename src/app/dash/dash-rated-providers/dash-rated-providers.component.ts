@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UsersService } from '../../admin/users.service';
 import { ProvidersService } from '../../providers/providers.service';
+import { AuthService } from '../../auth/auth.service';
 
 import { Provider } from '../../shared/models/provider.model';
 
@@ -13,21 +13,25 @@ import { Provider } from '../../shared/models/provider.model';
 export class DashRatedProvidersComponent implements OnInit {
 
   constructor(
-    public usersService: UsersService,
-    public providersService: ProvidersService
+    public providersService: ProvidersService,
+    public authService: AuthService
   ) { }
 
   providers: Provider[] = [];
 
   ngOnInit() {
-    this.usersService.loadCurrentUser().subscribe(
-      res => {
-        for (const id of res.providers) {
-          this.providersService.loadProvider(id).subscribe(
-            provider => this.providers.push(provider)
-          );
+    this.authService.getCurrentUser().subscribe(
+      obs => obs.subscribe(
+        res => {
+          if (res.ratedProviders) {
+            for (let id of res.ratedProviders) {
+              this.providersService.loadProvider(id).subscribe(
+                provider => this.providers.push(provider)
+              );
+            }
+          }
         }
-      }
+      )
     );
   }
 

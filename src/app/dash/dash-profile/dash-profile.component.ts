@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GoogleMapsAPIWrapper } from '@agm/core';
 
 import { UsersService } from '../../admin/users.service';
+import { AuthService } from '../../auth/auth.service';
 
 import { User } from '../../shared/models/user.model';
 
@@ -15,6 +16,7 @@ import { User } from '../../shared/models/user.model';
 export class DashProfileComponent implements OnInit {
   constructor(
     public usersService: UsersService,
+    public authService: AuthService,
     public fb: FormBuilder,
     public gmapAPI: GoogleMapsAPIWrapper
   ) { }
@@ -22,21 +24,24 @@ export class DashProfileComponent implements OnInit {
   @ViewChild('userMarker') userMarker: ElementRef;
 
   editMode: Boolean = false;
-  user: User;
+  user: any;
   profileForm: FormGroup;
-  gmap = {
-    lat: 0,
-    lng: 0,
-    zoom: 16
-  };
   clientMarkerUrl: string = 'assets/img/client.png';
 
   ngOnInit() {
-    this.usersService.loadCurrentUser().subscribe(
-      res => {
-        this.user = res;
-        this.buildProfileForm();
-      }
+    this.loadProfile();
+  }
+
+  loadProfile() {
+    this.authService.getCurrentUser().subscribe(
+      obs => obs.subscribe(
+        res => {
+          this.user = res;
+          if (!this.profileForm) {
+            this.buildProfileForm();
+          }
+        }
+      )
     );
   }
 
@@ -52,6 +57,7 @@ export class DashProfileComponent implements OnInit {
     this.profileForm = this.fb.group({
       'name': [this.user.name, Validators.required],
       'email': [this.user.email, [Validators.required, Validators.email]],
+      'password': [''],
       'category': [this.user.category, Validators.required],
       'birthdate': [this.user.birthdate, Validators.required],
       'gender': [this.user.gender, Validators.required],
@@ -72,7 +78,11 @@ export class DashProfileComponent implements OnInit {
     updUser.ratedProducts = this.user.ratedProducts;
     updUser.ratedProviders = this.user.ratedProviders;
 
-    this.usersService.updateUser(updUser);
-    this.editMode = false;
+    this.usersService.updateCurrentUser(updUser).subscribe(
+      () => {
+        this.editMode = false;
+        this.loadProfile();
+      }
+    );
   }
 }

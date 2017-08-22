@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UsersService } from '../../admin/users.service';
 import { NewsService } from '../../news/news.service';
+import { AuthService } from '../../auth/auth.service';
 
 import { News } from '../../shared/models/news.model';
 
@@ -12,29 +12,25 @@ import { News } from '../../shared/models/news.model';
 })
 export class DashRatedNewsComponent implements OnInit {
   constructor(
-    public usersService: UsersService,
+    public authService: AuthService,
     public newsService: NewsService
   ) { }
 
   news: News[] = [];
 
   ngOnInit() {
-    // this.usersService.getCurrentUser().ratedNews.map(
-    //   (id) => {
-    //     this.news.push(
-    //       // this.newsService.getNewsPost(id)
-    //     );
-    //   }
-    // );
-
-    this.usersService.loadCurrentUser().subscribe(
-      res => {
-        for (const id of res.ratedNews) {
-          this.newsService.loadPost(id).subscribe(
-            post => this.news.push(res)
-          );
+    this.authService.getCurrentUser().subscribe(
+      obs => obs.subscribe(
+        res => {
+          if (res.ratedNews) {
+            for (let id of res.ratedNews) {
+              this.newsService.loadPost(id).subscribe(
+                post => this.news.push(post)
+              );
+            }
+          }
         }
-      }
+      )
     );
   }
 

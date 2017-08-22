@@ -1,10 +1,10 @@
 <div class="panel panel-default">
   <div class="panel-heading">Profile details</div>
   <div class="panel-body">
-    <form [formGroup]="profileForm" (ngSubmit)="submit()">
+    <form [formGroup]="profileForm" (ngSubmit)="submit()" *ngIf="profileForm">
       <div class="form-group">
         <label>Your location:</label>
-        <agm-map [latitude]="gmap.lat" [longitude]="gmap.lng" [zoom]="gmap.zoom" style="height: 400px">
+        <agm-map [latitude]="user.location.lat" [longitude]="user.location.lng" [zoom]="12" style="height: 400px">
           <agm-marker [latitude]="profileForm.value['location'].lat" [longitude]="profileForm.value['location'].lng" [iconUrl]="clientMarkerUrl"
             [markerDraggable]="editMode" (dragEnd)="changeUserPos($event)" #userMarker></agm-marker>
         </agm-map>
@@ -16,6 +16,10 @@
       <div class="form-group">
         <label for="email">Email:</label> {{user.email}}
         <input type="text" class="form-control" id="email" *ngIf="editMode" formControlName="email">
+      </div>
+      <div class="form-group" *ngIf="editMode">
+        <label for="password">Password:</label>
+        <input type="text" class="form-control" id="password" formControlName="password">
       </div>
       <div class="form-group">
         <label for="age">Birthdate:</label> {{user.birthdate | date:'medium' }}
