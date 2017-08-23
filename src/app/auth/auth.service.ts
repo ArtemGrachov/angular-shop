@@ -27,6 +27,7 @@ export class AuthService {
                     this.currentUid = res.uid;
                 } else {
                     this.currentUid = '';
+                    this.router.navigate(['/']);
                 }
             }
         );
@@ -103,7 +104,6 @@ export class AuthService {
 
     logout() {
         this.firebaseAuth.auth.signOut();
-        this.router.navigate(['/']);
     }
 
     loginRedirect() {

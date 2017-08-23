@@ -92,4 +92,10 @@ export class NewsService {
             res => res.length
         );
     }
+
+    loadAuthorName(authorId) {
+        return this.usersService.loadUser(authorId).map(
+            user => user.name
+        );
+    }
 }

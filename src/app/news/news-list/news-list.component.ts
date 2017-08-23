@@ -16,15 +16,13 @@ import { Observable } from 'rxjs/Observable';
 })
 export class NewsListComponent implements OnInit {
   constructor(
-    public newsService: NewsService,
-    public authService: AuthService,
-    public usersService: UsersService
+    private newsService: NewsService,
+    private authService: AuthService,
+    private usersService: UsersService
   ) { }
 
-  public newsList: News[] = [];
-
-  private testname = this.usersService.loadUser('sszhB1O8aDeNsYePbLJPu4J9Mju2').map(res => res.name);
-  private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
+  private newsList: News[] = [];
+  private authorsNames: { id: string, name: string }[] = [];
 
   ngOnInit() {
     this.newsService.loadNews().subscribe(

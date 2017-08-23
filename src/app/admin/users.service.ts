@@ -55,11 +55,14 @@ export class UsersService {
 
     updateCurrentUser(updatedUser) {
         const currentUser = this.firebaseAuth.auth.currentUser;
+        const psw = updatedUser.password;
+        delete updatedUser.password;
+
         return this.updateUser(updatedUser).map(
             () => {
-                if (updatedUser.password) {
+                if (psw) {
                     // reassign!
-                    currentUser.updatePassword(updatedUser.password);
+                    currentUser.updatePassword(psw);
                 }
                 currentUser.updateEmail(updatedUser.email);
             }

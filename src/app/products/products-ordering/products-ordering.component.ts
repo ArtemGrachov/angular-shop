@@ -16,12 +16,13 @@ class Shop {
   public lng: number;
   public iconUrl: string;
   public opacity: number;
-
-  constructor(lat: number, lng: number) {
+  public name: string;
+  constructor(lat: number, lng: number, name: string) {
     this.lat = lat;
     this.lng = lng;
     this.iconUrl = 'assets/img/shop.png';
     this.opacity = 0.5;
+    this.name = name;
   }
 }
 
@@ -58,9 +59,9 @@ export class ProductsOrderingComponent implements OnInit {
   clientMarkerUrl: string = 'assets/img/client.png';
 
   shops: Shop[] = [
-    new Shop(48.698200, 26.575637),
-    new Shop(48.689785, 26.579571),
-    new Shop(48.681764, 26.589226),
+    new Shop(48.698200, 26.575637, 'Shop #1'),
+    new Shop(48.689785, 26.579571, 'Shop #2'),
+    new Shop(48.681764, 26.589226, 'Shop #3'),
   ];
   dirService: any;
   dirDisplay: any;
@@ -76,24 +77,6 @@ export class ProductsOrderingComponent implements OnInit {
   }
 
   buildForm() {
-    // // if (this.authService.checkAuth()) {
-    // if (true) {
-    //   this.orderForm = this.fb.group({
-    //     'location': { lat: this.gmap.lat, lng: this.gmap.lng }, // !!! current user
-    //     'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-    //     'phone': ['', Validators.required], // current user phone!
-    //     'type': 'DRIVING'
-    //   });
-    // }
-    // //  else {
-    // //   this.orderForm = this.fb.group({
-    // //     'location': { lat: this.gmap.lat, lng: this.gmap.lng },
-    // //     'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-    // //     'phone': ['', Validators.required],
-    // //     'type': 'DRIVING'
-    // //   });
-    // // }
-
     this.authService.loadCurrentUser().subscribe(
       (user: any) => {
         if (user) {
@@ -118,7 +101,14 @@ export class ProductsOrderingComponent implements OnInit {
   mapReady(event) {
     this.gmapObj = event;
     this.gmapDir();
-    this.calcDirection();
+    this.authService.getAuth().subscribe(
+      res => {
+        if (res) {
+          this.calcDirection();
+        }
+        this.setNearestShop();
+      }
+    );
   }
 
   gmapDir() {
@@ -131,7 +121,7 @@ export class ProductsOrderingComponent implements OnInit {
 
   calcDirection() {
     const _this = this;
-    this.dirService.route({
+    _this.dirService.route({
       origin: this.orderForm.get('shopLocation').value,
       destination: this.orderForm.get('location').value,
       travelMode: this.orderForm.get('type').value
@@ -162,6 +152,26 @@ export class ProductsOrderingComponent implements OnInit {
     );
     shop.opacity = 1;
     this.calcDirection();
+  }
+
+  setNearestShop() {
+    this.selectShop(this.shops.reduce(
+      (nearest, current) => {
+        const nearestDist =
+          Math.sqrt(
+            Math.pow(Math.abs(nearest.lat - this.orderForm.get('location').value.lat), 2)
+            + Math.pow(Math.abs(nearest.lng - this.orderForm.get('location').value.lng), 2)
+          );
+
+        const currentDist =
+          Math.sqrt(
+            Math.pow(Math.abs(current.lat - this.orderForm.get('location').value.lat), 2)
+            + Math.pow(Math.abs(current.lng - this.orderForm.get('location').value.lng), 2)
+          );
+
+        return nearestDist < currentDist ? nearest : current;
+      }
+    ));
   }
 
   calcTotalPrice(): number {
