@@ -41,7 +41,9 @@ export class OrdersService {
     addOrder(newOrder: Order) {
         newOrder.id = (new Date).getTime().toString();
         return this.dataService.putData('orders', newOrder).map(
-            () => this.alertService.addAlert({ message: 'Thank you for order!', type: 'success' })
+            () => {
+                this.alertService.addAlert({ message: 'Thank you for order!', type: 'success' });
+            }
         );
     }
 

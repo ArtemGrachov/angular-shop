@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
 import { UsersService } from '../admin/users.service';
@@ -17,6 +17,7 @@ export class ProvidersService {
     ) { }
 
     private providers: Provider[] = [];
+    public emit: EventEmitter<any> = new EventEmitter();
 
     loadProviders() {
         return this.dataService.loadDataList('providers');
@@ -29,19 +30,28 @@ export class ProvidersService {
     addProvider(newProvider: Provider) {
         newProvider.id = (new Date).getTime().toString();
         return this.dataService.putData('providers', newProvider).map(
-            () => this.alertsService.addAlert({ message: 'Provider added', type: 'success' })
+            () => {
+                this.emit.emit();
+                this.alertsService.addAlert({ message: 'Provider added', type: 'success' });
+            }
         );
     }
 
     updateProvider(updatedProvider: Provider) {
         return this.dataService.putData('providers', updatedProvider).map(
-            () => this.alertsService.addAlert({ message: 'Provider updated', type: 'info' })
+            () => {
+                this.emit.emit();
+                this.alertsService.addAlert({ message: 'Provider updated', type: 'info' });
+            }
         );
     }
 
     deleteProvider(id: string) {
         return this.dataService.deleteData('providers/' + id).map(
-            () => this.alertsService.addAlert({ message: 'Provider deleted', type: 'warning' })
+            () => {
+                this.emit.emit();
+                this.alertsService.addAlert({ message: 'Provider deleted', type: 'warning' })
+            }
         );
     }
 

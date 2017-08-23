@@ -1,8 +1,7 @@
 <ng-template [ngIf]="post">
+  <span class="badge pull-right">by {{authorName | async}}</span>
   <h1>{{post.title}}</h1>
-  <span class="badge pull-right">{{getAuthorName(post.authorId)}}</span>
-  <div>
-    {{post.content}}...
+  <div [innerHTML]="post.content">
   </div>
   <hr>
   <ul class="list-inline small">

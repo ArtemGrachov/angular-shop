@@ -20,9 +20,15 @@ export class ProductsListComponent implements OnInit {
   ) { }
   private products: Product[] = [];
   private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
+  public filter = { sort: 'rating', reverse: true, search: '' };
 
   ngOnInit() {
     this.loadProducts();
+    this.productsService.searchEmit.subscribe(
+      filter => {
+        this.filter = filter;
+      }
+    );
   }
 
   loadProducts() {
@@ -32,4 +38,5 @@ export class ProductsListComponent implements OnInit {
       }
     );
   }
+
 }

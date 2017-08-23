@@ -29,6 +29,7 @@ export class NewsPostComponent implements OnInit {
   postId: string;
   auth = this.authService.getAuth();
   editAccess;
+  authorName;
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -46,6 +47,9 @@ export class NewsPostComponent implements OnInit {
       .subscribe(
       res => {
         this.post = res;
+        this.authorName = this.usersService.loadUser(this.post.authorId).map(
+          user => user.name
+        );
       });
   }
 

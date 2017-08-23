@@ -23,6 +23,9 @@ export class ProvidersListComponent implements OnInit {
   ngOnInit() {
     this.providersService.loadProviders();
     this.loadProviders();
+    this.providersService.emit.subscribe(
+      () => this.loadProviders()
+    );
   }
 
   loadProviders() {

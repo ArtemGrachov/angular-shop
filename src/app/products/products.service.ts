@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import 'rxjs/Rx';
 
 import { AlertsService } from '../alerts/alerts.service';
@@ -13,13 +13,14 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ProductsService {
     constructor(
-        public dataService: DataService,
-        public alertsService: AlertsService,
-        public authService: AuthService,
-        public usersService: UsersService
+        private dataService: DataService,
+        private alertsService: AlertsService,
+        private authService: AuthService,
+        private usersService: UsersService
     ) { }
 
-    products: Product[] = [];
+    private products: Product[] = [];
+    public searchEmit: EventEmitter<any> = new EventEmitter();
 
     cart = {
         list: [],
@@ -182,5 +183,6 @@ export class ProductsService {
         this.cart.list = this.cart.list.filter(
             (product) => product.count <= 0
         );
+        this.updateCart();
     }
 }

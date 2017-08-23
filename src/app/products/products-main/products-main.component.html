@@ -4,5 +4,32 @@
   </div>
   <div class="col-sm-4">
     <app-products-cart></app-products-cart>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Search and sorting
+      </div>
+      <form class="panel-body" [formGroup]="searchForm">
+        <div class="form-group">
+          <label for="search">Search:</label>
+          <input type="text" (change)="searchEmit()" class="form-control" id="search" formControlName="search">
+        </div>
+        <div class="form-group">
+          <label for="sort">Sort by:</label>
+          <select (change)="searchEmit()" class="form-control" id="sort" formControlName="sort">
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="date">Date</option>
+            <option value="rating">Rating</option>
+            <option value="count">Count</option>
+          </select>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" value="" id="reverse" (change)="searchEmit()"  formControlName="reverse">Reverse</label>
+        </div>
+      </form>
+      <div class="panel-footer">
+
+      </div>
+    </div>
   </div>
 </div>

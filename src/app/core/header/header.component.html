@@ -13,16 +13,16 @@
     <li routerLinkActive="active">
       <a routerLink="/providers">Our providers</a>
     </li>
-    <li routerLinkActive="active">
-      <a routerLink="/dash" *ngIf="auth | async">Dashboard</a>
+    <li routerLinkActive="active" *ngIf="auth | async">
+      <a routerLink="/dash">Dashboard</a>
     </li>
-    <li routerLinkActive="active">
-      <a routerLink="/admin" *ngIf="(auth | async) && (isAdmin | async) ">Admin</a>
+    <li routerLinkActive="active" *ngIf="(auth | async) && (isAdmin | async) ">
+      <a routerLink="/admin">Admin</a>
     </li>
-    <li routerLinkActive="active">
-      <a routerLink="/login" *ngIf="!(auth | async)">Login</a>
+    <li routerLinkActive="active" *ngIf="!(auth | async)">
+      <a routerLink="/login">Login</a>
     </li>
-    <li routerLinkActive="active" (click)="logout()" style="cursor: pointer" *ngIf="auth | async">
+    <li routerLinkActive="active" *ngIf="auth | async" (click)="logout()" style="cursor: pointer">
       <a>Logout</a>
     </li>
     <li routerLinkActive="active" *ngIf="!(auth | async)">

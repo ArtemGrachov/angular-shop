@@ -21,8 +21,8 @@ export class NewsListComponent implements OnInit {
     private usersService: UsersService
   ) { }
 
-  private newsList: News[] = [];
-  private authorsNames: { id: string, name: string }[] = [];
+  private newsList: any[] = [];
+  private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
 
   ngOnInit() {
     this.newsService.loadNews().subscribe(
@@ -36,6 +36,13 @@ export class NewsListComponent implements OnInit {
             } else {
               return 0;
             }
+          }
+        );
+        this.newsList.map(
+          post => {
+            this.usersService.loadUser(post.authorId).subscribe(
+              user => post.authorName = user.name
+            );
           }
         );
       }

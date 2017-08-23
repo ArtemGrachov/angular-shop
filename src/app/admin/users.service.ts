@@ -108,6 +108,7 @@ export class UsersService {
                             observer.next(true);
                         } else {
                             observer.next(false);
+                            this.alertsService.addAlert({ message: 'You have already rate it', type: 'danger' });
                         }
                     }
                 );

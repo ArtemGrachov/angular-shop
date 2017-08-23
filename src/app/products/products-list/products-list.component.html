@@ -3,7 +3,8 @@
   <hr>
 </div>
 <ul class="list-group">
-  <a class="list-group-item" *ngFor="let product of products" [routerLink]="product.id">
+  <a class="list-group-item" *ngFor="let product of (products | searchPipe: 'name' : filter.search | sortPipe: filter.sort : filter.reverse)"
+    [routerLink]="product.id">
     <img [src]="product.imgUrl" [alt]="product.name" style="max-height: 64px;">
     <h4>{{product.name}}</h4>
     <span class="badge">${{product.price}}</span>
@@ -18,6 +19,9 @@
       <li>
         <span class="glyphicon glyphicon-star-empty"></span> {{product.rating}}
       </li>
+      <li *ngIf="product.count <= 0">
+      <span style="color: red">Sorry, no one left!</span>
+    </li>
     </ul>
   </a>
 </ul>
