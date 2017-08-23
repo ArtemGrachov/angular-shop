@@ -4,7 +4,7 @@
     <form [formGroup]="userForm" (ngSubmit)="submit()" *ngIf="userForm">
       <div class="form-group">
         <label>User's location:</label>
-        <agm-map [latitude]="gmap.lat" [longitude]="gmap.lng" [zoom]="gmap.zoom" style="height: 400px">
+        <agm-map [latitude]="gmap.location.lat" [longitude]="gmap.location.lng" [zoom]="gmap.zoom" style="height: 400px">
           <agm-marker [latitude]="userForm.value['location'].lat" [longitude]="userForm.value['location'].lng" [iconUrl]="clientMarkerUrl"
             [markerDraggable]="editMode" (dragEnd)="changeUserPos($event)" #userMarker></agm-marker>
         </agm-map>
@@ -14,9 +14,14 @@
       </div>
       <div class="form-group">
         <label for="email">Email:</label> {{user.email}}
+        <input type="email" class="form-control" id="email" *ngIf="newMode" formControlName="email">
+      </div>
+      <div class="form-group" *ngIf="newMode">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" formControlName="password">
       </div>
       <div class="form-group" *ngIf="!newMode">
-        <label>Registration date:</label> {{regDate | date:'medium'}}
+        <label>Registration date:</label> {{user.regDate | date:'medium'}}
       </div>
       <div class="form-group">
         <label for="name">Name:</label> {{user.name}}

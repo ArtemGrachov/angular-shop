@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
-import { ProductsService } from '../products/products.service';
 import { AlertsService } from '../alerts/alerts.service';
+
+import { ProductsService } from '../products/products.service';
 
 import { Order } from '../shared/models/order.model';
 
@@ -27,13 +28,9 @@ export class OrdersService {
     getOrdersByUser(id: string) {
         return this.loadOrders().map(
             res => {
-                let orders = [];
-                for (const order of this.orders) {
-                    if (order.userId === id) {
-                        orders.push(order);
-                    }
-                }
-                return orders;
+                return res.filter(
+                    order => order.userId === id
+                );
             }
         );
     }
@@ -78,7 +75,7 @@ export class OrdersService {
 
     getOrderPrice(order) {
         return +(order.products.reduce(
-            (sum, product) => { return sum + product.price }, 0
+            (sum, product) => sum + product.price, 0
         )).toFixed(2);
     }
 }

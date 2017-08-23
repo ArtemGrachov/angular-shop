@@ -8,7 +8,7 @@ import { AlertsService } from './alerts.service';
 })
 export class AlertsComponent implements OnInit {
     constructor(
-        public alertsService: AlertsService
+        private alertsService: AlertsService
     ) { }
 
     alerts = [];

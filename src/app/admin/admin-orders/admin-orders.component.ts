@@ -8,14 +8,13 @@ import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-admin-orders',
-  templateUrl: './admin-orders.component.html',
-  styleUrls: ['./admin-orders.component.css']
+  templateUrl: './admin-orders.component.html'
 })
 export class AdminOrdersComponent implements OnInit {
   orders: Order[] = [];
   constructor(
-    public ordersService: OrdersService,
-    public usersService: UsersService
+    private ordersService: OrdersService,
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
@@ -23,13 +22,8 @@ export class AdminOrdersComponent implements OnInit {
       res => this.orders = res
     );
   }
-  // !!!
-  getUsername(id: string): string {
-    return 'test username ' + id;
-  }
 
   getOrderPrice(order) {
     return this.ordersService.getOrderPrice(order);
   }
-
 }

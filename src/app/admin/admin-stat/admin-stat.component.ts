@@ -14,16 +14,15 @@ import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-admin-stat',
-  templateUrl: './admin-stat.component.html',
-  styleUrls: ['./admin-stat.component.css']
+  templateUrl: './admin-stat.component.html'
 })
 export class AdminStatComponent implements OnInit {
   constructor(
-    public productsService: ProductsService,
-    public commentsService: CommentsService,
-    public newsService: NewsService,
-    public ordersService: OrdersService,
-    public usersService: UsersService
+    private productsService: ProductsService,
+    private commentsService: CommentsService,
+    private newsService: NewsService,
+    private ordersService: OrdersService,
+    private usersService: UsersService
   ) { }
 
   products: Product[];

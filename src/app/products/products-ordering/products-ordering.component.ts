@@ -196,8 +196,9 @@ export class ProductsOrderingComponent implements OnInit {
     this.ordersService.addOrder(
       new Order(
         '0',
-        '0',
+        this.authService.getUid(),
         products,
+        this.deliveryInfo.price,
         new Date(),
         this.orderForm.get('location').value
       )

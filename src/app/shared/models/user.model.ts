@@ -3,7 +3,7 @@ export class User {
         public id: string,
         public name: string,
         public email: string,
-        public regdate: Date,
+        public regDate: Date,
         public category: string,
         public birthdate: Date,
         public gender: string,

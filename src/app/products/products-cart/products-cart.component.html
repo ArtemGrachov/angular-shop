@@ -6,13 +6,6 @@
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let product of cart.list; let i = index">
         <span (click)="removeFromCart(i)" class="glyphicon glyphicon-remove"></span>
-        <!-- <ng-template [ngIf]="product.count > 0; else noProducts">
-          {{product.name}}
-          <span class="badge">${{product.price}}</span>
-        </ng-template>
-        <ng-template #noProducts>
-          No {{product.name}} left!
-        </ng-template> -->
         <ng-template [ngIf]="product.count > 0">
           {{product.name}}
           <span class="badge">${{product.price}}</span>
@@ -25,9 +18,10 @@
   </div>
   <div class="panel-footer">
     ${{cart.price}}
+    <div class="btn-group btn-group-justified" *ngIf="this.cart.list.length > 0">
+      <a type="button" class="btn btn-success btn-sm" routerLink="ordering">Order all!</a>
+      <a type="button" class="btn btn-danger btn-sm" (click)="clearCart()">Discard all</a>
+    </div>
+
   </div>
-</div>
-<div class="btn-group btn-group-justified" *ngIf="this.cart.list.length > 0">
-  <a type="button" class="btn btn-success btn-sm" routerLink="ordering">Order all!</a>
-  <a type="button" class="btn btn-danger btn-sm" (click)="clearCart()">Discard all</a>
 </div>

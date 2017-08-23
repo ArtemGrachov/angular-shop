@@ -72,7 +72,7 @@ export class DashProfileComponent implements OnInit {
   submit() {
     let updUser = this.profileForm.value;
     updUser.id = this.user.id;
-    updUser.regdate = this.user.regdate;
+    updUser.regDate = this.user.regDate;
     updUser.ratedNews = this.user.ratedNews;
     updUser.ratedProducts = this.user.ratedProducts;
     updUser.ratedProviders = this.user.ratedProviders;

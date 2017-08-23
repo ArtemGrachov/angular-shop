@@ -1,8 +1,8 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
-
-import { AlertsService } from '../alerts/alerts.service';
-import { DataService } from '../shared/data.service';
 import { AngularFireAuth } from 'angularfire2/auth';
+
+import { DataService } from '../shared/data.service';
+import { AlertsService } from '../alerts/alerts.service';
 
 import { AuthService } from '../auth/auth.service';
 
@@ -12,18 +12,17 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class UsersService {
     constructor(
-        public alertsService: AlertsService,
-        public dataService: DataService,
-        public authService: AuthService,
-        public firebaseAuth: AngularFireAuth
+        private alertsService: AlertsService,
+        private dataService: DataService,
+        private authService: AuthService,
+        private firebaseAuth: AngularFireAuth
     ) { }
 
     categories: string[] = [
         'admin',
         'user',
         'premium',
-        'provider',
-        'banned'
+        'provider'
     ];
     currentUserId: string = '';
 
@@ -41,10 +40,6 @@ export class UsersService {
 
     loadUser(userId: string) {
         return this.dataService.loadDataObj(`users/${userId}`);
-    }
-
-    addUser(newUser) {
-        // this.authService.registration(newUser);
     }
 
     updateUser(updatedUser) {

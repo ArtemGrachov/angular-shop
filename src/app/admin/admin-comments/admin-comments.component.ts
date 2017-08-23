@@ -7,18 +7,15 @@ import { Comment } from '../../shared/models/comment.model';
 
 @Component({
   selector: 'app-admin-comments',
-  templateUrl: './admin-comments.component.html',
-  styleUrls: ['./admin-comments.component.css']
+  templateUrl: './admin-comments.component.html'
 })
 export class AdminCommentsComponent implements OnInit {
-
   constructor(
-    public commentsService: CommentsService,
-    public newsService: NewsService
+    private commentsService: CommentsService,
+    private newsService: NewsService
   ) { }
 
   comments: Comment[];
-
   newsTitles: { id: string, title: string }[] = [];
 
   ngOnInit() {
@@ -42,13 +39,5 @@ export class AdminCommentsComponent implements OnInit {
     this.commentsService.deleteComment(id).subscribe(
       () => this.loadComments()
     );
-  }
-
-  getPostTitle(id: string) {
-    for (const title of this.newsTitles) {
-      if (title.id === id) {
-        return title.title;
-      }
-    }
   }
 }

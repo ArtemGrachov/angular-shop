@@ -14,11 +14,11 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AuthService {
     constructor(
-        public router: Router,
-        public route: ActivatedRoute,
-        public alertsService: AlertsService,
-        public dataService: DataService,
-        public firebaseAuth: AngularFireAuth
+        private router: Router,
+        private route: ActivatedRoute,
+        private alertsService: AlertsService,
+        private dataService: DataService,
+        private firebaseAuth: AngularFireAuth
     ) {
         this.authState = firebaseAuth.authState;
         this.authState.subscribe(
@@ -27,7 +27,6 @@ export class AuthService {
                     this.currentUid = res.uid;
                 } else {
                     this.currentUid = '';
-                    this.router.navigate(['/']);
                 }
             }
         );
@@ -104,6 +103,7 @@ export class AuthService {
 
     logout() {
         this.firebaseAuth.auth.signOut();
+        this.router.navigate(['/']);
     }
 
     loginRedirect() {
@@ -111,15 +111,25 @@ export class AuthService {
     }
 
     registration(newUser) {
-        newUser.regDate = new Date();
+        this.createNewUser(newUser).then(
+            () =>
+                res => {
+                    this.login(newUser.email, newUser.password);
+                    this.createUserData(newUser, res.uid);
+                }
+        );
+    }
 
-        this.firebaseAuth.auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
+    createNewUser(newUser) {
+        newUser.regDate = new Date();
+        newUser.ratedNews = [];
+        newUser.ratedProducts = [];
+        newUser.ratedProviders = [];
+        return this.firebaseAuth.auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
             .then(
             res => {
-                this.login(newUser.email, newUser.password);
                 this.createUserData(newUser, res.uid);
-            })
-            .catch(
+            }).catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
             );
     }
@@ -134,7 +144,7 @@ export class AuthService {
     }
 
     checkUserCategory(categories: string[]) {
-        return new Observable(
+        let obs = new Observable(
             observer => {
                 this.loadCurrentUser().subscribe(
                     (user: any) => {
@@ -147,5 +157,6 @@ export class AuthService {
                 );
             }
         );
+        return obs;
     }
 }

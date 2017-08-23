@@ -6,14 +6,13 @@ import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-admin-users',
-  templateUrl: './admin-users.component.html',
-  styleUrls: ['./admin-users.component.css']
+  templateUrl: './admin-users.component.html'
 })
 export class AdminUsersComponent implements OnInit {
   users: User[] = [];
 
   constructor(
-    public usersService: UsersService
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {

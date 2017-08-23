@@ -5,15 +5,18 @@
       <li class="list-group-item" *ngFor="let order of orders">
         <h4>{{order.date | date:'medium'}}</h4>
         <div class="well">
-          <span class="glyphicon glyphicon-user"></span> {{getUsername(order.userId)}}
+          <span class="glyphicon glyphicon-user"></span> {{order.userId}}
         </div>
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let product of order.products">
             {{product.name}}
             <span class="badge">${{product.price}}</span>
           </li>
+          <li class="list-group-item">
+            Delivering: ${{order.deliveryPrice}}
+          </li>
         </ul>
-        <strong>Total price: ${{getOrderPrice(order)}}</strong>
+        <strong>Total price: ${{getOrderPrice(order) + order.deliveryPrice}}</strong>
       </li>
     </ul>
   </div>

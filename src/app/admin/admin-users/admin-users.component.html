@@ -4,16 +4,12 @@
     <a routerLink="new" button class="btn btn-primary btn-xs">Add user</a>
     <hr>
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let user of users">
+      <li class="list-group-item" *ngFor="let user of users" [routerLink]="user.id">
         <h4>
           <span class="glyphicon glyphicon-user"></span> {{user.name}}
         </h4>
+        {{user.regDate | date:'medium'}}
         <span class="badge"> {{user.category}}</span>
-        <div class="btn-group">
-          <a class="btn btn-default btn-xs" [routerLink]="user.id">
-            Details
-          </a>
-        </div>
       </li>
     </ul>
   </div>

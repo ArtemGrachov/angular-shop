@@ -10,15 +10,14 @@ import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-reg',
-  templateUrl: './reg.component.html',
-  styleUrls: ['./reg.component.css']
+  templateUrl: './reg.component.html'
 })
 export class RegComponent implements OnInit {
   constructor(
-    public usersService: UsersService,
-    public authService: AuthService,
-    public fb: FormBuilder,
-    public gmapAPI: GoogleMapsAPIWrapper
+    private usersService: UsersService,
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private gmapAPI: GoogleMapsAPIWrapper
   ) { }
 
   gmap = {
@@ -63,7 +62,10 @@ export class RegComponent implements OnInit {
       'phone': [
         '',
         [
-          Validators.required
+          Validators.required,
+          Validators.maxLength(13),
+          Validators.minLength(13),
+          Validators.pattern(/^\+380[0-9]*$/)
         ]
       ],
       'gender': [
@@ -84,15 +86,7 @@ export class RegComponent implements OnInit {
   }
 
   reg() {
-    let newUser = this.regForm.value;
-    newUser.id = '0';
-    newUser.regdate = new Date();
-    newUser.regdate = [];
-    newUser.ratedNews = [];
-    newUser.ratedProducts = [];
-    newUser.ratedProviders = [];
-
-    this.authService.registration(newUser);
+    this.authService.registration(this.regForm.value);
   }
 
 }

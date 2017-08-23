@@ -6,14 +6,13 @@ import { UsersService } from '../../admin/users.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
   constructor(
-    public usersService: UsersService,
-    public authService: AuthService,
-    public fb: FormBuilder,
+    private usersService: UsersService,
+    private authService: AuthService,
+    private fb: FormBuilder,
   ) { }
 
   loginForm: FormGroup;

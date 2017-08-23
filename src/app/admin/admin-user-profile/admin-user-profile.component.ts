@@ -4,38 +4,39 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { GoogleMapsAPIWrapper } from '@agm/core';
 
+import { AuthService } from '../../auth/auth.service';
 import { UsersService } from '../users.service';
 
 import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-admin-user-profile',
-  templateUrl: './admin-user-profile.component.html',
-  styleUrls: ['./admin-user-profile.component.css']
+  templateUrl: './admin-user-profile.component.html'
 })
 export class AdminUserProfileComponent implements OnInit {
   constructor(
-    public usersService: UsersService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public fb: FormBuilder,
-    public gmapAPI: GoogleMapsAPIWrapper
+    private authSerivce: AuthService,
+    private usersService: UsersService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private gmapAPI: GoogleMapsAPIWrapper
   ) { }
 
   editMode: Boolean = false;
   newMode: Boolean = false;
-  user = new User('0', '', '', new Date(), 'user', new Date(), 'male', { lat: 0, lng: 0 }, '', [], [], []);
-  userId: string = '';
-  regDate;
+  user = new User('0', '', '', new Date(), 'user', new Date(), 'male', { lat: 48.698200, lng: 26.575637 }, '', [], [], []);
+  userId: string;
   usersCategories: string[] = [];
   gmap = {
-    lat: 0,
-    lng: 0,
+    location: {
+      lat: 48.698200,
+      lng: 26.575637
+    },
     zoom: 12
   };
   clientMarkerUrl: string = 'assets/img/client.png';
   @ViewChild('userMarker') userMarker: ElementRef;
-
   userForm: FormGroup;
 
   ngOnInit() {
@@ -57,11 +58,8 @@ export class AdminUserProfileComponent implements OnInit {
   loadUser() {
     this.usersService.loadUser(this.userId).subscribe(
       res => {
-        this.gmap.lat = res.location.lat;
-        this.gmap.lng = res.location.lng;
+        this.gmap.location = res.location;
         this.user = res;
-        this.regDate = res.regDate;
-        console.log(res);
         if (!this.userForm) {
           this.buildUserForm();
         }
@@ -85,7 +83,9 @@ export class AdminUserProfileComponent implements OnInit {
   buildUserForm() {
     this.userForm = this.fb.group({
       'name': [this.user.name, Validators.required],
-      'category': [{ value: this.user.category, disabled: (this.userId === '0' ? true : false) }],
+      'email': this.user.email,
+      'category': this.user.category,
+      'password': '',
       'phone': this.user.phone,
       'birthdate': this.user.birthdate,
       'gender': [this.user.gender, Validators.required],
@@ -96,16 +96,18 @@ export class AdminUserProfileComponent implements OnInit {
   submit() {
     let updUser = this.userForm.value;
     updUser.id = this.user.id;
-    updUser.email = this.user.email;
-    updUser.regdate = this.user.regdate;
+    updUser.regDate = this.user.regDate;
     updUser.ratedNews = this.user.ratedNews;
     updUser.ratedProducts = this.user.ratedProducts;
     updUser.ratedProviders = this.user.ratedProviders;
 
-    if (this.newMode) {
-      this.usersService.addUser(updUser);
-      this.router.navigate(['../'], { relativeTo: this.route });
+    if (this.newMode) { // redirect an update after respone
+      this.authSerivce.createNewUser(updUser).then(
+        () => this.router.navigate(['../'], { relativeTo: this.route })
+      );
     } else {
+      delete updUser.password;
+      updUser.email = this.user.email;
       this.usersService.updateUser(updUser).subscribe(
         () => {
           this.editMode = false;
@@ -118,5 +120,4 @@ export class AdminUserProfileComponent implements OnInit {
   reset() {
     this.userForm.patchValue(this.user);
   }
-
 }

@@ -2,18 +2,23 @@
   <div class="panel-heading">Comments</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let comment of comments">
-        <span class="glyphicon glyphicon-comment"></span> {{comment.content}}
-        <hr>
-        <small>
-          <a [routerLink]="['/news', comment.postId]" class="btn btn-xs btn-primary">
-            <span class="glyphicon glyphicon-list-alt"></span> {{getPostTitle(comment.postId)}}
-          </a>
-        <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
-        <button type="button" class="btn btn-danger btn-xs" (click)="deleteComment(comment.id)">
-            <span class="glyphicon glyphicon-remove"></span> Delete
-        </button>
-        </small>
+      <li class="list-group-item" *ngFor="let comment of comments" [routerLink]="['/news', comment.postId]">
+        <div class="well">
+          <span class="glyphicon glyphicon-comment"></span> {{comment.content}}
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <span class="glyphicon glyphicon-list-alt"></span> {{comment.postId}}
+          </li>
+          <li class="list-group-item">
+            <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
+          </li>
+          <li class="list-group-item">
+            <button type="button" class="btn btn-danger btn-xs" (click)="deleteComment(comment.id)">
+                <span class="glyphicon glyphicon-remove"></span> Delete
+            </button>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
