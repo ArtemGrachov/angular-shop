@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
-
-import { News } from '../../shared/models/news.model';
-
-import { NewsService } from '../news.service';
 import { UsersService } from '../../admin/users.service';
 
 import { Observable } from 'rxjs/Observable';
 
+import { News } from '../../shared/models/news.model';
+
+import { NewsService } from '../news.service';
+
+
 @Component({
   selector: 'app-news-list',
-  templateUrl: './news-list.component.html',
-  styleUrls: ['./news-list.component.css']
+  templateUrl: './news-list.component.html'
 })
 export class NewsListComponent implements OnInit {
   constructor(

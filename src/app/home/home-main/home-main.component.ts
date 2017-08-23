@@ -8,8 +8,7 @@ import { News } from '../../shared/models/news.model';
 
 @Component({
   selector: 'app-home-main',
-  templateUrl: './home-main.component.html',
-  styleUrls: ['./home-main.component.css']
+  templateUrl: './home-main.component.html'
 })
 export class HomeMainComponent implements OnInit {
 
@@ -17,8 +16,8 @@ export class HomeMainComponent implements OnInit {
   news: News[] = [];
 
   constructor(
-    public productsService: ProductsService,
-    public newsService: NewsService
+    private productsService: ProductsService,
+    private newsService: NewsService
   ) { }
 
   ngOnInit() {

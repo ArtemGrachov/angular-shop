@@ -7,13 +7,12 @@ import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-dash-rated-products',
-  templateUrl: './dash-rated-products.component.html',
-  styleUrls: ['./dash-rated-products.component.css']
+  templateUrl: './dash-rated-products.component.html'
 })
 export class DashRatedProductsComponent implements OnInit {
   constructor(
-    public authService: AuthService,
-    public productsService: ProductsService
+    private authService: AuthService,
+    private productsService: ProductsService
   ) { }
 
   products: Product[] = [];

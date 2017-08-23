@@ -2,18 +2,17 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
-import { AlertsService } from '../alerts/alerts.service';
-
 import { DataService } from '../shared/data.service';
+import { AlertsService } from '../alerts/alerts.service';
 
 import { Comment } from '../shared/models/comment.model';
 
 @Injectable()
 export class CommentsService {
     constructor(
-        public http: Http,
-        public dataService: DataService,
-        public alertsService: AlertsService
+        private http: Http,
+        private dataService: DataService,
+        private alertsService: AlertsService
     ) { }
     comments: Comment[] = [];
 
@@ -25,13 +24,9 @@ export class CommentsService {
         return this.dataService.loadDataList('comments')
             .map(
             res => {
-                let comments: Comment[] = [];
-                for (const comment of res) {
-                    if (comment.postId === postId) {
-                        comments.push(comment);
-                    }
-                }
-                return comments;
+                return res.filter(
+                    comment => comment.postId === postId
+                );
             });
     }
 

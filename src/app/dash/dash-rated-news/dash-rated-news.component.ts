@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NewsService } from '../../news/news.service';
 import { AuthService } from '../../auth/auth.service';
+import { NewsService } from '../../news/news.service';
 
 import { News } from '../../shared/models/news.model';
 
 @Component({
   selector: 'app-dash-rated-news',
-  templateUrl: './dash-rated-news.component.html',
-  styleUrls: ['./dash-rated-news.component.css']
+  templateUrl: './dash-rated-news.component.html'
 })
 export class DashRatedNewsComponent implements OnInit {
   constructor(
-    public authService: AuthService,
-    public newsService: NewsService
+    private authService: AuthService,
+    private newsService: NewsService
   ) { }
 
   news: News[] = [];

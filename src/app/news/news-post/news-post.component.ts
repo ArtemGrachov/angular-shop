@@ -3,18 +3,16 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
 import { EditAccessService } from '../../shared/edit-access.service';
-
-import { News } from '../..//shared/models/news.model';
-
 import { NewsService } from '../../news/news.service';
 import { UsersService } from '../../admin/users.service';
+
+import { News } from '../..//shared/models/news.model';
 
 import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-news-post',
-  templateUrl: './news-post.component.html',
-  styleUrls: ['./news-post.component.css']
+  templateUrl: './news-post.component.html'
 })
 export class NewsPostComponent implements OnInit {
   constructor(private newsService: NewsService,
@@ -65,10 +63,5 @@ export class NewsPostComponent implements OnInit {
     this.newsService.deletePost(this.postId).subscribe(
       () => this.router.navigate(['/news'])
     );
-  }
-
-  getAuthorName(id: string): string {
-    // !!!
-    return 'test username';
   }
 }

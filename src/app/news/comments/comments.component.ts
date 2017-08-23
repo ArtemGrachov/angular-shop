@@ -9,16 +9,15 @@ import { Comment } from '../../shared/models/comment.model';
 
 @Component({
   selector: 'app-comments',
-  templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.css']
+  templateUrl: './comments.component.html'
 })
 export class CommentsComponent implements OnInit {
   @Input() postId: string;
   constructor(
-    public commentsService: CommentsService,
-    public authService: AuthService,
-    public usersService: UsersService,
-    public fb: FormBuilder
+    private commentsService: CommentsService,
+    private authService: AuthService,
+    private usersService: UsersService,
+    private fb: FormBuilder
   ) { }
 
   comments: Comment[] = [];
@@ -35,9 +34,7 @@ export class CommentsComponent implements OnInit {
 
   loadComments() {
     this.commentsService.loadPostComments(this.postId).subscribe(
-      res => {
-        this.comments = res;
-      }
+      res => this.comments = res
     );
   }
 
@@ -56,7 +53,6 @@ export class CommentsComponent implements OnInit {
     this.commentFormActive = !this.commentFormActive;
   }
 
-  // !!! user's id!
   sendComment() {
     this.commentsService.addComment(
       new Comment(

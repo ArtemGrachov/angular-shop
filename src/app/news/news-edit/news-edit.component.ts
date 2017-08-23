@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
-
-import { NewsService } from '../../news/news.service';
 import { UsersService } from '../../admin/users.service';
+import { NewsService } from '../../news/news.service';
 
 import { News } from '../../shared/models/news.model';
 import { User } from '../../shared/models/user.model';
@@ -14,17 +13,16 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-news-edit',
-  templateUrl: './news-edit.component.html',
-  styleUrls: ['./news-edit.component.css']
+  templateUrl: './news-edit.component.html'
 })
 export class NewsEditComponent implements OnInit {
   constructor(
-    public newsService: NewsService,
-    public usersService: UsersService,
-    public authService: AuthService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public fb: FormBuilder
+    private newsService: NewsService,
+    private usersService: UsersService,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) { }
 
   post: News = new News(
@@ -118,6 +116,4 @@ export class NewsEditComponent implements OnInit {
   cancel() {
     this.router.navigate(['../', { relativeTo: this.route }]);
   }
-
-
 }

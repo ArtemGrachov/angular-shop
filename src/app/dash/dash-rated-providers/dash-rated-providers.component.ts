@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ProvidersService } from '../../providers/providers.service';
 import { AuthService } from '../../auth/auth.service';
+import { ProvidersService } from '../../providers/providers.service';
 
 import { Provider } from '../../shared/models/provider.model';
 
 @Component({
   selector: 'app-dash-rated-providers',
-  templateUrl: './dash-rated-providers.component.html',
-  styleUrls: ['./dash-rated-providers.component.css']
+  templateUrl: './dash-rated-providers.component.html'
 })
 export class DashRatedProvidersComponent implements OnInit {
 
   constructor(
-    public providersService: ProvidersService,
-    public authService: AuthService
+    private providersService: ProvidersService,
+    private authService: AuthService
   ) { }
 
   providers: Provider[] = [];

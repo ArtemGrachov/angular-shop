@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 
-import { UsersService } from '../admin/users.service';
-import { AlertsService } from '../alerts/alerts.service';
 import { DataService } from '../shared/data.service';
+import { AlertsService } from '../alerts/alerts.service';
+import { UsersService } from '../admin/users.service';
 
 import { News } from '../shared/models/news.model';
 

@@ -3,12 +3,11 @@ import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    public authService: AuthService
+    private authService: AuthService
   ) { }
 
   auth = this.authService.getAuth();

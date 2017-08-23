@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OrdersService } from '../../admin/orders.service';
 import { AuthService } from '../../auth/auth.service';
+import { OrdersService } from '../../admin/orders.service';
 
 import { Order } from '../../shared/models/order.model';
 
 @Component({
   selector: 'app-dash-orders',
-  templateUrl: './dash-orders.component.html',
-  styleUrls: ['./dash-orders.component.css']
+  templateUrl: './dash-orders.component.html'
 })
 export class DashOrdersComponent implements OnInit {
-  orders: Order[] = [];
-
   constructor(
-    public ordersService: OrdersService,
-    public authService: AuthService
+    private ordersService: OrdersService,
+    private authService: AuthService
   ) { }
+
+  orders: Order[] = [];
 
   ngOnInit() {
     this.getUsersOrder();
@@ -34,4 +33,7 @@ export class DashOrdersComponent implements OnInit {
     );
   }
 
+  getOrderPrice(order) {
+    return this.ordersService.getOrderPrice(order);
+  }
 }

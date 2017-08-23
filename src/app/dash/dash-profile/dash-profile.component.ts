@@ -3,22 +3,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { GoogleMapsAPIWrapper } from '@agm/core';
 
-import { UsersService } from '../../admin/users.service';
 import { AuthService } from '../../auth/auth.service';
+import { UsersService } from '../../admin/users.service';
 
 import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-dash-profile',
-  templateUrl: './dash-profile.component.html',
-  styleUrls: ['./dash-profile.component.css']
+  templateUrl: './dash-profile.component.html'
 })
 export class DashProfileComponent implements OnInit {
   constructor(
-    public usersService: UsersService,
-    public authService: AuthService,
-    public fb: FormBuilder,
-    public gmapAPI: GoogleMapsAPIWrapper
+    private usersService: UsersService,
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private gmapAPI: GoogleMapsAPIWrapper
   ) { }
 
   @ViewChild('userMarker') userMarker: ElementRef;
