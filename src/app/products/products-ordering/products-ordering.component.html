@@ -30,7 +30,7 @@
     <div class="alert alert-info">
       Total price for products: <strong>${{cart.price}}</strong>
     </div>
-    <form class="panel panel-default" [formGroup]="orderForm" (ngSubmit)="sendOrder()" *ngIf="cart.list.length > 0">
+    <form class="panel panel-default" [formGroup]="orderForm" (ngSubmit)="sendOrder()" *ngIf="cart.list.length > 0 && orderForm">
       <div class="panel-heading">
         Delivery details
       </div>

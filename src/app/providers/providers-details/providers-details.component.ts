@@ -59,10 +59,8 @@ export class ProvidersDetailsComponent implements OnInit {
 
   providerRate(rate: number) {
     this.providersService.rateProvider(this.providerId, rate).subscribe(
-      updater => {
-        updater.subscribe(
-          () => this.loadProvider()
-        );
+      res => {
+        this.loadProvider();
       }
     );
   }

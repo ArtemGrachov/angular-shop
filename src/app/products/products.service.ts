@@ -5,15 +5,18 @@ import { AlertsService } from '../alerts/alerts.service';
 
 import { DataService } from '../shared/data.service';
 import { AuthService } from '../auth/auth.service';
+import { UsersService } from '../admin/users.service';
 
 import { Product } from '../shared/models/product.model';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ProductsService {
     constructor(
         public dataService: DataService,
         public alertsService: AlertsService,
-        public authService: AuthService
+        public authService: AuthService,
+        public usersService: UsersService
     ) { }
 
     products: Product[] = [];
@@ -90,12 +93,28 @@ export class ProductsService {
     }
 
     rateProduct(id: string, rate: number) {
-        return this.loadProduct(id).map(
-            product => {
-                product.rating += rate;
-                return this.dataService.putData('products', product);
+        let obs = new Observable(
+            observer => {
+                this.usersService.rateItem(id, 'ratedProducts').subscribe(
+                    res => {
+                        if (res) {
+                            this.loadProduct(id).subscribe(
+                                product => {
+                                    product.rating += rate;
+                                    this.dataService.putObjValue(`products/${product.id}/rating`, product.rating).subscribe(
+                                        res => observer.next(true)
+                                    );
+                                }
+                            );
+                        } else {
+                            observer.next(false);
+                            observer.complete();
+                        }
+                    }
+                );
             }
         );
+        return obs;
     }
 
     getCart() {

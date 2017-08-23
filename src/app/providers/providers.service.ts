@@ -6,6 +6,7 @@ import { UsersService } from '../admin/users.service';
 import { AlertsService } from '../alerts/alerts.service';
 
 import { Provider } from '../shared/models/provider.model';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ProvidersService {
@@ -45,12 +46,28 @@ export class ProvidersService {
     }
 
     rateProvider(id: string, rate: number) {
-        return this.loadProvider(id).map(
-            provider => {
-                provider.rating += rate;
-                return this.dataService.putData('providers', provider);
+        let obs = new Observable(
+            observer => {
+                this.usersService.rateItem(id, 'ratedProviders').subscribe(
+                    res => {
+                        if (res) {
+                            this.loadProvider(id).subscribe(
+                                provider => {
+                                    provider.rating += rate;
+                                    this.dataService.putObjValue(`providers/${provider.id}/rating`, provider.rating).subscribe(
+                                        res => observer.next(true)
+                                    );
+                                }
+                            );
+                        } else {
+                            observer.next(false);
+                            observer.complete();
+                        }
+                    }
+                );
             }
         );
+        return obs;
     }
 
     addComment(providerId: string, comment: string) {

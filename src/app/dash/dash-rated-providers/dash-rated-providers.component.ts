@@ -20,7 +20,7 @@ export class DashRatedProvidersComponent implements OnInit {
   providers: Provider[] = [];
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe(
+    this.authService.loadCurrentUser().subscribe(
       (res: any) => {
         if (res.ratedProviders) {
           for (let id of res.ratedProviders) {

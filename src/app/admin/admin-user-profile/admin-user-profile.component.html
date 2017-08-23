@@ -29,7 +29,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="age">Birthdate:</label> {{user.birthdate | date:'medium'}}
+        <label for="age">Birthdate:</label> {{user.birthdate | date:'mediumDate'}}
         <input type="date" class="form-control" id="birthdate" *ngIf="editMode" formControlName="birthdate">
       </div>
       <div class="form-group">

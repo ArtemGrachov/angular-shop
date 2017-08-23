@@ -33,7 +33,7 @@ export class DashProfileComponent implements OnInit {
   }
 
   loadProfile() {
-    this.authService.getCurrentUser().subscribe(
+    this.authService.loadCurrentUser().subscribe(
       res => {
         this.user = res;
         if (!this.profileForm) {
@@ -45,6 +45,7 @@ export class DashProfileComponent implements OnInit {
 
   toggleEditMode() {
     this.editMode = !this.editMode;
+    this.reset();
   }
 
   changeUserPos(newPos) {

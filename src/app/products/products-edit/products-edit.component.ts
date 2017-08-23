@@ -61,7 +61,7 @@ export class ProductsEditComponent implements OnInit {
     this.providersService.loadProviders();
 
 
-    this.authService.getCurrentUser().subscribe(
+    this.authService.loadCurrentUser().subscribe(
       (user: any) => {
         let sub: Observable<any>;
 

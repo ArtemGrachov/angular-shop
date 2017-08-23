@@ -35,6 +35,10 @@ export class DataService {
         return this.http.put(`${this.dbUrl}${listUrl}/${item.id}.json`, item);
     }
 
+    putObjValue(objUrl: string, value: any) {
+        return this.http.put(`${this.dbUrl}${objUrl}.json`, value);
+    }
+
     deleteData(itemUrl: string) {
         return this.http.delete(`${this.dbUrl}${itemUrl}.json`);
     }

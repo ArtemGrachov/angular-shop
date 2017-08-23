@@ -78,6 +78,7 @@ export class AdminUserProfileComponent implements OnInit {
       this.router.navigate(['../'], { relativeTo: this.route });
     } else {
       this.editMode = !this.editMode;
+      this.reset();
     }
   }
 

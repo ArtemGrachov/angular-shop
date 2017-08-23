@@ -32,7 +32,7 @@
     </ul>
   </div>
   <div class="panel-footer">
-    Total: 0 orders
+    Total: {{ordersCount | async}} orders
   </div>
 </div>
 <div class="panel panel-default">
@@ -57,7 +57,7 @@
     </ul>
   </div>
   <div class="panel-footer">
-    Total: 0 users
+    Total: {{usersCount | async}} users
   </div>
 </div>
 
@@ -91,9 +91,7 @@
             <a class="btn btn-default btn-xs" [routerLink]="['../news',comment.postId]">
               <span class="glyphicon glyphicon-comment"></span> 
             </a>
-            <!-- <span class="glyphicon glyphicon-calendar"></span>
-             {{comment.date | date:'medium'}} -->
-            {{comment.content | slice:0:100}}
+            <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}} {{comment.content | slice:0:100}}
           </li>
         </ul>
       </li>

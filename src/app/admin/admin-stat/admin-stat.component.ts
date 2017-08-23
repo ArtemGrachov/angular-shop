@@ -39,18 +39,20 @@ export class AdminStatComponent implements OnInit {
   ordersCount;
 
   users: User[];
-  usersCount: number;
+  usersCount;
 
   ngOnInit() {
     this.newsService.getLatest(3).subscribe(res => this.news = res);
     this.commentsService.getLatest(3).subscribe(res => this.comments = res);
     this.ordersService.getLatest(3).subscribe(res => this.orders = res);
     this.productsService.getLatest(3).subscribe(res => this.products = res);
+    this.usersService.getLatest(3).subscribe(res => this.users = res);
 
     this.newsCount = this.newsService.getCount();
     this.ordersCount = this.ordersService.getCount();
     this.productsCount = this.productsService.getCount();
     this.commenstCount = this.commentsService.getCount();
+    this.usersCount = this.usersService.getCount();
   }
 
   getOrderProductsCount(id: string): number {

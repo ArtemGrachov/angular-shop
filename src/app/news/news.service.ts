@@ -25,12 +25,28 @@ export class NewsService {
     }
 
     ratePost(id: string, rate: number) {
-        return this.loadPost(id).map(
-            post => {
-                post.rating += rate;
-                return this.dataService.putData('news', post);
+        let obs = new Observable(
+            observer => {
+                this.usersService.rateItem(id, 'ratedNews').subscribe(
+                    res => {
+                        if (res) {
+                            this.loadPost(id).subscribe(
+                                post => {
+                                    post.rating += rate;
+                                    this.dataService.putObjValue(`news/${post.id}/rating`, post.rating).subscribe(
+                                        res => observer.next(true)
+                                    );
+                                }
+                            );
+                        } else {
+                            observer.next(false);
+                            observer.complete();
+                        }
+                    }
+                );
             }
         );
+        return obs;
     }
 
     addPost(newPost: News) {

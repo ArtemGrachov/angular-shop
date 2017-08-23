@@ -19,7 +19,7 @@ export class DashRatedProductsComponent implements OnInit {
   products: Product[] = [];
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe(
+    this.authService.loadCurrentUser().subscribe(
       (res: any) => {
         if (res.ratedProducts) {
           for (let id of res.ratedProducts) {

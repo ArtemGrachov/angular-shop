@@ -19,7 +19,7 @@ export class EditAccessService {
     productEditAccess(id: string) {
         return new Observable(
             observer => {
-                this.authService.getCurrentUser().subscribe(
+                this.authService.loadCurrentUser().subscribe(
                     (user: any) => {
                         if (user) {
                             if (user.category === 'admin') {
@@ -53,7 +53,7 @@ export class EditAccessService {
     newsEditAccess(id: string) {
         return new Observable(
             observer => {
-                this.authService.getCurrentUser().subscribe(
+                this.authService.loadCurrentUser().subscribe(
                     (user: any) => {
                         if (user) {
                             if (user.category === 'admin') {
@@ -81,7 +81,7 @@ export class EditAccessService {
     providerEditAccess(id: string) {
         return new Observable(
             observer => {
-                this.authService.getCurrentUser().subscribe(
+                this.authService.loadCurrentUser().subscribe(
                     (user: any) => {
                         if (user) {
                             if (user.category === 'admin') {

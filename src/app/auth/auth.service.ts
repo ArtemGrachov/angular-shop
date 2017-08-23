@@ -3,7 +3,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { DataService } from '../shared/data.service';
 
-import { UsersService } from '../admin/users.service';
 import { AlertsService } from '../alerts/alerts.service';
 
 import { User } from '../shared/models/user.model';
@@ -15,7 +14,6 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AuthService {
     constructor(
-        public usersService: UsersService,
         public router: Router,
         public route: ActivatedRoute,
         public alertsService: AlertsService,
@@ -45,18 +43,21 @@ export class AuthService {
         return this.currentUid;
     }
 
-    getCurrentUser() {
+    loadCurrentUser() {
         let obs = new Observable(
             observer => {
                 this.getAuth().subscribe(
                     auth => {
                         if (auth) {
-                            this.usersService.loadUser(auth.uid).subscribe(
-                                res => {
+                            this.dataService.loadDataObj(`users/${auth.uid}`).subscribe(
+                                (res) => {
                                     observer.next(res);
                                     observer.complete();
                                 }
                             );
+                        } else {
+                            observer.next(false);
+                            observer.complete();
                         }
                     }
                 );
@@ -135,7 +136,7 @@ export class AuthService {
     checkUserCategory(categories: string[]) {
         return new Observable(
             observer => {
-                this.getCurrentUser().subscribe(
+                this.loadCurrentUser().subscribe(
                     (user: any) => {
                         if (categories.indexOf(user.category) > -1) {
                             observer.next(true);

@@ -4,17 +4,19 @@ import { AlertsService } from '../alerts/alerts.service';
 import { DataService } from '../shared/data.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
+import { AuthService } from '../auth/auth.service';
+
 import { User } from '../shared/models/user.model';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UsersService {
     constructor(
         public alertsService: AlertsService,
         public dataService: DataService,
+        public authService: AuthService,
         public firebaseAuth: AngularFireAuth
     ) { }
-
-    users: User[] = [];
 
     categories: string[] = [
         'admin',
@@ -64,22 +66,50 @@ export class UsersService {
         );
     }
 
-    getLatest(count: number): User[] {
-        const sortedUsers: User[] = this.users.slice().sort(
-            function (a, b) {
-                if (a.regdate < b.regdate) {
-                    return 1;
-                } else if (a.regdate > b.regdate) {
-                    return - 1;
-                } else {
-                    return 0;
-                }
+    getLatest(count: number) {
+        return this.loadUsers().map(
+            res => {
+                res.sort(
+                    function (a, b) {
+                        if (a.date < b.date) {
+                            return 1;
+                        } else if (a.date > b.date) {
+                            return - 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                );
+                return res.slice(0, count);
             }
         );
-        return sortedUsers.slice(0, count);
     }
 
-    getCount(): number {
-        return this.users.length;
+    getCount() {
+        return this.loadUsers().map(
+            res => res.length
+        );
+    }
+
+    rateItem(itemId: string, itemCat: string) {
+        let obs = new Observable(
+            observer => {
+                this.authService.loadCurrentUser().subscribe(
+                    (user: any) => {
+                        if (!user[itemCat]) {
+                            user[itemCat] = [];
+                        }
+                        if (user[itemCat].indexOf(itemId) === -1) {
+                            user[itemCat].push(itemId);
+                            this.dataService.putObjValue(`users/${user.id}/${itemCat}`, user[itemCat]).subscribe();
+                            observer.next(true);
+                        } else {
+                            observer.next(false);
+                        }
+                    }
+                );
+            }
+        );
+        return obs;
     }
 }

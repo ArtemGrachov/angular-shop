@@ -52,9 +52,7 @@ export class NewsPostComponent implements OnInit {
   postRate(rating: number) {
     this.newsService.ratePost(this.postId, rating).subscribe(
       updater => {
-        updater.subscribe(
-          () => this.loadPost()
-        );
+        this.loadPost();
       }
     );
   }

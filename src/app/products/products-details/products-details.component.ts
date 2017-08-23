@@ -70,10 +70,10 @@ export class ProductsDetailsComponent implements OnInit {
 
   rateProduct(id: string, rate: number) {
     this.productsService.rateProduct(id, rate).subscribe(
-      updater => {
-        updater.subscribe(
-          () => this.loadProduct()
-        );
+      res => {
+        if (res) {
+          this.loadProduct();
+        }
       }
     );
   }
