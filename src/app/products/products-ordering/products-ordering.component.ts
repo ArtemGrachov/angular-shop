@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { GoogleMapsAPIWrapper } from '@agm/core';
 
+import { AuthService } from '../../auth/auth.service';
 import { ProductsService } from '../products.service';
 import { OrdersService } from '../../admin/orders.service';
 import { UsersService } from '../../admin/users.service';
-import { AuthService } from '../../auth/auth.service';
 
 import { Product } from '../../shared/models/product.model';
 import { Order } from '../../shared/models/order.model';
@@ -30,17 +30,16 @@ declare var google: any;
 
 @Component({
   selector: 'app-products-ordering',
-  templateUrl: './products-ordering.component.html',
-  styleUrls: ['./products-ordering.component.css']
+  templateUrl: './products-ordering.component.html'
 })
 export class ProductsOrderingComponent implements OnInit {
   constructor(
-    public productsService: ProductsService,
-    public ordersService: OrdersService,
-    public gmapAPI: GoogleMapsAPIWrapper,
-    public authService: AuthService,
-    public usersService: UsersService,
-    public fb: FormBuilder
+    private productsService: ProductsService,
+    private ordersService: OrdersService,
+    private gmapAPI: GoogleMapsAPIWrapper,
+    private authService: AuthService,
+    private usersService: UsersService,
+    private fb: FormBuilder
   ) {
   }
   orderForm: FormGroup;
@@ -51,8 +50,10 @@ export class ProductsOrderingComponent implements OnInit {
   successMsg: boolean = false;
 
   gmap = {
-    lat: 48.698200,
-    lng: 26.575637,
+    location: {
+      lat: 48.698200,
+      lng: 26.575637
+    },
     zoom: 16
   };
   gmapObj: any;
@@ -81,16 +82,16 @@ export class ProductsOrderingComponent implements OnInit {
       (user: any) => {
         if (user) {
           this.orderForm = this.fb.group({
-            'location': { lat: user.location.lat, lng: user.location.lng }, // !!! current user
+            'location': { lat: user.location.lat, lng: user.location.lng },
             'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-            'phone': [user.phone, Validators.required], // current user phone!
+            'phone': [user.phone, Validators.required],
             'type': 'DRIVING'
           });
         } else {
           this.orderForm = this.fb.group({
-            'location': { lat: this.gmap.lat, lng: this.gmap.lng }, // !!! current user
+            'location': { lat: this.gmap.location.lat, lng: this.gmap.location.lng },
             'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-            'phone': ['', Validators.required], // current user phone!
+            'phone': ['', Validators.required],
             'type': 'DRIVING'
           });
         }
@@ -98,8 +99,8 @@ export class ProductsOrderingComponent implements OnInit {
     );
   }
 
-  mapReady(event) {
-    this.gmapObj = event;
+  mapReady(map) {
+    this.gmapObj = map;
     this.gmapDir();
     this.authService.getAuth().subscribe(
       res => {
@@ -184,7 +185,7 @@ export class ProductsOrderingComponent implements OnInit {
 
   sendOrder() {
     const products: { name: string, price: number }[] = [];
-    let cartList = this.cart.list;
+    const cartList = this.cart.list;
     for (const product of this.cart.list) {
       if (product.count > 0) {
         products.push({

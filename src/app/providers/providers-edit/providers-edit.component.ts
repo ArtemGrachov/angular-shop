@@ -2,23 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { ProvidersService } from '../../providers/providers.service';
 import { UsersService } from '../../admin/users.service';
+import { ProvidersService } from '../../providers/providers.service';
 
 import { Provider } from '../../shared/models/provider.model';
 
 @Component({
   selector: 'app-providers-edit',
-  templateUrl: './providers-edit.component.html',
-  styleUrls: ['./providers-edit.component.css']
+  templateUrl: './providers-edit.component.html'
 })
 export class ProvidersEditComponent implements OnInit {
   constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    public providersService: ProvidersService,
-    public usersService: UsersService,
-    public fb: FormBuilder
+    private router: Router,
+    private route: ActivatedRoute,
+    private providersService: ProvidersService,
+    private usersService: UsersService,
+    private fb: FormBuilder
   ) { }
 
   provider: Provider = new Provider('0', '', '', '', '', [], 0, []);

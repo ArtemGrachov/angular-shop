@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Product } from '../../shared/models/product.model';
-
-import { ProductsService } from '../products.service';
 import { AuthService } from '../../auth/auth.service';
+import { ProductsService } from '../products.service';
+
+import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-products-cart',
-  templateUrl: './products-cart.component.html',
-  styleUrls: ['./products-cart.component.css']
+  templateUrl: './products-cart.component.html'
 })
 export class ProductsCartComponent implements OnInit {
-  cart;
-
   constructor(
-    public productsService: ProductsService,
-    public authService: AuthService
+    private productsService: ProductsService,
+    private authService: AuthService
   ) { }
+
+  cart;
 
   ngOnInit() {
     this.cart = this.productsService.getCart();

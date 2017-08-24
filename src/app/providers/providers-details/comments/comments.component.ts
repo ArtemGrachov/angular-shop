@@ -7,22 +7,22 @@ import { UsersService } from '../../../admin/users.service';
 
 @Component({
   selector: 'app-comments',
-  templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.css']
+  templateUrl: './comments.component.html'
 })
 export class CommentsComponent implements OnInit {
   constructor(
-    public providersService: ProvidersService,
-    public usersService: UsersService,
-    public authService: AuthService,
-    public router: Router,
-    public route: ActivatedRoute,
+    private providersService: ProvidersService,
+    private usersService: UsersService,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   comments: string[] = [];
   providerId: string;
   comment: string;
   writeCommentAccess = this.authService.checkUserCategory(['admin', 'premium']);
+  deleteCommentAccess = this.authService.checkUserCategory(['admin']);
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -43,8 +43,21 @@ export class CommentsComponent implements OnInit {
 
   addComment() {
     this.providersService.addComment(this.providerId, this.comment).subscribe(
-      updater => {
-        updater.subscribe(
+      res => {
+        res.subscribe(
+          () => {
+            this.comment = '';
+            this.loadComments();
+          }
+        );
+      }
+    );
+  }
+
+  deleteComment(index: string) {
+    this.providersService.deleteComment(this.providerId, index).subscribe(
+      res => {
+        res.subscribe(
           () => this.loadComments()
         );
       }

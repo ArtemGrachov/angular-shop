@@ -9,18 +9,17 @@ import { Product } from '../../../shared/models/product.model';
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  templateUrl: './products.component.html'
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
   providerId: string;
 
   constructor(
-    public providersService: ProvidersService,
-    public productsService: ProductsService,
-    public router: Router,
-    public route: ActivatedRoute
+    private providersService: ProvidersService,
+    private productsService: ProductsService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {

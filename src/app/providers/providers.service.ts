@@ -1,9 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
-import { UsersService } from '../admin/users.service';
-
 import { AlertsService } from '../alerts/alerts.service';
+import { UsersService } from '../admin/users.service';
 
 import { Provider } from '../shared/models/provider.model';
 import { Observable } from 'rxjs/Observable';
@@ -11,9 +10,9 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ProvidersService {
     constructor(
-        public usersService: UsersService,
-        public dataService: DataService,
-        public alertsService: AlertsService
+        private usersService: UsersService,
+        private dataService: DataService,
+        private alertsService: AlertsService
     ) { }
 
     private providers: Provider[] = [];
@@ -87,16 +86,16 @@ export class ProvidersService {
                     provider.comments = [];
                 }
                 provider.comments.push(comment);
-                return this.dataService.putData('providers', provider);
+                return this.dataService.putObjValue(`providers/${provider.id}/comments`, provider.comments);
             }
         );
     }
 
     deleteComment(providerId: string, commentIndex: string) {
-        this.loadProvider(providerId).subscribe(
+        return this.loadProvider(providerId).map(
             provider => {
                 provider.comments.splice(+commentIndex, 1);
-                this.updateProvider(provider);
+                return this.dataService.putObjValue(`providers/${provider.id}/comments`, provider.comments);
             }
         );
     }
@@ -105,11 +104,13 @@ export class ProvidersService {
         return this.loadProviders().map(
             res => {
                 let providers = [];
-                for (const provider of res) {
-                    if (provider.users.indexOf(userId) > -1) {
-                        providers.push(provider);
+                res.map(
+                    provider => {
+                        if (provider.users.indexOf(userId) > -1) {
+                            providers.push(provider);
+                        }
                     }
-                }
+                );
                 return providers;
             }
         );

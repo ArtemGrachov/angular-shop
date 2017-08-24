@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { ProductsService } from '../products.service';
-import { ProvidersService } from '../../providers/providers.service';
 import { AuthService } from '../../auth/auth.service';
 import { UsersService } from '../../admin/users.service';
+import { ProductsService } from '../products.service';
+import { ProvidersService } from '../../providers/providers.service';
 
 import { Product } from '../../shared/models/product.model';
 import { Provider } from '../../shared/models/provider.model';
@@ -17,33 +17,22 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-products-edit',
-  templateUrl: './products-edit.component.html',
-  styleUrls: ['./products-edit.component.css']
+  templateUrl: './products-edit.component.html'
 })
 export class ProductsEditComponent implements OnInit {
   constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    public authService: AuthService,
-    public productsService: ProductsService,
-    public providersService: ProvidersService,
-    public usersService: UsersService,
-    public fb: FormBuilder
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private productsService: ProductsService,
+    private providersService: ProvidersService,
+    private usersService: UsersService,
+    private fb: FormBuilder
   ) { }
 
-  product: Product = new Product(
-    '0',
-    '',
-    '',
-    '',
-    '',
-    0,
-    0,
-    0,
-    new Date()
-  );
+  product: Product = new Product('0', '', '', '', '', 0, 0, 0, new Date());
   productId: string;
-  providersList: { id: string, name: string }[] = [{ id: '1502977530352', name: 'test' }];
+  providersList: { id: string, name: string }[] = [];
   productForm: FormGroup;
   editMode: Boolean = false;
 
@@ -59,7 +48,6 @@ export class ProductsEditComponent implements OnInit {
       }
     );
     this.providersService.loadProviders();
-
 
     this.authService.loadCurrentUser().subscribe(
       (user: any) => {

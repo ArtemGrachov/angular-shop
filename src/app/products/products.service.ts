@@ -1,13 +1,13 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import 'rxjs/Rx';
 
-import { AlertsService } from '../alerts/alerts.service';
-
 import { DataService } from '../shared/data.service';
 import { AuthService } from '../auth/auth.service';
+import { AlertsService } from '../alerts/alerts.service';
 import { UsersService } from '../admin/users.service';
 
 import { Product } from '../shared/models/product.model';
+
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -34,13 +34,9 @@ export class ProductsService {
     getProductsByProvider(providerId) {
         return this.loadProducts().map(
             res => {
-                let products: Product[] = [];
-                for (const product of res) {
-                    if (product.providerId === providerId) {
-                        products.push(product);
-                    }
-                }
-                return products;
+                return res.filter(
+                    product => product.providerId === providerId
+                );
             }
         );
     }

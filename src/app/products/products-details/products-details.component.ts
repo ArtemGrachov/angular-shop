@@ -3,18 +3,16 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../auth/auth.service';
+import { EditAccessService } from '../../shared/edit-access.service';
 import { ProductsService } from '../products.service';
 import { ProvidersService } from '../../providers/providers.service';
-
-import { EditAccessService } from '../../shared/edit-access.service';
-
 import { UsersService } from '../../admin/users.service';
+
 import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-products-details',
-  templateUrl: './products-details.component.html',
-  styleUrls: ['./products-details.component.css']
+  templateUrl: './products-details.component.html'
 })
 export class ProductsDetailsComponent implements OnInit {
   constructor(
@@ -59,7 +57,7 @@ export class ProductsDetailsComponent implements OnInit {
     this.productsService.loadProduct(this.productId).subscribe(
       res => {
         if (res.count <= 0) {
-          alert('no products!');
+          alert('no products!'); /// ????
         } else {
           this.productsService.addToCart(product);
         }
@@ -85,7 +83,6 @@ export class ProductsDetailsComponent implements OnInit {
   delete() {
     this.productsService.deleteProduct(this.productId).subscribe(
       () => this.router.navigate(['products'])
-
     );
   }
 }

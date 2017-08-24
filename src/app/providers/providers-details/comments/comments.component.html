@@ -1,6 +1,7 @@
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let comment of comments">
+  <li class="list-group-item" *ngFor="let comment of comments; let i = index">
     {{comment}}
+    <a class="btn btn-xs btn-danger pull-right" (click)="deleteComment(i)">Delete</a>
   </li>
 </ul>
 <div class="panel panel-default" *ngIf="writeCommentAccess | async">

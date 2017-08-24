@@ -4,14 +4,13 @@ import { ProvidersService } from '../../providers.service';
 
 @Component({
   selector: 'app-description',
-  templateUrl: './description.component.html',
-  styleUrls: ['./description.component.css']
+  templateUrl: './description.component.html'
 })
 export class DescriptionComponent implements OnInit {
   constructor(
-    public providersService: ProvidersService,
-    public router: Router,
-    public route: ActivatedRoute,
+    private providersService: ProvidersService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   providerId: string;

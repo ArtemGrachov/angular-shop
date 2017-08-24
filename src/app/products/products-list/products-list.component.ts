@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
-
-import { Product } from '../../shared/models/product.model';
-
 import { ProductsService } from '../products.service';
 import { ProvidersService } from '../../providers/providers.service';
 
+import { Product } from '../../shared/models/product.model';
+
 @Component({
   selector: 'app-products-list',
-  templateUrl: './products-list.component.html',
-  styleUrls: ['./products-list.component.css']
+  templateUrl: './products-list.component.html'
 })
 export class ProductsListComponent implements OnInit {
   constructor(
@@ -20,7 +18,7 @@ export class ProductsListComponent implements OnInit {
   ) { }
   private products: Product[] = [];
   private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
-  public filter = { sort: 'rating', reverse: true, search: '' };
+  private filter = { sort: 'rating', reverse: true, search: '' };
 
   ngOnInit() {
     this.loadProducts();
@@ -38,5 +36,4 @@ export class ProductsListComponent implements OnInit {
       }
     );
   }
-
 }

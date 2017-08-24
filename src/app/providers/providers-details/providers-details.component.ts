@@ -13,8 +13,7 @@ import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-providers-details',
-  templateUrl: './providers-details.component.html',
-  styleUrls: ['./providers-details.component.css']
+  templateUrl: './providers-details.component.html'
 })
 export class ProvidersDetailsComponent implements OnInit {
   constructor(

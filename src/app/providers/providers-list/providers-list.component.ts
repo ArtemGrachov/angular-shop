@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
-
 import { ProvidersService } from '../providers.service';
 
 import { Provider } from '../../shared/models/provider.model';
 
 @Component({
   selector: 'app-providers-list',
-  templateUrl: './providers-list.component.html',
-  styleUrls: ['./providers-list.component.css']
+  templateUrl: './providers-list.component.html'
 })
 export class ProvidersListComponent implements OnInit {
   constructor(
