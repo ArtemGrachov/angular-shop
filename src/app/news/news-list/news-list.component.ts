@@ -21,8 +21,8 @@ export class NewsListComponent implements OnInit {
     private usersService: UsersService
   ) { }
 
-  private newsList: News[] = [];
-  private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
+  public newsList: News[] = [];
+  public addAccess = this.authService.checkUserCategory(['admin', 'provider']);
 
   ngOnInit() {
     this.newsService.loadNews().subscribe(

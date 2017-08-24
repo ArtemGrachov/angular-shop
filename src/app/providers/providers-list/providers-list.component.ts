@@ -15,8 +15,8 @@ export class ProvidersListComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  private providers: Provider[] = [];
-  private isAdmin = this.authService.checkUserCategory(['admin']);
+  public providers: Provider[] = [];
+  public isAdmin = this.authService.checkUserCategory(['admin']);
 
   ngOnInit() {
     this.loadProviders();

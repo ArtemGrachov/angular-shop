@@ -13,7 +13,7 @@ export class ProvidersRatingComponent implements OnInit {
         private providersService: ProvidersService
     ) { }
 
-    private providers: Provider[] = [];
+    public providers: Provider[] = [];
 
     ngOnInit() {
         this.loadProviders();

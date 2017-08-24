@@ -16,9 +16,9 @@ export class ProductsListComponent implements OnInit {
     private authService: AuthService,
     private providersService: ProvidersService
   ) { }
-  private products: Product[] = [];
-  private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
-  private filter = { sort: 'rating', reverse: true, search: '' };
+  public products: Product[] = [];
+  public addAccess = this.authService.checkUserCategory(['admin', 'provider']);
+  public filter = { sort: 'rating', reverse: true, search: '' };
 
   ngOnInit() {
     this.loadProducts();
