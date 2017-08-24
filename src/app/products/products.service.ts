@@ -28,9 +28,13 @@ export class ProductsService {
                     user => {
                         if (user.category === 'premium') {
                             this.setDiscount(3);
+                        } else {
+                            this.setDiscount(0);
                         }
                     }
                 );
+            } else {
+                this.setDiscount(0);
             }
         }
     );

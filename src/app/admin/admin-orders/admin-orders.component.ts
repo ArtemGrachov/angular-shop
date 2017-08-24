@@ -19,11 +19,22 @@ export class AdminOrdersComponent implements OnInit {
 
   ngOnInit() {
     this.ordersService.loadOrders().subscribe(
-      res => this.orders = res
+      res => {
+        this.orders = res;
+        this.orders.forEach(
+          order => {
+            this.usersService.loadUser(order.userId).subscribe(
+              (user: any) => {
+                order.username = user.name;
+              }
+            );
+          }
+        );
+      }
     );
   }
 
-  getOrderPrice(order) {
-    return this.ordersService.getOrderPrice(order);
+  getOrderPrice(order): number {
+    return +(this.ordersService.getOrderPrice(order) * (1 - (order.discount * 0.01))).toFixed(2);
   }
 }

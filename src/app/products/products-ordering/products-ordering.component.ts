@@ -205,6 +205,7 @@ export class ProductsOrderingComponent implements OnInit {
         products,
         this.deliveryInfo.price,
         new Date(),
+        this.productsService.discount,
         this.orderForm.get('location').value
       )
     ).subscribe(

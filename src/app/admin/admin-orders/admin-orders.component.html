@@ -13,7 +13,10 @@
             <span class="badge">${{product.price}}</span>
           </li>
           <li class="list-group-item">
-            Delivering: ${{order.deliveryPrice}}
+            Delivering <span class="badge">${{order.deliveryPrice}}</span>
+          </li>
+          <li class="list-group-item">
+            Discount <span class="badge">{{order.discount}}%</span>
           </li>
         </ul>
         <strong>Total price: ${{getOrderPrice(order) + order.deliveryPrice}}</strong>
