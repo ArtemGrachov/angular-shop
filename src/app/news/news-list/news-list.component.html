@@ -6,9 +6,9 @@
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let post of newsList" style="cursor: pointer" [routerLink]="post.id">
       <h4>{{post.title}}</h4>
-      <span class="badge">{{post.authorName}}</span>
+      <span class="badge">by {{post.authorName}}</span>
       <div>
-        {{post.content | slice:0:45}}...
+        <span [innerHTML]="post.content | slice:0:45"></span>...
       </div>
       <hr>
       <ul class="list-inline small">

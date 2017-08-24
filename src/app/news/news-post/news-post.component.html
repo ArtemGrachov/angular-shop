@@ -1,5 +1,5 @@
 <ng-template [ngIf]="post">
-  <span class="badge pull-right">by {{authorName | async}}</span>
+  <span class="badge pull-right">by {{post.authorName}}</span>
   <h1>{{post.title}}</h1>
   <div [innerHTML]="post.content">
   </div>

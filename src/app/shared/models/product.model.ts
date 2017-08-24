@@ -10,4 +10,5 @@ export class Product {
         public count: number,
         public date: Date
     ) { }
+    public providerName: string;
 }

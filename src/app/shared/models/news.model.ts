@@ -7,4 +7,5 @@ export class News {
         public authorId: string,
         public date: Date
     ) { }
+    public authorName: string;
 }

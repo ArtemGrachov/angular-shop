@@ -6,6 +6,7 @@ import { ProvidersRoutingModule } from './providers-routing.module';
 import { ProvidersListComponent } from './providers-list/providers-list.component';
 import { ProvidersDetailsComponent } from './providers-details/providers-details.component';
 import { ProvidersEditComponent } from './providers-edit/providers-edit.component';
+import { ProvidersRatingComponent } from './providers-rating/providers-rating.component';
 import { CommentsComponent } from './providers-details/comments/comments.component';
 import { ProductsComponent } from './providers-details/products/products.component';
 import { DescriptionComponent } from './providers-details/description/description.component';
@@ -19,6 +20,7 @@ import { DescriptionComponent } from './providers-details/description/descriptio
     ProvidersListComponent,
     ProvidersDetailsComponent,
     ProvidersEditComponent,
+    ProvidersRatingComponent,
     CommentsComponent,
     ProductsComponent,
     DescriptionComponent

@@ -28,7 +28,6 @@ export class ProductsDetailsComponent implements OnInit {
 
   productId: string;
   product: Product;
-  providerName;
   auth = this.authService.getAuth();
   editAccess;
 
@@ -46,8 +45,8 @@ export class ProductsDetailsComponent implements OnInit {
     this.productsService.loadProduct(this.productId).subscribe(
       res => {
         this.product = res;
-        this.providerName = this.providersService.loadProvider(this.product.providerId).map(
-          provider => provider.name
+        this.providersService.loadProvider(this.product.providerId).subscribe(
+          provider => this.product.providerName = provider.name
         );
       }
     );

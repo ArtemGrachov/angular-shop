@@ -23,8 +23,8 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-xs-12 col-sm-6" *ngFor="let post of news" [routerLink]="['../news', post.id]" style="cursor: pointer">
-          <span class="badge">by {{post.authorId}}</span>
+        <div class="col-xs-12 col-sm-6" *ngFor="let post of newsList" [routerLink]="['../news', post.id]" style="cursor: pointer">
+          <span class="badge">by {{post.authorName}}</span>
           <h2>{{post.title}}</h2>
           <hr> {{post.content | slice:0:25}}...
           <hr>

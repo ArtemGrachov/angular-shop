@@ -1,0 +1,9 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let provider of providers | sortPipe:'rating':true" style="cursor: pointer;" [routerLink]="[provider.id]">
+    <span class="badge">
+        <span class="glyphicon glyphicon-star"></span> {{provider.rating}}
+    </span>
+    <img [src]="provider.logoUrl" class="img-responsive" [alt]="provider.name">
+    <h4><span class="glyphicon glyphicon-briefcase"></span> {{provider.name}}</h4>
+  </li>
+</ul>

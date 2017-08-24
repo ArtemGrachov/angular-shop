@@ -2,13 +2,16 @@
   <div class="panel-heading">Comments</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let comment of comments" [routerLink]="['/news', comment.postId]">
-        <div class="well">
+      <li class="list-group-item" *ngFor="let comment of comments">
+        <div class="well" [routerLink]="['/news', comment.postId]" style="cursor: pointer">
           <span class="glyphicon glyphicon-comment"></span> {{comment.content}}
         </div>
         <ul class="list-group">
+          <li class="list-group-item" [routerLink]="['/admin/users', comment.authorId]" style="cursor: pointer">
+            <span class="glyphicon glyphicon-user"></span> {{comment.authorName}}
+          </li>
           <li class="list-group-item">
-            <span class="glyphicon glyphicon-list-alt"></span> {{comment.postId}}
+            <span class="glyphicon glyphicon-list-alt"></span> {{comment.postTitle}}
           </li>
           <li class="list-group-item">
             <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}

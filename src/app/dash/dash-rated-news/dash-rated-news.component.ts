@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 import { NewsService } from '../../news/news.service';
+import { UsersService } from '../../admin/users.service';
 
 import { News } from '../../shared/models/news.model';
 
@@ -12,6 +13,7 @@ import { News } from '../../shared/models/news.model';
 export class DashRatedNewsComponent implements OnInit {
   constructor(
     private authService: AuthService,
+    private usersService: UsersService,
     private newsService: NewsService
   ) { }
 
@@ -21,9 +23,14 @@ export class DashRatedNewsComponent implements OnInit {
     this.authService.loadCurrentUser().subscribe(
       (res: any) => {
         if (res.ratedNews) {
-          for (let id of res.ratedNews) {
+          for (const id of res.ratedNews) {
             this.newsService.loadPost(id).subscribe(
-              post => this.news.push(post)
+              post => {
+                this.news.push(post);
+                this.usersService.loadUser(post.authorId).subscribe(
+                  user => post.authorName = user.name
+                );
+              }
             );
           }
         }
@@ -31,9 +38,5 @@ export class DashRatedNewsComponent implements OnInit {
     );
   }
 
-  getAuthorName(id: string): string {
-    // !!!
-    return 'test user name';
-  }
 
 }

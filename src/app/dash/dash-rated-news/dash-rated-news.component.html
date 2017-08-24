@@ -1,6 +1,6 @@
 <ul class="list-group">
   <a class="list-group-item" *ngFor="let post of news" [routerLink]="['/news', post.id]">
     {{post.title}}
-    <span class="badge">{{getAuthorName(post.authorId)}}</span>
+    <span class="badge">{{post.authorName}}</span>
   </a>
 </ul>

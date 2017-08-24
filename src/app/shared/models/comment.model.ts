@@ -6,4 +6,6 @@ export class Comment {
         public content: string,
         public date: Date
     ) { }
+    public authorName: string;
+    public postTitle: string;
 }

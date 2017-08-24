@@ -4,11 +4,10 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class DataService {
-    dbUrl: string = 'https://angular-shop-e7657.firebaseio.com/';
-
     constructor(
-        public http: Http
+        private http: Http
     ) { }
+    dbUrl: string = 'https://angular-shop-e7657.firebaseio.com/';
 
     loadDataList(listUrl: string) {
         return this.http.get(`${this.dbUrl}${listUrl}.json`)
@@ -20,15 +19,12 @@ export class DataService {
                     dataArr.push(resJson[i]);
                 }
                 return dataArr;
-            }
-            );
+            });
     }
 
     loadDataObj(objUrl) {
         return this.http.get(`${this.dbUrl}${objUrl}.json`)
-            .map(
-            res => res.json()
-            );
+            .map(res => res.json());
     }
 
     putData(listUrl: string, item: any) {

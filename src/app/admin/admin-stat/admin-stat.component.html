@@ -45,7 +45,7 @@
             <a class="btn btn-primary btn-xs" [routerLink]="['users',user.id]">{{user.name}}</a>
           </li>
           <li>
-            <span class="glyphicon glyphicon-calendar"></span> {{user.regdate | date:'medium'}}
+            <span class="glyphicon glyphicon-calendar"></span> {{user.regDate | date:'medium'}}
           </li>
           <li class="pull-right">
             <span class="badge">
@@ -85,13 +85,13 @@
   <div class="panel-heading">Newest comments</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let comment of comments">
+      <li class="list-group-item" *ngFor="let comment of comments" [routerLink]="['../news',comment.postId]" style="cursor: pointer">
         <ul class="list-inline">
           <li>
-            <a class="btn btn-default btn-xs" [routerLink]="['../news',comment.postId]">
-              <span class="glyphicon glyphicon-comment"></span> 
-            </a>
-            <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}} {{comment.content | slice:0:100}}
+            <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-comment"></span> {{comment.content | slice:0:100}}
           </li>
         </ul>
       </li>

@@ -2,6 +2,7 @@
   <div class="col-sm-3">
     <div class="panel panel-default">
       <div class="panel-body">
+        <a class="btn btn-primary btn-block" routerLink="/providers">Rating</a>
         <a class="btn btn-default btn-block" [routerLink]="provider.id" *ngFor="let provider of providers">{{provider.name}}</a>
       </div>
       <div class="panel-footer" *ngIf="isAdmin | async">

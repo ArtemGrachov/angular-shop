@@ -16,11 +16,11 @@
   <li class="list-group-item" *ngFor="let comment of comments">
     <div class="panel panel-default">
       <div class="panel-heading">
-        {{getCommentAuthorName(comment.authorId)}}
+        {{comment.authorName}}
         <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
       </div>
-      <div class="panel-body">
-        {{comment.content}}
+      <div class="panel-body" [innerHTML]="comment.content | textPipe">
+        <!-- {{comment.content | textPipe}} -->
       </div>
       <div class="panel-footer">
         <a class="btn btn-xs btn-danger" (click)="deleteComment(comment.id)">

@@ -34,13 +34,18 @@ export class CommentsComponent implements OnInit {
 
   loadComments() {
     this.commentsService.loadPostComments(this.postId).subscribe(
-      res => this.comments = res
-    );
-  }
+      res => {
+        this.comments = res;
+        this.comments.forEach(
+          comment => {
+            this.usersService.loadUser(comment.authorId).subscribe(
+              user => comment.authorName = user.name
+            );
+          }
+        );
+      }
 
-  getCommentAuthorName(userId) {
-    // !!!
-    return userId;
+    );
   }
 
   deleteComment(id: string) {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CommentsService } from '../../news/comments.service';
+import { UsersService } from '../../admin/users.service';
 import { NewsService } from '../../news/news.service';
 
 import { Comment } from '../../shared/models/comment.model';
@@ -12,6 +13,7 @@ import { Comment } from '../../shared/models/comment.model';
 export class AdminCommentsComponent implements OnInit {
   constructor(
     private commentsService: CommentsService,
+    private usersService: UsersService,
     private newsService: NewsService
   ) { }
 
@@ -22,16 +24,30 @@ export class AdminCommentsComponent implements OnInit {
     this.loadComments();
     this.newsService.loadNews().subscribe(
       res => {
-        for (const post of res) {
-          this.newsTitles.push({ id: post.id, title: post.title });
-        }
+        res.forEach(
+          post => {
+            this.newsTitles.push({ id: post.id, title: post.title });
+          }
+        );
       }
     );
   }
 
   loadComments() {
     this.commentsService.loadAllComments().subscribe(
-      res => this.comments = res
+      comments => {
+        this.comments = comments;
+        this.comments.forEach(
+          comment => {
+            this.usersService.loadUser(comment.authorId).subscribe(
+              user => comment.authorName = user.name
+            );
+            this.newsService.loadPost(comment.postId).subscribe(
+              post => comment.postTitle = post.title
+            );
+          }
+        );
+      }
     );
   }
 

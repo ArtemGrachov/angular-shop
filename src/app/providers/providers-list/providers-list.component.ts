@@ -19,7 +19,6 @@ export class ProvidersListComponent implements OnInit {
   private isAdmin = this.authService.checkUserCategory(['admin']);
 
   ngOnInit() {
-    this.providersService.loadProviders();
     this.loadProviders();
     this.providersService.emit.subscribe(
       () => this.loadProviders()

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import { AuthService } from '../auth/auth.service';
+
 import { NewsService } from '../news/news.service';
 import { ProductsService } from '../products/products.service';
 import { ProvidersService } from '../providers/providers.service';
-import { AuthService } from '../auth/auth.service';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -89,7 +90,7 @@ export class EditAccessService {
                             } else if (user.category === 'provider') {
                                 this.providersService.loadProvider(id).subscribe(
                                     prov => {
-                                        if (prov.users.indexOf(user.id) > -1) {
+                                        if (prov.users && prov.users.indexOf(user.id) > -1) {
                                             observer.next(true);
                                         } else {
                                             observer.next(false);

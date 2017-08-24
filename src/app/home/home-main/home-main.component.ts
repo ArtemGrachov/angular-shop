@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ProductsService } from '../../products/products.service';
 import { NewsService } from '../../news/news.service';
+import { UsersService } from '../../admin/users.service';
 
 import { Product } from '../../shared/models/product.model';
 import { News } from '../../shared/models/news.model';
@@ -13,10 +14,11 @@ import { News } from '../../shared/models/news.model';
 export class HomeMainComponent implements OnInit {
 
   products: Product[] = [];
-  news: News[] = [];
+  newsList: News[] = [];
 
   constructor(
     private productsService: ProductsService,
+    private usersService: UsersService,
     private newsService: NewsService
   ) { }
 
@@ -33,8 +35,18 @@ export class HomeMainComponent implements OnInit {
 
   loadNews() {
     this.newsService.getLatest(4).subscribe(
-      res => this.news = res
+      news => {
+        this.newsList = news;
+        this.newsList.forEach(
+          post => {
+            this.usersService.loadUser(post.authorId).subscribe(
+              user => {
+                post.authorName = user.name;
+              }
+            );
+          }
+        );
+      }
     );
   }
-
 }

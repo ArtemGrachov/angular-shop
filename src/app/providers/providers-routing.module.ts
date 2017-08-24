@@ -7,6 +7,7 @@ import { AdminGuard } from '../auth/route-guard/admin-guard.service';
 import { ProvidersDetailsComponent } from './providers-details/providers-details.component';
 import { ProvidersListComponent } from './providers-list/providers-list.component';
 import { ProvidersEditComponent } from './providers-edit/providers-edit.component';
+import { ProvidersRatingComponent } from './providers-rating/providers-rating.component';
 import { CommentsComponent } from './providers-details/comments/comments.component';
 import { ProductsComponent } from './providers-details/products/products.component';
 import { DescriptionComponent } from './providers-details/description/description.component';
@@ -14,6 +15,7 @@ import { DescriptionComponent } from './providers-details/description/descriptio
 const providersRoutes = [
     {
         path: 'providers', component: ProvidersListComponent, children: [
+            { path: '', component: ProvidersRatingComponent },
             { path: 'new', component: ProvidersEditComponent, canActivate: [AdminGuard] },
             {
                 path: ':id', component: ProvidersDetailsComponent, children: [

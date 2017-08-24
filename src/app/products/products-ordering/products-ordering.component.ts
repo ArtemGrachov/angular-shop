@@ -54,7 +54,7 @@ export class ProductsOrderingComponent implements OnInit {
       lat: 48.698200,
       lng: 26.575637
     },
-    zoom: 16
+    zoom: 13
   };
   gmapObj: any;
   clientMarkerUrl: string = 'assets/img/client.png';
@@ -116,7 +116,8 @@ export class ProductsOrderingComponent implements OnInit {
     this.dirService = new google.maps.DirectionsService;
     this.dirDisplay = new google.maps.DirectionsRenderer({
       map: this.gmapObj,
-      suppressMarkers: true
+      suppressMarkers: true,
+      preserveViewport: true
     });
   }
 
@@ -163,13 +164,11 @@ export class ProductsOrderingComponent implements OnInit {
             Math.pow(Math.abs(nearest.lat - this.orderForm.get('location').value.lat), 2)
             + Math.pow(Math.abs(nearest.lng - this.orderForm.get('location').value.lng), 2)
           );
-
         const currentDist =
           Math.sqrt(
             Math.pow(Math.abs(current.lat - this.orderForm.get('location').value.lat), 2)
             + Math.pow(Math.abs(current.lng - this.orderForm.get('location').value.lng), 2)
           );
-
         return nearestDist < currentDist ? nearest : current;
       }
     ));

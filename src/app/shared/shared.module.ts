@@ -4,11 +4,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { SortPipe } from './pipes/sort.pipe';
 import { SearchPipe } from './pipes/search.pipe';
+import { TextPipe } from './pipes/text.pipe';
 
 @NgModule({
   declarations: [
     SortPipe,
-    SearchPipe
+    SearchPipe,
+    TextPipe
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { SearchPipe } from './pipes/search.pipe';
     FormsModule,
     CommonModule,
     SortPipe,
-    SearchPipe
+    SearchPipe,
+    TextPipe
   ]
 })
 export class SharedModule { }

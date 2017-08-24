@@ -21,7 +21,7 @@ export class NewsListComponent implements OnInit {
     private usersService: UsersService
   ) { }
 
-  private newsList: any[] = [];
+  private newsList: News[] = [];
   private addAccess = this.authService.checkUserCategory(['admin', 'provider']);
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class NewsListComponent implements OnInit {
             }
           }
         );
-        this.newsList.map(
+        this.newsList.forEach(
           post => {
             this.usersService.loadUser(post.authorId).subscribe(
               user => post.authorName = user.name
