@@ -8,7 +8,7 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-xs-6 col-sm-3" *ngFor="let product of products" [routerLink]="['../products',product.id]" style="cursor: pointer">
+        <div class="col-xs-6 col-sm-3 pointer" *ngFor="let product of products" [routerLink]="['../products',product.id]">
           <h5>{{product.name}} <span class="badge pull-right">${{product.price}}</span></h5>
           <img [src]="product.imgUrl" class="img-responsive" [alt]="product.name" width="128">
         </div>
@@ -23,7 +23,7 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-xs-12 col-sm-6" *ngFor="let post of newsList" [routerLink]="['../news', post.id]" style="cursor: pointer">
+        <div class="col-xs-12 col-sm-6 pointer" *ngFor="let post of newsList" [routerLink]="['../news', post.id]">
           <span class="badge">by {{post.authorName}}</span>
           <h2>{{post.title}}</h2>
           <span [innerHTML]="post.content | slice:0:25"></span>...

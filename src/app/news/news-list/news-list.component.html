@@ -4,7 +4,7 @@
 </div>
 <div class="panel-group">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let post of newsList" style="cursor: pointer" [routerLink]="post.id">
+    <li class="list-group-item pointer" *ngFor="let post of newsList" [routerLink]="post.id">
       <h4>{{post.title}}</h4>
       <span class="badge">by {{post.authorName}}</span>
       <div>

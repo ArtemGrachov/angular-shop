@@ -85,7 +85,7 @@
   <div class="panel-heading">Newest comments</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let comment of comments" [routerLink]="['../news',comment.postId]" style="cursor: pointer">
+      <li class="list-group-item pointer" *ngFor="let comment of comments" [routerLink]="['../news',comment.postId]">
         <ul class="list-inline">
           <li>
             <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}

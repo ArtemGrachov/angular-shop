@@ -3,11 +3,11 @@
   <div class="panel-body">
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let comment of comments">
-        <div class="well" [routerLink]="['/news', comment.postId]" style="cursor: pointer">
+        <div class="well pointer" [routerLink]="['/news', comment.postId]">
           <span class="glyphicon glyphicon-comment"></span> {{comment.content}}
         </div>
         <ul class="list-group">
-          <li class="list-group-item" [routerLink]="['/admin/users', comment.authorId]" style="cursor: pointer">
+          <li class="list-group-item pointer" [routerLink]="['/admin/users', comment.authorId]">
             <span class="glyphicon glyphicon-user"></span> {{comment.authorName}}
           </li>
           <li class="list-group-item">

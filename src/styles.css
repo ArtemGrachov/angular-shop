@@ -15,3 +15,12 @@ textarea.ng-dirty.ng-valid
     color: green;
     border-color: green;
 }
+
+.discount {
+    font-size: 16px;
+    color: MediumSlateBlue ;
+}
+
+.pointer {
+    cursor: pointer;
+}

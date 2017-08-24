@@ -26,6 +26,7 @@ export class ProductsService {
         list: [],
         price: 0
     };
+    discount: number = 0;
 
     loadProducts() {
         return this.dataService.loadDataList('products');
@@ -145,6 +146,9 @@ export class ProductsService {
             if (product.count > 0) {
                 newPrise += product.price;
             }
+        }
+        if (this.discount > 0) {
+            newPrise *= 1 - this.discount;
         }
         this.cart.price = +newPrise.toFixed(2);
     }

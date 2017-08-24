@@ -14,11 +14,19 @@ export class ProductsCartComponent implements OnInit {
     private productsService: ProductsService,
     private authService: AuthService
   ) { }
+  public discount: boolean;
 
   cart;
 
   ngOnInit() {
     this.cart = this.productsService.getCart();
+    this.authService.loadCurrentUser().subscribe(
+      (user: any) => {
+        if (user.category === 'premium') {
+          this.discount = true;
+        }
+      }
+    );
   }
 
   removeFromCart(index: string) {
@@ -28,4 +36,5 @@ export class ProductsCartComponent implements OnInit {
   clearCart() {
     this.productsService.clearCart();
   }
+
 }
