@@ -21,6 +21,19 @@ export class ProductsService {
 
     private products: Product[] = [];
     public searchEmit: EventEmitter<any> = new EventEmitter();
+    private watchPremium = this.authService.getAuth().subscribe(
+        auth => {
+            if (auth) {
+                this.usersService.loadUser(auth.uid).subscribe(
+                    user => {
+                        if (user.category === 'premium') {
+                            this.setDiscount(3);
+                        }
+                    }
+                );
+            }
+        }
+    );
 
     cart = {
         list: [],
@@ -148,9 +161,13 @@ export class ProductsService {
             }
         }
         if (this.discount > 0) {
-            newPrise *= 1 - this.discount;
+            newPrise = newPrise * (1 - this.discount * 0.01);
         }
         this.cart.price = +newPrise.toFixed(2);
+    }
+
+    setDiscount(discount: number) {
+        this.discount = discount;
     }
 
     loadCart() {

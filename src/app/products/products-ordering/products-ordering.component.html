@@ -28,7 +28,8 @@
       </li>
     </ul>
     <div class="alert alert-info">
-      Total price for products: <strong>${{cart.price}}</strong>
+      <strong *ngIf="productsService.discount > 0">Discount {{productsService.discount}}%! </strong>Total price for products:
+      <strong>${{cart.price}}</strong>
     </div>
     <form class="panel panel-default" [formGroup]="orderForm" (ngSubmit)="sendOrder()" *ngIf="cart.list.length > 0 && orderForm">
       <div class="panel-heading">
