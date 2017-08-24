@@ -97,9 +97,10 @@ export class UsersService {
                         if (!user[itemCat]) {
                             user[itemCat] = [];
                         }
-                        if (user[itemCat].indexOf(itemId) === -1) {
+                        if (user[itemCat] && user[itemCat].indexOf(itemId) === -1) {
                             user[itemCat].push(itemId);
                             this.dataService.putObjValue(`users/${user.id}/${itemCat}`, user[itemCat]).subscribe();
+                            this.alertsService.addAlert({ message: 'Thanks for your opinion!', type: 'success' });
                             observer.next(true);
                         } else {
                             observer.next(false);

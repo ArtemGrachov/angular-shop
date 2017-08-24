@@ -30,7 +30,7 @@ export class EditAccessService {
                                     res => {
                                         this.providersService.loadProvider(res.providerId).subscribe(
                                             prov => {
-                                                if (prov.users.indexOf(user.id) > -1) {
+                                                if (prov.users && prov.users.indexOf(user.id) > -1) {
                                                     observer.next(true);
                                                 } else {
                                                     observer.next(false);

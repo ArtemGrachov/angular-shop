@@ -26,7 +26,7 @@
         <div class="col-xs-12 col-sm-6" *ngFor="let post of newsList" [routerLink]="['../news', post.id]" style="cursor: pointer">
           <span class="badge">by {{post.authorName}}</span>
           <h2>{{post.title}}</h2>
-          <hr> {{post.content | slice:0:25}}...
+          <span [innerHTML]="post.content | slice:0:25"></span>...
           <hr>
         </div>
       </div>

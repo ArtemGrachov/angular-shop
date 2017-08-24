@@ -25,6 +25,7 @@ export class AuthService {
             res => {
                 if (res) {
                     this.currentUid = res.uid;
+                    this.dataService.getToken();
                 } else {
                     this.currentUid = '';
                 }
@@ -38,6 +39,7 @@ export class AuthService {
     getAuth() {
         return this.authState;
     }
+
 
     getUid() {
         return this.currentUid;
@@ -70,7 +72,7 @@ export class AuthService {
         this.firebaseAuth.auth.signInWithEmailAndPassword(email, password)
             .then(
             res => {
-                this.loginRedirect();
+                this.onLogin();
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
@@ -82,7 +84,7 @@ export class AuthService {
         this.firebaseAuth.auth.signInWithPopup(provider)
             .then(
             res => {
-                this.loginRedirect();
+                this.onLogin();
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
@@ -94,20 +96,22 @@ export class AuthService {
         this.firebaseAuth.auth.signInWithPopup(provider)
             .then(
             res => {
-                this.loginRedirect();
+                this.onLogin();
             })
             .catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
             );
     }
 
-    logout() {
-        this.firebaseAuth.auth.signOut();
-        this.router.navigate(['/']);
+    onLogin() {
+        this.router.navigate(['dash']);
     }
 
-    loginRedirect() {
-        this.router.navigate(['dash']);
+    logout() {
+        this.firebaseAuth.auth.signOut();
+        if (this.router.url.indexOf('admin') !== -1 || this.router.url.indexOf('dash') !== -1) {
+            this.router.navigate(['/login']);
+        }
     }
 
     registration(newUser) {
@@ -146,13 +150,18 @@ export class AuthService {
     checkUserCategory(categories: string[]) {
         let obs = new Observable(
             observer => {
-                this.loadCurrentUser().subscribe(
-                    (user: any) => {
-                        if (categories.indexOf(user.category) > -1) {
-                            observer.next(true);
-                        } else {
-                            observer.next(false);
-                        }
+                this.getAuth().subscribe(
+                    () => {
+                        this.loadCurrentUser().subscribe(
+                            (user: any) => {
+                                if (categories.indexOf(user.category) > -1) {
+                                    observer.next(true);
+                                } else {
+                                    observer.next(false);
+                                }
+                            }
+                        );
+
                     }
                 );
             }
