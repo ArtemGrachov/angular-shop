@@ -12,6 +12,7 @@ import { DashModule } from './dash/dash.module';
 import { HomeModule } from './home/home.module';
 import { AlertsModule } from './alerts/alerts.module';
 import { ModalModule } from './modal/modal.module';
+import { SupportModule } from './support/support.module';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -19,6 +20,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 
 import { ConfirmationComponent } from './modal/confirmation/confirmation.component';
+import { SupportWindowComponent } from './support/support-window/support-window.component';
 
 @NgModule({
   declarations: [
@@ -37,11 +39,15 @@ import { ConfirmationComponent } from './modal/confirmation/confirmation.compone
     HomeModule,
     AlertsModule,
     ModalModule,
+    SupportModule,
     SharedModule,
     HttpModule
   ],
   providers: [],
-  entryComponents: [ConfirmationComponent],
+  entryComponents: [
+    ConfirmationComponent,
+    SupportWindowComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

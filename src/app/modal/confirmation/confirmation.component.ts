@@ -14,7 +14,6 @@ export class ConfirmationComponent implements OnInit {
     cancelText: 'No'
   };
 
-
   ngOnInit() {
     this.config = this.modalService.getConfig();
   }
@@ -26,5 +25,4 @@ export class ConfirmationComponent implements OnInit {
   cancel() {
     this.modalService.modalEmit.emit({ confirm: false, close: true });
   }
-
 }

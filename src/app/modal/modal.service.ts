@@ -11,12 +11,11 @@ export class ModalService {
             }
         );
     }
-
+    public modalEmit: EventEmitter<any> = new EventEmitter();
     private config;
 
     getConfig() {
         return this.config;
     }
 
-    public modalEmit: EventEmitter<any> = new EventEmitter();
 }

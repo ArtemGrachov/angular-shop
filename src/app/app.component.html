@@ -4,4 +4,9 @@
   <router-outlet></router-outlet>
 </div>
 <app-alerts></app-alerts>
-<div #modal></div>
+<div #modal (test)="Mytest($event)"></div>
+<div class="support-toggle">
+  <a (click)="toggleSupport()">
+    <span class="glyphicon glyphicon-question-sign"></span>
+  </a>
+</div>
