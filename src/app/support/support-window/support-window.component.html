@@ -7,16 +7,17 @@
       <div class="supp-chat">
         <ul class="supp-chat__list">
           <li class="supp-chat__item" [ngClass]="{'supp-chat__item_user': !msg.isSup, 'supp-chat__item_supp': msg.isSup}" *ngFor="let msg of messages">
-            {{msg.text}}
+            <div class="supp-chat__text">{{msg.text}}</div>
+            <div class="supp-chat__time">{{msg.date | date:'short'}}</div>
           </li>
         </ul>
       </div>
     </div>
     <div class=" panel-footer">
       <div class="form-group">
-        <textarea #suppMsg class="form-control supp-msg__input "></textarea>
+        <textarea #suppMsg class="form-control supp-msg__input"></textarea>
       </div>
-      <button class="btn btn-primary " (click)="sendMsg(suppMsg.value)">Send</button>
+      <button class="btn btn-primary" (click)="sendMsg()">Send</button>
     </div>
   </div>
 </div>

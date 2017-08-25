@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
         }
         if (res.create) {
           modalHolder = this.modal.createComponent(this.confComponent);
+          (modalHolder.instance).config = res.create;
         }
       }
     );
@@ -45,8 +46,5 @@ export class AppComponent implements OnInit {
     } else {
       this.supportWindow = this.modal.createComponent(this.suppComponent);
     }
-    // console.log(this.supportWindow.changeDetectorRef.destroyed);
-    // console.log(this.supportWindow);
-
   }
 }

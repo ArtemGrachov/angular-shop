@@ -5,18 +5,8 @@ import { ModalService } from '../modal.service';
   selector: 'app-confirmation',
   templateUrl: './confirmation.component.html'
 })
-export class ConfirmationComponent implements OnInit {
+export class ConfirmationComponent {
   constructor(private modalService: ModalService) { }
-  config = {
-    title: 'Title',
-    text: 'Text',
-    confirmText: 'Yes',
-    cancelText: 'No'
-  };
-
-  ngOnInit() {
-    this.config = this.modalService.getConfig();
-  }
 
   confirm() {
     this.modalService.modalEmit.emit({ confirm: true, close: true });

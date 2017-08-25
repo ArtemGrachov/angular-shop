@@ -15,14 +15,14 @@ export class SupportService {
     }
 
     sendMessage(msgText: string) {
-        const testTimeout = Math.random() * 7000 + 1500;
+        const testTimeout = Math.random() * 3000 + 1000;
         return new Observable(
             observer => {
-                this.messages.push(new SupportMessage(msgText, false));
+                this.messages.push(new SupportMessage(msgText, new Date(), false));
                 observer.next();
                 setTimeout(
                     () => {
-                        this.messages.push(new SupportMessage('Your opinion is very important for us :)', true));
+                        this.messages.push(new SupportMessage('Your opinion is very important for us :)', new Date(), true));
                         observer.next();
                     }, testTimeout
                 );

@@ -57,3 +57,8 @@
 .supp-msg__input {
     resize: none;
 }
+
+.supp-chat__time {
+    font-size: 10px;
+    color: grey;
+}
