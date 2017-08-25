@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
 import { AlertsService } from '../alerts/alerts.service';
@@ -63,7 +63,7 @@ export class NewsService {
     }
 
     deletePost(id: string) {
-        return this.dataService.deleteData('news/' + id).map(
+        return this.dataService.deleteData('news/' + id, true).map(
             () => this.alertsService.addAlert({ message: 'Post deleted', type: 'warning' })
         );
     }

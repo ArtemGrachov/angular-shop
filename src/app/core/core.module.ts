@@ -18,6 +18,7 @@ import { AuthService } from '../auth/auth.service';
 import { DataService } from '../shared/data.service';
 import { AlertsService } from '../alerts/alerts.service';
 import { EditAccessService } from '../shared/edit-access.service';
+import { ModalService } from '../modal/modal.service';
 
 import { HeaderComponent } from './header/header.component';
 
@@ -56,7 +57,8 @@ export const firebaseConfig = {
         AuthService,
         DataService,
         AlertsService,
-        EditAccessService
+        EditAccessService,
+        ModalService
     ],
 })
 export class CoreModule { }

@@ -102,9 +102,11 @@ export class UsersService {
                             this.dataService.putObjValue(`users/${user.id}/${itemCat}`, user[itemCat]).subscribe();
                             this.alertsService.addAlert({ message: 'Thanks for your opinion!', type: 'success' });
                             observer.next(true);
+                            observer.complete();
                         } else {
                             observer.next(false);
                             this.alertsService.addAlert({ message: 'You have already rate it', type: 'danger' });
+                            observer.complete();
                         }
                     }
                 );

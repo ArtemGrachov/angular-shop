@@ -38,7 +38,7 @@ export class CommentsService {
     }
 
     deleteComment(id: string) {
-        return this.dataService.deleteData(`comments/${id}`).map(
+        return this.dataService.deleteData(`comments/${id}`, true).map(
             () => this.alertsService.addAlert({ message: 'Comment deleted', type: 'warning' })
         );
     }
@@ -57,7 +57,7 @@ export class CommentsService {
                             return 0;
                         }
                     }
-                );
+                ).slice(0, count);
             });
     }
 

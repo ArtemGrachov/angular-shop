@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import * as firebase from 'firebase/app';
 
+import { ModalService } from '../modal/modal.service';
+
+import { Observable } from 'rxjs/Observable';
+
 import 'rxjs/Rx';
 
 @Injectable()
 export class DataService {
     constructor(
-        private http: Http
+        private http: Http,
+        private modalService: ModalService
     ) { }
     dbUrl: string = 'https://angular-shop-e7657.firebaseio.com/';
     token: string = '';
@@ -46,8 +51,42 @@ export class DataService {
         return this.http.put(`${this.dbUrl}${objUrl}.json?auth=${this.token}`, value);
     }
 
-    deleteData(itemUrl: string) {
-        this.getToken();
-        return this.http.delete(`${this.dbUrl}${itemUrl}.json?auth=${this.token}`);
+    deleteData(itemUrl: string, modal: boolean) {
+        let obs = new Observable(
+            observer => {
+                const del = () => {
+                    this.getToken();
+                    this.http.delete(`${this.dbUrl}${itemUrl}.json?auth=${this.token}`).subscribe(
+                        res => {
+                            observer.next(res);
+                            observer.complete();
+                        }
+                    );
+                };
+                if (modal) {
+                    this.modalService.modalEmit.emit({
+                        create: {
+                            title: 'Confirm deleting',
+                            text: 'Are you sure to delete this item?',
+                            confirmText: 'Delete',
+                            cancelText: 'Cancel'
+                        }
+                    });
+                    let confSub = this.modalService.modalEmit.subscribe(
+                        res => {
+                            if (res.confirm) {
+                                del();
+                            } else {
+                                observer.complete();
+                            }
+                            confSub.unsubscribe();
+                        }
+                    );
+                } else {
+                    del();
+                }
+            }
+        );
+        return obs;
     }
 }

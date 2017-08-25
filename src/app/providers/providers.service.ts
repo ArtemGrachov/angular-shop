@@ -46,7 +46,7 @@ export class ProvidersService {
     }
 
     deleteProvider(id: string) {
-        return this.dataService.deleteData('providers/' + id).map(
+        return this.dataService.deleteData('providers/' + id, true).map(
             () => {
                 this.emit.emit();
                 this.alertsService.addAlert({ message: 'Provider deleted', type: 'warning' })

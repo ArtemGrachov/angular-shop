@@ -11,11 +11,14 @@ import { ProvidersModule } from './providers/providers.module';
 import { DashModule } from './dash/dash.module';
 import { HomeModule } from './home/home.module';
 import { AlertsModule } from './alerts/alerts.module';
+import { ModalModule } from './modal/modal.module';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
+
+import { ConfirmationComponent } from './modal/confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
@@ -33,10 +36,12 @@ import { AppComponent } from './app.component';
     DashModule,
     HomeModule,
     AlertsModule,
+    ModalModule,
     SharedModule,
     HttpModule
   ],
   providers: [],
+  entryComponents: [ConfirmationComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

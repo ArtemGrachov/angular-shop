@@ -24,3 +24,8 @@ textarea.ng-dirty.ng-valid
 .pointer {
     cursor: pointer;
 }
+
+.modal {
+    display: block !important;
+    background: rgba(0,0,0,.4);
+}

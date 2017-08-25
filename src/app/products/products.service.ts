@@ -102,7 +102,7 @@ export class ProductsService {
     }
 
     deleteProduct(id: string) {
-        return this.dataService.deleteData('products/' + id).map(
+        return this.dataService.deleteData('products/' + id, true).map(
             () => this.alertsService.addAlert({ message: 'Product deleted', type: 'danger' })
         );
     }

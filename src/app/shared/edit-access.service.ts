@@ -25,6 +25,7 @@ export class EditAccessService {
                         if (user) {
                             if (user.category === 'admin') {
                                 observer.next(true);
+                                observer.complete();
                             } else if (user.category === 'provider') {
                                 this.productsService.loadProduct(id).subscribe(
                                     res => {
@@ -35,15 +36,18 @@ export class EditAccessService {
                                                 } else {
                                                     observer.next(false);
                                                 }
+                                                observer.complete();
                                             }
                                         );
                                     }
                                 );
                             } else {
                                 observer.next(false);
+                                observer.complete();
                             }
                         } else {
                             observer.next(false);
+                            observer.complete();
                         }
                     }
                 );
@@ -59,6 +63,7 @@ export class EditAccessService {
                         if (user) {
                             if (user.category === 'admin') {
                                 observer.next(true);
+                                observer.complete();
                             } else {
                                 this.newsService.loadPost(id).subscribe(
                                     res => {
@@ -67,11 +72,13 @@ export class EditAccessService {
                                         } else {
                                             observer.next(false);
                                         }
+                                        observer.complete();
                                     }
                                 );
                             }
                         } else {
                             observer.next(false);
+                            observer.complete();
                         }
                     }
                 );
@@ -87,6 +94,7 @@ export class EditAccessService {
                         if (user) {
                             if (user.category === 'admin') {
                                 observer.next(true);
+                                observer.complete();
                             } else if (user.category === 'provider') {
                                 this.providersService.loadProvider(id).subscribe(
                                     prov => {
@@ -95,13 +103,16 @@ export class EditAccessService {
                                         } else {
                                             observer.next(false);
                                         }
+                                        observer.complete();
                                     }
                                 );
                             } else {
                                 observer.next(false);
+                                observer.complete();
                             }
                         } else {
                             observer.next(false);
+                            observer.complete();
                         }
                     }
                 );

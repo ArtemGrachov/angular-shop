@@ -45,7 +45,7 @@ export class OrdersService {
     }
 
     deleteOrder(id: string) {
-        return this.dataService.deleteData('orders/' + id);
+        return this.dataService.deleteData('orders/' + id, true);
     }
 
     getLatest(count: number) {
