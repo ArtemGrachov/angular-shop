@@ -3,35 +3,20 @@
     <div class="panel-heading">
       Support
     </div>
-    <div class="panel-body">
+    <div class="panel-body" #suppChat>
       <div class="supp-chat">
         <ul class="supp-chat__list">
-          <li class="supp-chat__item supp-chat__item_user">
-            Text
-          </li>
-          <li class="supp-chat__item supp-chat__item_supp">
-            Text
-          </li>
-          <li class="supp-chat__item supp-chat__item_user">
-            Text
-          </li>
-          <li class="supp-chat__item supp-chat__item_user">
-            Text
-          </li>
-          <li class="supp-chat__item supp-chat__item_supp">
-            Text
-          </li>
-          <li class="supp-chat__item supp-chat__item_user">
-            Text
+          <li class="supp-chat__item" [ngClass]="{'supp-chat__item_user': !msg.isSup, 'supp-chat__item_supp': msg.isSup}" *ngFor="let msg of messages">
+            {{msg.text}}
           </li>
         </ul>
       </div>
     </div>
     <div class=" panel-footer">
       <div class="form-group">
-        <textarea name="suppMsg" id="suppMsg" class="supp-msg__input" class="form-control"></textarea>
+        <textarea #suppMsg class="form-control supp-msg__input "></textarea>
       </div>
-      <button class="btn btn-primary ">Send</button>
+      <button class="btn btn-primary " (click)="sendMsg(suppMsg.value)">Send</button>
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SupportWindowComponent } from './support-window/support-window.component';
 
 @NgModule({
-    imports: [],
+    imports: [SharedModule],
     declarations: [SupportWindowComponent]
 })
 export class SupportModule { }

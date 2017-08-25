@@ -23,7 +23,7 @@
 
 .support .panel-body {
     max-height: 250px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .supp-chat__list {
@@ -36,7 +36,7 @@
     padding: 15px 10px;
 }
 
-.supp-chat__item_supp {
+.supp-chat__item_user {
     text-align: right;
 }
 
@@ -52,4 +52,8 @@
     font-size: 10px;
     color: grey;
     display: block;
+}
+
+.supp-msg__input {
+    resize: none;
 }
