@@ -21,6 +21,7 @@ import { AppComponent } from './app.component';
 import { ConfirmationComponent } from './modal/confirmation/confirmation.component';
 import { AlertComponent } from './modal/alert/alert.component';
 import { SupportWindowComponent } from './support/support-window/support-window.component';
+import { PreloaderComponent } from './modal/preloader/preloader.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { SupportWindowComponent } from './support/support-window/support-window.
   entryComponents: [
     ConfirmationComponent,
     AlertComponent,
-    SupportWindowComponent
+    SupportWindowComponent,
+    PreloaderComponent
   ],
   bootstrap: [AppComponent]
 })
