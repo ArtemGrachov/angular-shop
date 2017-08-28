@@ -4,8 +4,8 @@
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let order of orders">
         <h4>{{order.date | date:'medium'}}</h4>
-        <div class="well">
-          <span class="glyphicon glyphicon-user"></span> {{order.userId}}
+        <div class="well pointer" [routerLink]="['../users',order.userId]">
+          <span class="glyphicon glyphicon-user"></span> {{order.username}}
         </div>
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let product of order.products">
