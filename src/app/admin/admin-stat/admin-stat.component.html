@@ -2,13 +2,16 @@
   <div class="panel-heading">Newest products</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let product of products">
+      <li class="list-group-item pointer" *ngFor="let product of products" [routerLink]="['../products',product.id]">
         <ul class="list-inline">
           <li>
-            <a [routerLink]="['../products',product.id]" class="btn btn-primary btn-xs">{{product.name}}</a>
+            <span class="glyphicon glyphicon-inbox"></span> {{product.name}}
           </li>
           <li>
             <span class="glyphicon glyphicon-calendar"></span> {{product.date | date:'medium'}}
+          </li>
+          <li>
+            <span class="badge">${{product.price}}</span>
           </li>
         </ul>
       </li>
@@ -22,7 +25,7 @@
   <div class="panel-heading">Newest orders</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let order of orders">
+      <li class="list-group-item pointer" *ngFor="let order of orders" [routerLink]="['../orders',order.id]">
         <span class="glyphicon glyphicon-calendar"></span> {{order.date | date:'medium'}}
         <span class="badge">
           ${{getOrderPrice(order)}}
@@ -39,10 +42,10 @@
   <div class="panel-heading">Newest users</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let user of users">
+      <li class="list-group-item pointer" *ngFor="let user of users" [routerLink]="['users',user.id]">
         <ul class="list-inline">
           <li>
-            <a class="btn btn-primary btn-xs" [routerLink]="['users',user.id]">{{user.name}}</a>
+            <span class="glyphicon glyphicon-user"></span> {{user.name}}
           </li>
           <li>
             <span class="glyphicon glyphicon-calendar"></span> {{user.regDate | date:'medium'}}
@@ -60,15 +63,14 @@
     Total: {{usersCount | async}} users
   </div>
 </div>
-
 <div class="panel panel-default">
   <div class="panel-heading">Latest news</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let post of news">
+      <li class="list-group-item pointer" *ngFor="let post of news" [routerLink]="['../news',post.id]">
         <ul class="list-inline">
           <li>
-            <a [routerLink]="['../news',post.id]" class="btn btn-primary btn-xs">{{post.title}}</a>
+            <span class="glyphicon glyphicon-list-alt"></span> {{post.title}}
           </li>
           <li>
             <span class="glyphicon glyphicon-calendar"></span> {{post.date | date:'medium'}}
