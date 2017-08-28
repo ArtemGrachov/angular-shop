@@ -18,7 +18,6 @@ import { AuthService } from '../auth/auth.service';
 import { DataService } from '../shared/data.service';
 import { AlertsService } from '../alerts/alerts.service';
 import { EditAccessService } from '../shared/edit-access.service';
-import { ModalService } from '../modal/modal.service';
 import { SupportService } from '../support/support.service';
 
 import { HeaderComponent } from './header/header.component';
@@ -59,7 +58,6 @@ export const firebaseConfig = {
         DataService,
         AlertsService,
         EditAccessService,
-        ModalService,
         SupportService
     ],
 })
