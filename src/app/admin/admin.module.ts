@@ -3,6 +3,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { AgmCoreModule } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
@@ -12,12 +13,14 @@ import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { AdminUserProfileComponent } from './admin-user-profile/admin-user-profile.component';
 import { AdminStatComponent } from './admin-stat/admin-stat.component';
 import { AdminCommentsComponent } from './admin-comments/admin-comments.component';
+import { AdminChartsComponent } from './admin-charts/admin-charts.component';
 
 @NgModule({
   imports: [
     SharedModule,
     AdminRoutingModule,
-    AgmCoreModule
+    AgmCoreModule,
+    ChartsModule
   ],
   declarations: [
     AdminMainComponent,
@@ -25,7 +28,8 @@ import { AdminCommentsComponent } from './admin-comments/admin-comments.componen
     AdminOrdersComponent,
     AdminUserProfileComponent,
     AdminStatComponent,
-    AdminCommentsComponent
+    AdminCommentsComponent,
+    AdminChartsComponent
   ],
   providers: [GoogleMapsAPIWrapper]
 })

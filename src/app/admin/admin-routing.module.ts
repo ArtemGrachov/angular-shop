@@ -9,6 +9,7 @@ import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { AdminUserProfileComponent } from './admin-user-profile/admin-user-profile.component';
 import { AdminStatComponent } from './admin-stat/admin-stat.component';
 import { AdminCommentsComponent } from './admin-comments/admin-comments.component';
+import { AdminChartsComponent } from './admin-charts/admin-charts.component';
 
 const adminRoutes = [
     {
@@ -19,6 +20,7 @@ const adminRoutes = [
             { path: 'users/:id', component: AdminUserProfileComponent },
             { path: 'orders', component: AdminOrdersComponent },
             { path: 'comments', component: AdminCommentsComponent },
+            { path: 'charts', component: AdminChartsComponent }
         ]
     }
 ];

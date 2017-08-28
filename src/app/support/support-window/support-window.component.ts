@@ -20,7 +20,7 @@ export class SupportWindowComponent implements OnInit {
   messages: SupportMessage[] = this.supportService.messages;
 
   ngOnInit() {
-    this.scrollBottom();
+    setTimeout(() => this.scrollBottom(), 0);
   }
 
   scrollBottom() {
