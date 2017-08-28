@@ -44,9 +44,12 @@ export class ProvidersEditComponent implements OnInit {
     );
     this.usersService.loadUsers().subscribe(
       res => {
-        this.users = res.map(user => {
-          return { id: user.id, name: user.name };
-        });
+        this.users = res.filter(
+          user => user.category === 'provider'
+        )
+          .map(user => {
+            return { id: user.id, name: user.name };
+          });
       }
     );
   }
