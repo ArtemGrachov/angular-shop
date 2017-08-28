@@ -2,10 +2,12 @@ import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnIni
 import { AppComponent } from '../../app.component';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { SupportWindowComponent } from '../../support/support-window/support-window.component';
 
 @Component({
     selector: 'app-modal-main',
-    templateUrl: './modal-main.component.html'
+    templateUrl: './modal-main.component.html',
+    styleUrls: ['./modal-main.component.css']
 })
 export class ModalMainComponent implements OnInit {
     constructor(
@@ -15,10 +17,11 @@ export class ModalMainComponent implements OnInit {
     modal: ViewContainerRef;
 
     private confComponent = this.componentFactoryResolver.resolveComponentFactory(ConfirmationComponent);
+    private suppComponent = this.componentFactoryResolver.resolveComponentFactory(SupportWindowComponent);
+    private suppWindow;
 
     ngOnInit() {
         let modalHolder;
-
         AppComponent.modalEmit.subscribe(
             res => {
                 if (res.create) {
@@ -30,5 +33,14 @@ export class ModalMainComponent implements OnInit {
                 }
             }
         );
+    }
+
+    toggleSupport() {
+        if (this.suppWindow) {
+            this.suppWindow.destroy();
+            this.suppWindow = undefined;
+        } else {
+            this.suppWindow = this.modal.createComponent(this.suppComponent);
+        }
     }
 }
