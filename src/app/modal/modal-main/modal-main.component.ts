@@ -3,6 +3,7 @@ import { AppComponent } from '../../app.component';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { SupportWindowComponent } from '../../support/support-window/support-window.component';
+import { AlertComponent } from '../alert/alert.component';
 
 @Component({
     selector: 'app-modal-main',
@@ -18,10 +19,12 @@ export class ModalMainComponent implements OnInit {
 
     private confComponent = this.componentFactoryResolver.resolveComponentFactory(ConfirmationComponent);
     private suppComponent = this.componentFactoryResolver.resolveComponentFactory(SupportWindowComponent);
+    private alertComponent = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
     private suppWindow;
 
     ngOnInit() {
-        let modalHolder;
+        let modalHolder,
+            alertHolder;
         AppComponent.modalEmit.subscribe(
             res => {
                 if (res.create) {
@@ -30,6 +33,17 @@ export class ModalMainComponent implements OnInit {
                 }
                 if (res.close) {
                     modalHolder.destroy();
+                }
+                if (res.alert) {
+                    if (!alertHolder && res.alert.add) {
+                        alertHolder = this.modal.createComponent(this.alertComponent);
+                        alertHolder.instance.alerts = [];
+                        alertHolder.instance.alerts.push(res.alert.add);
+                    }
+                    if (res.alert.destroy) {
+                        alertHolder.destroy();
+                        alertHolder = undefined;
+                    }
                 }
             }
         );

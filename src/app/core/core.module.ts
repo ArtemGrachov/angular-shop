@@ -16,7 +16,6 @@ import { UsersService } from '../admin/users.service';
 import { OrdersService } from '../admin/orders.service';
 import { AuthService } from '../auth/auth.service';
 import { DataService } from '../shared/data.service';
-import { AlertsService } from '../alerts/alerts.service';
 import { EditAccessService } from '../shared/edit-access.service';
 import { SupportService } from '../support/support.service';
 
@@ -56,7 +55,6 @@ export const firebaseConfig = {
         OrdersService,
         AuthService,
         DataService,
-        AlertsService,
         EditAccessService,
         SupportService
     ],

@@ -20,9 +20,8 @@
         <span class="glyphicon glyphicon-calendar"></span> {{comment.date | date:'medium'}}
       </div>
       <div class="panel-body" [innerHTML]="comment.content | textPipe">
-        <!-- {{comment.content | textPipe}} -->
       </div>
-      <div class="panel-footer">
+      <div class="panel-footer" *ngIf="isAdmin | async">
         <a class="btn btn-xs btn-danger" (click)="deleteComment(comment.id)">
             <span class="glyphicon glyphicon-remove"></span> Delete
         </a>

@@ -10,7 +10,6 @@ import { ProductsModule } from './products/products.module';
 import { ProvidersModule } from './providers/providers.module';
 import { DashModule } from './dash/dash.module';
 import { HomeModule } from './home/home.module';
-import { AlertsModule } from './alerts/alerts.module';
 import { ModalModule } from './modal/modal.module';
 import { SupportModule } from './support/support.module';
 
@@ -20,6 +19,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 
 import { ConfirmationComponent } from './modal/confirmation/confirmation.component';
+import { AlertComponent } from './modal/alert/alert.component';
 import { SupportWindowComponent } from './support/support-window/support-window.component';
 
 @NgModule({
@@ -37,7 +37,6 @@ import { SupportWindowComponent } from './support/support-window/support-window.
     AuthModule,
     DashModule,
     HomeModule,
-    AlertsModule,
     ModalModule,
     SupportModule,
     SharedModule,
@@ -46,6 +45,7 @@ import { SupportWindowComponent } from './support/support-window/support-window.
   providers: [],
   entryComponents: [
     ConfirmationComponent,
+    AlertComponent,
     SupportWindowComponent
   ],
   bootstrap: [AppComponent]

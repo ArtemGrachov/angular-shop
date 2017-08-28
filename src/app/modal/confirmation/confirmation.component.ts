@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppComponent } from '../../app.component';
 
 @Component({
@@ -7,8 +7,6 @@ import { AppComponent } from '../../app.component';
 })
 export class ConfirmationComponent {
   constructor() { }
-
-  public output: EventEmitter<any> = new EventEmitter();
 
   confirm() {
     AppComponent.modalEmit.emit({ confirm: true, close: true });

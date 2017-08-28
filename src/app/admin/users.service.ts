@@ -2,9 +2,10 @@ import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { DataService } from '../shared/data.service';
-import { AlertsService } from '../alerts/alerts.service';
 
 import { AuthService } from '../auth/auth.service';
+
+import { AppComponent } from '../app.component';
 
 import { User } from '../shared/models/user.model';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +13,6 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class UsersService {
     constructor(
-        private alertsService: AlertsService,
         private dataService: DataService,
         private authService: AuthService,
         private firebaseAuth: AngularFireAuth
@@ -44,7 +44,7 @@ export class UsersService {
 
     updateUser(updatedUser) {
         return this.dataService.putData('users', updatedUser).map(
-            () => this.alertsService.addAlert({ message: 'User updated', type: 'info' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'User updated', type: 'info' } } })
         );
     }
 
@@ -100,12 +100,12 @@ export class UsersService {
                         if (user[itemCat] && user[itemCat].indexOf(itemId) === -1) {
                             user[itemCat].push(itemId);
                             this.dataService.putObjValue(`users/${user.id}/${itemCat}`, user[itemCat]).subscribe();
-                            this.alertsService.addAlert({ message: 'Thanks for your opinion!', type: 'success' });
+                            AppComponent.modalEmit.emit({ alert: { add: { message: 'Thanks for your opinion!', type: 'success' } } });
                             observer.next(true);
                             observer.complete();
                         } else {
                             observer.next(false);
-                            this.alertsService.addAlert({ message: 'You have already rate it', type: 'danger' });
+                            AppComponent.modalEmit.emit({ alert: { add: { message: 'You have already rate it', type: 'danger' } } });
                             observer.complete();
                         }
                     }

@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { DataService } from '../shared/data.service';
 
-import { AlertsService } from '../alerts/alerts.service';
+import { AppComponent } from '../app.component';
 
 import { User } from '../shared/models/user.model';
 
@@ -16,7 +16,6 @@ export class AuthService {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private alertsService: AlertsService,
         private dataService: DataService,
         private firebaseAuth: AngularFireAuth
     ) {
@@ -75,7 +74,7 @@ export class AuthService {
                 this.onLogin();
             })
             .catch(
-            res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
+            res => AppComponent.modalEmit.emit({ alert: { add: { message: res.message, type: 'danger' } } })
             );
     }
 
@@ -87,7 +86,7 @@ export class AuthService {
                 this.onLogin();
             })
             .catch(
-            res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
+            res => AppComponent.modalEmit.emit({ alert: { add: { message: res.message, type: 'danger' } } })
             );
     }
 
@@ -99,7 +98,7 @@ export class AuthService {
                 this.onLogin();
             })
             .catch(
-            res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
+            res => AppComponent.modalEmit.emit({ alert: { add: { message: res.message, type: 'danger' } } })
             );
     }
 
@@ -129,7 +128,7 @@ export class AuthService {
             res => {
                 this.createUserData(newUser, res.uid);
             }).catch(
-            res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
+            res => AppComponent.modalEmit.emit({ alert: { add: { message: res.message, type: 'danger' } } })
             );
         return auth;
     }

@@ -3,7 +3,8 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { DataService } from '../shared/data.service';
-import { AlertsService } from '../alerts/alerts.service';
+
+import { AppComponent } from '../app.component';
 
 import { Comment } from '../shared/models/comment.model';
 
@@ -11,8 +12,7 @@ import { Comment } from '../shared/models/comment.model';
 export class CommentsService {
     constructor(
         private http: Http,
-        private dataService: DataService,
-        private alertsService: AlertsService
+        private dataService: DataService
     ) { }
     comments: Comment[] = [];
 
@@ -33,13 +33,13 @@ export class CommentsService {
     addComment(newComment: Comment) {
         newComment.id = (new Date).getTime().toString();
         return this.dataService.putData('comments', newComment).map(
-            () => this.alertsService.addAlert({ message: 'Comment added', type: 'success' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Comment added', type: 'success' } } })
         );
     }
 
     deleteComment(id: string) {
         return this.dataService.deleteData(`comments/${id}`, true).map(
-            () => this.alertsService.addAlert({ message: 'Comment deleted', type: 'warning' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Comment deleted', type: 'warning' } } })
         );
     }
 

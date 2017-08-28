@@ -24,6 +24,7 @@ export class CommentsComponent implements OnInit {
   commentFormActive: Boolean = false;
   commentForm: FormGroup;
   auth = this.authService.getAuth();
+  isAdmin = this.authService.checkUserCategory(['admin']);
 
   ngOnInit() {
     this.loadComments();

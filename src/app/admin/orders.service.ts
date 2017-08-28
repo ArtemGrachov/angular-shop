@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
-import { AlertsService } from '../alerts/alerts.service';
-
 import { ProductsService } from '../products/products.service';
+
+import { AppComponent } from '../app.component';
 
 import { Order } from '../shared/models/order.model';
 
@@ -11,7 +11,6 @@ import { Order } from '../shared/models/order.model';
 export class OrdersService {
     constructor(
         private dataService: DataService,
-        private alertService: AlertsService,
         private productService: ProductsService
     ) { }
 
@@ -39,7 +38,7 @@ export class OrdersService {
         newOrder.id = (new Date).getTime().toString();
         return this.dataService.putData('orders', newOrder).map(
             () => {
-                this.alertService.addAlert({ message: 'Thank you for order!', type: 'success' });
+                AppComponent.modalEmit.emit({ alert: { add: { message: 'Thank you for order!', type: 'success' } } });
             }
         );
     }

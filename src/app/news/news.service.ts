@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
-import { AlertsService } from '../alerts/alerts.service';
 import { UsersService } from '../admin/users.service';
+
+import { AppComponent } from '../app.component';
 
 import { News } from '../shared/models/news.model';
 
@@ -12,8 +13,7 @@ import { Observable } from 'rxjs/Observable';
 export class NewsService {
     constructor(
         private dataService: DataService,
-        private usersService: UsersService,
-        private alertsService: AlertsService
+        private usersService: UsersService
     ) { }
 
     loadNews() {
@@ -52,19 +52,19 @@ export class NewsService {
     addPost(newPost: News) {
         newPost.id = (new Date).getTime().toString();
         return this.dataService.putData('news', newPost).map(
-            () => this.alertsService.addAlert({ message: 'Post added', type: 'success' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Post added', type: 'success' } } })
         );
     }
 
     updatePost(updatedPost: News) {
         return this.dataService.putData('news', updatedPost).map(
-            () => this.alertsService.addAlert({ message: 'Post updated', type: 'info' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Post updated', type: 'info' } } })
         );
     }
 
     deletePost(id: string) {
         return this.dataService.deleteData('news/' + id, true).map(
-            () => this.alertsService.addAlert({ message: 'Post deleted', type: 'warning' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Post deleted', type: 'warning' } } })
         );
     }
 

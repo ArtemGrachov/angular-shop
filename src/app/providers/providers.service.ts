@@ -1,8 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
-import { AlertsService } from '../alerts/alerts.service';
 import { UsersService } from '../admin/users.service';
+
+import { AppComponent } from '../app.component';
 
 import { Provider } from '../shared/models/provider.model';
 import { Observable } from 'rxjs/Observable';
@@ -11,8 +12,7 @@ import { Observable } from 'rxjs/Observable';
 export class ProvidersService {
     constructor(
         private usersService: UsersService,
-        private dataService: DataService,
-        private alertsService: AlertsService
+        private dataService: DataService
     ) { }
 
     private providers: Provider[] = [];
@@ -31,7 +31,7 @@ export class ProvidersService {
         return this.dataService.putData('providers', newProvider).map(
             () => {
                 this.emit.emit();
-                this.alertsService.addAlert({ message: 'Provider added', type: 'success' });
+                AppComponent.modalEmit.emit({ alert: { add: { message: 'Provider added', type: 'success' } } });
             }
         );
     }
@@ -40,7 +40,7 @@ export class ProvidersService {
         return this.dataService.putData('providers', updatedProvider).map(
             () => {
                 this.emit.emit();
-                this.alertsService.addAlert({ message: 'Provider updated', type: 'info' });
+                AppComponent.modalEmit.emit({ alert: { add: { message: 'Provider updated', type: 'info' } } });
             }
         );
     }
@@ -49,13 +49,13 @@ export class ProvidersService {
         return this.dataService.deleteData('providers/' + id, true).map(
             () => {
                 this.emit.emit();
-                this.alertsService.addAlert({ message: 'Provider deleted', type: 'warning' })
+                AppComponent.modalEmit.emit({ alert: { add: { message: 'Provider deleted', type: 'warning' } } });
             }
         );
     }
 
     rateProvider(id: string, rate: number) {
-        let obs = new Observable(
+        const obs = new Observable(
             observer => {
                 this.usersService.rateItem(id, 'ratedProviders').subscribe(
                     res => {

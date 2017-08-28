@@ -3,8 +3,9 @@ import 'rxjs/Rx';
 
 import { DataService } from '../shared/data.service';
 import { AuthService } from '../auth/auth.service';
-import { AlertsService } from '../alerts/alerts.service';
 import { UsersService } from '../admin/users.service';
+
+import { AppComponent } from '../app.component';
 
 import { Product } from '../shared/models/product.model';
 
@@ -14,7 +15,6 @@ import { Observable } from 'rxjs/Observable';
 export class ProductsService {
     constructor(
         private dataService: DataService,
-        private alertsService: AlertsService,
         private authService: AuthService,
         private usersService: UsersService
     ) { }
@@ -91,24 +91,24 @@ export class ProductsService {
     addProduct(newProduct: Product) {
         newProduct.id = (new Date).getTime().toString();
         return this.dataService.putData('products', newProduct).map(
-            () => this.alertsService.addAlert({ message: 'Product added', type: 'success' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Product added', type: 'success' } } })
         );
     }
 
     updateProduct(updatedProduct: Product) {
         return this.dataService.putData('products', updatedProduct).map(
-            () => this.alertsService.addAlert({ message: 'Product updated', type: 'info' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Product updated', type: 'info' } } })
         );
     }
 
     deleteProduct(id: string) {
         return this.dataService.deleteData('products/' + id, true).map(
-            () => this.alertsService.addAlert({ message: 'Product deleted', type: 'danger' })
+            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Product deleted', type: 'danger' } } })
         );
     }
 
     rateProduct(id: string, rate: number) {
-        let obs = new Observable(
+        const obs = new Observable(
             observer => {
                 this.usersService.rateItem(id, 'ratedProducts').subscribe(
                     res => {
@@ -197,7 +197,7 @@ export class ProductsService {
         localStorage.removeItem('cart');
         this.cart.list = [];
         this.calcPrice();
-        this.alertsService.addAlert({ message: 'Product cart cleared', type: 'warning' });
+        AppComponent.modalEmit.emit({ alert: { add: { message: 'Product cart cleared', type: 'warning' } } });
     }
 
     clearCartOrder() {
