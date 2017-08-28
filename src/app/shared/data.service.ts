@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import * as firebase from 'firebase/app';
 
-import { ModalService } from '../modal/modal.service';
+import { AppComponent } from './../app.component'; // test!
 
 import { Observable } from 'rxjs/Observable';
 
@@ -11,8 +11,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class DataService {
     constructor(
-        private http: Http,
-        private modalService: ModalService
+        private http: Http
     ) { }
     dbUrl: string = 'https://angular-shop-e7657.firebaseio.com/';
     token: string = '';
@@ -64,7 +63,7 @@ export class DataService {
                     );
                 };
                 if (modal) {
-                    this.modalService.modalEmit.emit({
+                    AppComponent.modalEmit.emit({
                         create: {
                             title: 'Confirm deleting',
                             text: 'Are you sure to delete this item?',
@@ -72,7 +71,7 @@ export class DataService {
                             cancelText: 'Cancel'
                         }
                     });
-                    let confSub = this.modalService.modalEmit.subscribe(
+                    let confSub = AppComponent.modalEmit.subscribe(
                         res => {
                             if (res.confirm) {
                                 del();

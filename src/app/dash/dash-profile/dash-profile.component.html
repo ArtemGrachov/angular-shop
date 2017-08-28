@@ -16,6 +16,9 @@
         <label for="name">Your ID:</label> {{user.id}}
       </div>
       <div class="form-group">
+        <label for="name">Your category:</label> {{user.category}}
+      </div>
+      <div class="form-group">
         <label for="name">Name:</label> {{user.name}}
         <input type="text" class="form-control" id="name" *ngIf="editMode" formControlName="name">
       </div>

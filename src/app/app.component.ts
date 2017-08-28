@@ -1,8 +1,5 @@
-import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, EventEmitter } from '@angular/core';
 
-import { ModalService } from './modal/modal.service';
-
-import { ConfirmationComponent } from './modal/confirmation/confirmation.component';
 import { SupportWindowComponent } from './support/support-window/support-window.component';
 
 @Component({
@@ -10,33 +7,17 @@ import { SupportWindowComponent } from './support/support-window/support-window.
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+  static modalEmit: EventEmitter<any> = new EventEmitter();
+
   @ViewChild('modal', { read: ViewContainerRef })
   modal: ViewContainerRef;
-
-  private confComponent = this.componentFactoryResolver.resolveComponentFactory(ConfirmationComponent);
   private suppComponent = this.componentFactoryResolver.resolveComponentFactory(SupportWindowComponent);
   private supportWindow;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private modalService: ModalService
   ) {
-    let modalHolder;
-    this.modalService.modalEmit.subscribe(
-      res => {
-        if (res.close) {
-          modalHolder.destroy();
-        }
-        if (res.create) {
-          modalHolder = this.modal.createComponent(this.confComponent);
-          (modalHolder.instance).config = res.create;
-        }
-      }
-    );
-  }
-
-  ngOnInit() {
   }
 
   toggleSupport() {

@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalService } from '../modal.service';
+import { Component, EventEmitter } from '@angular/core';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-confirmation',
   templateUrl: './confirmation.component.html'
 })
 export class ConfirmationComponent {
-  constructor(private modalService: ModalService) { }
+  constructor() { }
+
+  public output: EventEmitter<any> = new EventEmitter();
 
   confirm() {
-    this.modalService.modalEmit.emit({ confirm: true, close: true });
+    AppComponent.modalEmit.emit({ confirm: true, close: true });
   }
 
   cancel() {
-    this.modalService.modalEmit.emit({ confirm: false, close: true });
+    AppComponent.modalEmit.emit({ confirm: false, close: true });
   }
 }
