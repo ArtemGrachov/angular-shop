@@ -115,40 +115,34 @@ export class AuthService {
     }
 
     registration(newUser) {
+        const psw = newUser.password;
         this.createNewUser(newUser).then(
-            () =>
-                res => {
-                    this.login(newUser.email, newUser.password);
-                    this.createUserData(newUser, res.uid);
-                }
-        );
+            () => {
+                this.login(newUser.email, psw);
+            });
     }
 
     createNewUser(newUser) {
         newUser.regDate = new Date();
-        newUser.ratedNews = [];
-        newUser.ratedProducts = [];
-        newUser.ratedProviders = [];
-        return this.firebaseAuth.auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
-            .then(
+        const auth = this.firebaseAuth.auth.createUserWithEmailAndPassword(newUser.email, newUser.password);
+        auth.then(
             res => {
                 this.createUserData(newUser, res.uid);
             }).catch(
             res => this.alertsService.addAlert({ message: res.message, type: 'danger' })
             );
+        return auth;
     }
 
     createUserData(newUser, uid: string) {
         delete newUser.password;
         newUser.id = uid;
         newUser.category = 'user',
-            this.dataService.putData('users/', newUser).subscribe(
-                res => console.log(res)
-            );
+            this.dataService.putData('users/', newUser).subscribe();
     }
 
     checkUserCategory(categories: string[]) {
-        let obs = new Observable(
+        const obs = new Observable(
             observer => {
                 this.getAuth().subscribe(
                     () => {
