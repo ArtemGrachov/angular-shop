@@ -11,11 +11,13 @@ import { User } from '../../shared/models/user.model';
   templateUrl: './admin-orders.component.html'
 })
 export class AdminOrdersComponent implements OnInit {
-  orders: Order[] = [];
   constructor(
     private ordersService: OrdersService,
     private usersService: UsersService
   ) { }
+  public orders: Order[] = [];
+  public preloader: string[] = ['orders', 'usernames'];
+
 
   ngOnInit() {
     this.ordersService.loadOrders().subscribe(
@@ -26,8 +28,10 @@ export class AdminOrdersComponent implements OnInit {
             this.usersService.loadUser(order.userId).subscribe(
               (user: any) => {
                 order.username = user.name;
+                this.preloader = this.preloader.filter(str => str !== 'usernames');
               }
             );
+            this.preloader = this.preloader.filter(str => str !== 'orders');
           }
         );
       }

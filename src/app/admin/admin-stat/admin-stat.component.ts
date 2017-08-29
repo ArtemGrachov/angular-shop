@@ -25,27 +25,45 @@ export class AdminStatComponent implements OnInit {
     private usersService: UsersService
   ) { }
 
-  products: Product[];
-  productsCount;
+  public products: Product[];
+  public productsCount;
 
-  comments: Comment[];
-  commenstCount;
+  public comments: Comment[];
+  public commenstCount;
 
-  news: News[];
-  newsCount;
+  public news: News[];
+  public newsCount;
 
-  orders: Order[];
-  ordersCount;
+  public orders: Order[];
+  public ordersCount;
 
-  users: User[];
-  usersCount;
+  public users: User[];
+  public usersCount;
+
+  public preloader: string[] = ['users', 'products', 'orders', 'news', 'comments'];
+
 
   ngOnInit() {
-    this.newsService.getLatest(3).subscribe(res => this.news = res);
-    this.commentsService.getLatest(3).subscribe(res => this.comments = res);
-    this.ordersService.getLatest(3).subscribe(res => this.orders = res);
-    this.productsService.getLatest(3).subscribe(res => this.products = res);
-    this.usersService.getLatest(3).subscribe(res => this.users = res);
+    this.newsService.getLatest(3).subscribe(res => {
+      this.news = res;
+      this.preloader = this.preloader.filter(str => str !== 'news');
+    });
+    this.commentsService.getLatest(3).subscribe(res => {
+      this.comments = res;
+      this.preloader = this.preloader.filter(str => str !== 'comments');
+    });
+    this.ordersService.getLatest(3).subscribe(res => {
+      this.orders = res;
+      this.preloader = this.preloader.filter(str => str !== 'orders');
+    });
+    this.productsService.getLatest(3).subscribe(res => {
+      this.products = res;
+      this.preloader = this.preloader.filter(str => str !== 'products');
+    });
+    this.usersService.getLatest(3).subscribe(res => {
+      this.users = res;
+      this.preloader = this.preloader.filter(str => str !== 'users');
+    });
 
     this.newsCount = this.newsService.getCount();
     this.ordersCount = this.ordersService.getCount();

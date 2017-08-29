@@ -14,10 +14,14 @@ export class AdminUsersComponent implements OnInit {
   constructor(
     private usersService: UsersService
   ) { }
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.usersService.loadUsers().subscribe(
-      res => this.users = res
+      res => {
+        this.users = res;
+        this.preloader = false;
+      }
     );
   }
 }

@@ -17,36 +17,37 @@ export class AdminCommentsComponent implements OnInit {
     private newsService: NewsService
   ) { }
 
-  comments: Comment[];
-  newsTitles: { id: string, title: string }[] = [];
+  public comments: Comment[];
+  public preloader: string[] = ['comments', 'usernames', 'newstitles'];
 
   ngOnInit() {
     this.loadComments();
-    this.newsService.loadNews().subscribe(
-      res => {
-        res.forEach(
-          post => {
-            this.newsTitles.push({ id: post.id, title: post.title });
-          }
-        );
-      }
-    );
   }
 
   loadComments() {
     this.commentsService.loadAllComments().subscribe(
       comments => {
         this.comments = comments;
+        if (comments.length == 0) {
+          this.preloader = [];
+        }
         this.comments.forEach(
           comment => {
             this.usersService.loadUser(comment.authorId).subscribe(
-              user => comment.authorName = user.name
+              user => {
+                this.preloader = this.preloader.filter(str => str !== 'usernames');
+                comment.authorName = user.name;
+              }
             );
             this.newsService.loadPost(comment.postId).subscribe(
-              post => comment.postTitle = post.title
+              post => {
+                comment.postTitle = post.title;
+                this.preloader = this.preloader.filter(str => str !== 'newstitles');
+              }
             );
           }
         );
+        this.preloader = this.preloader.filter(str => str !== 'comments');
       }
     );
   }
