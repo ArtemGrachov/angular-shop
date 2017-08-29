@@ -1,3 +1,4 @@
+<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
 <button type="button" class="btn btn-primary btn-xs" (click)="toggleNewComentForm()" *ngIf="auth | async"><span class="glyphicon glyphicon-comment"></span> Write a comment</button>
 <hr>
 <form *ngIf="commentFormActive && auth | async" (ngSubmit)="sendComment()" [formGroup]="commentForm">
@@ -21,7 +22,7 @@
       </div>
       <div class="panel-body" [innerHTML]="comment.content | textPipe">
       </div>
-      <div class="panel-footer" *ngIf="isAdmin | async">
+      <div class="panel-footer" *ngIf="isAdmin">
         <a class="btn btn-xs btn-danger" (click)="deleteComment(comment.id)">
             <span class="glyphicon glyphicon-remove"></span> Delete
         </a>

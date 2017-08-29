@@ -23,20 +23,25 @@ export class NewsPostComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  post: News;
-  postId: string;
-  auth = this.authService.getAuth();
-  editAccess;
+  public post: News;
+  public postId: string;
+  public auth = this.authService.getAuth();
+  public editAccess;
+  public preloader: string[] = ['access', 'post', 'name'];
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.postId = params['id'];
-        this.editAccess = this.editAccessService.newsEditAccess(this.postId);
+        this.editAccess = this.editAccessService.newsEditAccess(this.postId).map(
+          res => {
+            this.preloader = this.preloader.filter(str => str !== 'access');
+            return res;
+          }
+        );
         this.loadPost();
       }
     );
-
   }
 
   loadPost() {
@@ -44,8 +49,12 @@ export class NewsPostComponent implements OnInit {
       .subscribe(
       res => {
         this.post = res;
+        this.preloader = this.preloader.filter(str => str !== 'post');
         this.usersService.loadUser(this.post.authorId).subscribe(
-          user => this.post.authorName = user.name
+          user => {
+            this.preloader = this.preloader.filter(str => str !== 'name');
+            this.post.authorName = user.name;
+          }
         );
       });
   }

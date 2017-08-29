@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../auth/auth.service';
 import { UsersService } from '../../admin/users.service';
+import { NewsService } from '../news.service';
 
 import { Observable } from 'rxjs/Observable';
 
 import { News } from '../../shared/models/news.model';
-
-import { NewsService } from '../news.service';
-
 
 @Component({
   selector: 'app-news-list',
@@ -22,7 +20,13 @@ export class NewsListComponent implements OnInit {
   ) { }
 
   public newsList: News[] = [];
-  public addAccess = this.authService.checkUserCategory(['admin', 'provider']);
+  public addAccess = this.authService.checkUserCategory(['admin', 'provider']).map(
+    res => {
+      this.preloader = this.preloader.filter(str => str !== 'access');
+      return res;
+    }
+  );
+  public preloader: string[] = ['access', 'news', 'names'];
 
   ngOnInit() {
     this.newsService.loadNews().subscribe(
@@ -38,10 +42,16 @@ export class NewsListComponent implements OnInit {
             }
           }
         );
+        this.preloader = this.preloader.filter(str => str !== 'news');
         this.newsList.forEach(
-          post => {
+          (post, index) => {
             this.usersService.loadUser(post.authorId).subscribe(
-              user => post.authorName = user.name
+              user => {
+                post.authorName = user.name;
+                if (index === this.newsList.length - 1) {
+                  this.preloader = this.preloader.filter(str => str !== 'names');
+                }
+              }
             );
           }
         );

@@ -24,28 +24,44 @@ export class CommentsComponent implements OnInit {
   commentFormActive: Boolean = false;
   commentForm: FormGroup;
   auth = this.authService.getAuth();
-  isAdmin = this.authService.checkUserCategory(['admin']);
+  isAdmin: boolean = false;
+  preloader: string[] = ['auth', 'comments', 'names'];
 
   ngOnInit() {
     this.loadComments();
     this.commentForm = this.fb.group({
       'commentText': ['', Validators.required]
     });
+
+    this.authService.checkUserCategory(['admin']).subscribe(
+      res => {
+        this.preloader = this.preloader.filter(str => str !== 'auth');
+        return res;
+      }
+    );
   }
 
   loadComments() {
     this.commentsService.loadPostComments(this.postId).subscribe(
       res => {
         this.comments = res;
+        this.preloader = this.preloader.filter(str => str !== 'comments');
+        if (this.comments.length < 1) {
+          this.preloader = this.preloader.filter(str => str !== 'names');
+        }
         this.comments.forEach(
-          comment => {
+          (comment, index) => {
             this.usersService.loadUser(comment.authorId).subscribe(
-              user => comment.authorName = user.name
+              user => {
+                comment.authorName = user.name;
+                if (index === this.comments.length - 1) {
+                  this.preloader = this.preloader.filter(str => str !== 'names');
+                }
+              }
             );
           }
         );
       }
-
     );
   }
 

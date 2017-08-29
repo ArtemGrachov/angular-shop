@@ -34,11 +34,25 @@ export class NewsEditComponent implements OnInit {
     new Date()
   );
 
-  postId: string;
-  editMode = false;
-  newsEditForm: FormGroup;
-  users: User[] = [];
-  isAdmin = this.authService.checkUserCategory(['admin']);
+  public postId: string;
+  public editMode = false;
+  public newsEditForm: FormGroup;
+  public users: User[] = [];
+  public isAdmin = this.authService.checkUserCategory(['admin']).map(
+    res => {
+      if (res) {
+        this.usersService.loadUsers().subscribe(
+          res => {
+            this.users = res;
+            this.preloader = this.preloader.filter(str => str !== 'users');
+          }
+        );
+      }
+      this.preloader = this.preloader.filter(str => str !== 'isAdmin');
+      return res;
+    }
+  );
+  public preloader: string[] = ['isAdmin', 'post', 'users'];
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -55,9 +69,6 @@ export class NewsEditComponent implements OnInit {
         } else {
           this.buildPostForm();
         }
-        this.usersService.loadUsers().subscribe(
-          res => this.users = res
-        );
       }
     );
   }
@@ -77,6 +88,7 @@ export class NewsEditComponent implements OnInit {
   }
 
   buildPostForm() {
+    this.preloader = this.preloader.filter(str => str !== 'post');
     this.newsEditForm = this.fb.group({
       'title': [
         this.post.title,

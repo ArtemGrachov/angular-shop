@@ -1,3 +1,4 @@
+<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
 <ng-template [ngIf]="post">
   <span class="badge pull-right">by {{post.authorName}}</span>
   <h1>{{post.title}}</h1>
