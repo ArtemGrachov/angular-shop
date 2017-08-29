@@ -1,5 +1,4 @@
-<div class="preloader" *ngIf="preloader" appPreloader></div>
-
+<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
 <form [formGroup]="productForm" class="panel panel-default" (ngSubmit)="submit()" *ngIf="productForm">
   <div class="panel-heading">
     {{product.name}}

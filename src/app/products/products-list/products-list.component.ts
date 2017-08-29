@@ -6,8 +6,6 @@ import { ProvidersService } from '../../providers/providers.service';
 
 import { Product } from '../../shared/models/product.model';
 
-import { Observable } from 'rxjs/Observable';
-
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html'
@@ -19,29 +17,29 @@ export class ProductsListComponent implements OnInit {
     private providersService: ProvidersService
   ) { }
   public products: Product[] = [];
-  public addAccess: boolean = false;
+  public addAccess = this.authService.checkUserCategory(['admin', 'provider']).map(
+    res => {
+      this.preloader = this.preloader.filter(str => str !== 'access');
+      return res;
+    }
+  );
   public filter = { sort: 'rating', reverse: true, search: '' };
-  public preloader: boolean = true;
-
-  private productLoader = this.productsService.loadProducts().map(
-    res => this.products = res
-  );
-  private accessCheck = this.authService.checkUserCategory(['admin', 'provider']).map(
-    (res: any) => this.addAccess = res
-  );
-
-  public loader = Observable.forkJoin(
-    this.productLoader,
-    this.accessCheck
-  ).map(
-    res => this.preloader = false
-    );
+  public preloader: string[] = ['access', 'products'];
 
   ngOnInit() {
-    this.loader.subscribe();
+    this.loadProducts();
     this.productsService.searchEmit.subscribe(
       filter => {
         this.filter = filter;
+      }
+    );
+  }
+
+  loadProducts() {
+    this.productsService.loadProducts().subscribe(
+      res => {
+        this.preloader = this.preloader.filter(str => str !== 'products');
+        this.products = res;
       }
     );
   }

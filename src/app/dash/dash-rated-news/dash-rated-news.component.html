@@ -1,3 +1,4 @@
+<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
 <ul class="list-group">
   <a class="list-group-item" *ngFor="let post of news" [routerLink]="['/news', post.id]">
     {{post.title}}

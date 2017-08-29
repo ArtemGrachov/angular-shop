@@ -22,10 +22,11 @@ export class DashProfileComponent implements OnInit {
 
   @ViewChild('userMarker') userMarker: ElementRef;
 
-  editMode: Boolean = false;
-  user: any;
-  profileForm: FormGroup;
-  clientMarkerUrl: string = 'assets/img/client.png';
+  public editMode: Boolean = false;
+  public user: any;
+  public profileForm: FormGroup;
+  public clientMarkerUrl: string = 'assets/img/client.png';
+  public preloader: string[] = ['user'];
 
   ngOnInit() {
     this.loadProfile();
@@ -52,6 +53,7 @@ export class DashProfileComponent implements OnInit {
   }
 
   buildProfileForm() {
+    this.preloader = this.preloader.filter(str => str !== 'user');
     this.profileForm = this.fb.group({
       'name': [this.user.name, Validators.required],
       'email': [this.user.email, [Validators.required, Validators.email]],

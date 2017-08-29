@@ -5,6 +5,6 @@ import { Directive, ElementRef } from '@angular/core';
 })
 export class PreloaderDirective {
     constructor(private elRef: ElementRef) {
-        this.elRef.nativeElement.innerHTML = '<h1>Wait a minute</h1>';
+        this.elRef.nativeElement.innerHTML = '<h1>Wait a moment</h1>';
     }
 }

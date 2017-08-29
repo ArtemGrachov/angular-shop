@@ -1,5 +1,4 @@
-<div class="preloader" *ngIf="preloader" appPreloader></div>
-
+<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
 <div class="row" *ngIf="product">
   <div class="col-sm-5">
     <button class="btn btn-default btn-block btn-xs" (click)="goToPrevPage()"><span class="glyphicon glyphicon-arrow-up"></span> Back</button>
@@ -11,7 +10,7 @@
       <div class="panel-body">
         <img [src]="product.imgUrl" class="img-thumbnail" [alt]="product.name">
       </div>
-      <div class="panel-footer" *ngIf="editAccess">
+      <div class="panel-footer" *ngIf="editAccess | async">
         <div class="btn-group">
           <a class="btn btn-default btn-xs" routerLink="edit">
               <span class="glyphicon glyphicon-pencil"></span> Edit

@@ -15,20 +15,26 @@ export class DashRatedProductsComponent implements OnInit {
     private productsService: ProductsService
   ) { }
 
-  products: Product[] = [];
+  public products: Product[] = [];
+  public preloader: string[] = ['user', 'products'];
 
   ngOnInit() {
     this.authService.loadCurrentUser().subscribe(
       (res: any) => {
+        this.preloader = this.preloader.filter(str => str !== 'user');
         if (res.ratedProducts) {
           for (let id of res.ratedProducts) {
             this.productsService.loadProduct(id).subscribe(
-              product => this.products.push(product)
+              product => {
+                this.products.push(product);
+                this.preloader = this.preloader.filter(str => str !== 'products');
+              }
             );
           }
+        } else {
+          this.preloader = this.preloader.filter(str => str !== 'products');
         }
       }
     );
   }
-
 }

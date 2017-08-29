@@ -31,18 +31,16 @@ export class ProvidersDetailsComponent implements OnInit {
   public providerProducts: Product[];
   public auth = this.authService.getAuth();
   public editAccess;
-  public preloader: boolean = true;
+  public preloader: string[] = ['provider', 'access'];
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        this.preloader = true;
+        this.preloader = ['provider', 'access'];
         this.providerId = params['id'];
         this.editAccess = this.editAccessService.providerEditAccess(this.providerId).map(
           res => {
-            if (this.provider) {
-              this.preloader = false;
-            }
+            this.preloader = this.preloader.filter(str => str !== 'access');
             return res;
           }
         );
@@ -55,6 +53,7 @@ export class ProvidersDetailsComponent implements OnInit {
     this.providersService.loadProvider(this.providerId)
       .subscribe(
       provider => {
+        this.preloader = this.preloader.filter(str => str !== 'provider');
         this.provider = provider;
       });
   }

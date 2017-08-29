@@ -30,14 +30,19 @@ export class ProductsDetailsComponent implements OnInit {
   public product: Product;
   public auth = this.authService.getAuth();
   public editAccess;
-  public preloader: boolean = true;
+  public preloader: string[] = ['product', 'access', 'provider'];
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.productId = params['id'];
         this.loadProduct();
-        this.editAccess = this.editAccessService.productEditAccess(this.productId);
+        this.editAccess = this.editAccessService.productEditAccess(this.productId).map(
+          res => {
+            this.preloader = this.preloader.filter(str => str !== 'access');
+            return res;
+          }
+        );
       }
     );
   }
@@ -46,10 +51,11 @@ export class ProductsDetailsComponent implements OnInit {
     this.productsService.loadProduct(this.productId).subscribe(
       res => {
         this.product = res;
+        this.preloader = this.preloader.filter(str => str !== 'product');
         this.providersService.loadProvider(this.product.providerId).subscribe(
           provider => {
+            this.preloader = this.preloader.filter(str => str !== 'provider');
             this.product.providerName = provider.name;
-            this.preloader = false;
           }
         );
       }

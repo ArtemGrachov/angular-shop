@@ -25,7 +25,7 @@ export class ProvidersEditComponent implements OnInit {
   public editMode: Boolean = false;
   public providerForm: FormGroup;
   public users: { id: string, name: string }[];
-  public preloader: boolean = true;
+  public preloader: string[] = ['provider'];
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -47,10 +47,9 @@ export class ProvidersEditComponent implements OnInit {
       res => {
         this.users = res.filter(
           user => user.category === 'provider'
-        )
-          .map(user => {
-            return { id: user.id, name: user.name };
-          });
+        ).map(user => {
+          return { id: user.id, name: user.name };
+        });
       }
     );
   }
@@ -68,7 +67,7 @@ export class ProvidersEditComponent implements OnInit {
   }
 
   buildProviderForm() {
-    this.preloader = false;
+    this.preloader = this.preloader.filter(str => str !== 'provider');
     this.providerForm = this.fb.group({
       'id': [this.provider.id, Validators.required],
       'name': [this.provider.name, Validators.required],
