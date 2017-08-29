@@ -152,6 +152,7 @@ export class AuthService {
                                 } else {
                                     observer.next(false);
                                 }
+                                observer.complete();
                             }
                         );
 

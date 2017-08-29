@@ -4,7 +4,6 @@ import { AppComponent } from '../../app.component';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { SupportWindowComponent } from '../../support/support-window/support-window.component';
 import { AlertComponent } from '../alert/alert.component';
-import { PreloaderComponent } from '../preloader/preloader.component';
 
 @Component({
     selector: 'app-modal-main',
@@ -21,7 +20,6 @@ export class ModalMainComponent implements OnInit {
     private confComponent = this.componentFactoryResolver.resolveComponentFactory(ConfirmationComponent);
     private suppComponent = this.componentFactoryResolver.resolveComponentFactory(SupportWindowComponent);
     private alertComponent = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
-    private preloaderComponent = this.componentFactoryResolver.resolveComponentFactory(PreloaderComponent);
     private suppWindow;
 
     ngOnInit() {
@@ -46,18 +44,6 @@ export class ModalMainComponent implements OnInit {
                     if (res.alert.destroy) {
                         alertHolder.destroy();
                         alertHolder = undefined;
-                    }
-                }
-                if (res.preloader) {
-                    if (res.preloader.show) {
-                        if (!preloaderHolder) {
-                            preloaderHolder = this.modal.createComponent(this.preloaderComponent);
-                        }
-                    } else {
-                        if (preloaderHolder) {
-                            preloaderHolder.destroy();
-                            preloaderHolder = undefined;
-                        }
                     }
                 }
             }

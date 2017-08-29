@@ -23,15 +23,9 @@ export class DataService {
     }
 
     loadDataList(listUrl: string) {
-        // test!
-        AppComponent.modalEmit.emit({ preloader: { show: true } });
-        // test!
         return this.http.get(`${this.dbUrl}${listUrl}.json`)
             .map(
             (res: Response) => {
-                // test!
-                AppComponent.modalEmit.emit({ preloader: { show: false } });
-                // test!
                 let resJson = res.json(),
                     dataArr = [];
                 for (let i in resJson) {
