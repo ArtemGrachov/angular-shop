@@ -14,6 +14,7 @@ export class ProvidersRatingComponent implements OnInit {
     ) { }
 
     public providers: Provider[] = [];
+    public preloader: boolean = true;
 
     ngOnInit() {
         this.loadProviders();
@@ -21,7 +22,10 @@ export class ProvidersRatingComponent implements OnInit {
 
     loadProviders() {
         this.providersService.loadProviders().subscribe(
-            res => this.providers = res
+            res => {
+                this.providers = res;
+                this.preloader = false;
+            }
         );
     }
 }

@@ -1,3 +1,4 @@
+<div class="preloader" *ngIf="preloader" appPreloader></div>
 <ul class="list-group">
   <li class="list-group-item pointer" *ngFor="let provider of providers | sortPipe:'rating':true" [routerLink]="[provider.id]">
     <span class="badge">

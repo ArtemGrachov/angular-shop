@@ -1,6 +1,4 @@
-<div class="preloader" *ngIf="preloader">
-  <h1>Wait a moment...</h1>
-</div>
+<div class="preloader" *ngIf="preloader" appPreloader></div>
 <div *ngIf="addAccess">
   <a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add product</a>
   <hr>

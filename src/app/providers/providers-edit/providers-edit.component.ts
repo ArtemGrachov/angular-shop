@@ -20,11 +20,12 @@ export class ProvidersEditComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
-  provider: Provider = new Provider('0', '', '', '', '', [], 0, []);
-  providerId: string;
-  editMode: Boolean = false;
-  providerForm: FormGroup;
-  users: { id: string, name: string }[];
+  public provider: Provider = new Provider('0', '', '', '', '', [], 0, []);
+  public providerId: string;
+  public editMode: Boolean = false;
+  public providerForm: FormGroup;
+  public users: { id: string, name: string }[];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -67,6 +68,7 @@ export class ProvidersEditComponent implements OnInit {
   }
 
   buildProviderForm() {
+    this.preloader = false;
     this.providerForm = this.fb.group({
       'id': [this.provider.id, Validators.required],
       'name': [this.provider.name, Validators.required],

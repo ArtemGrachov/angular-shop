@@ -42,36 +42,37 @@ export class ProductsOrderingComponent implements OnInit {
     private fb: FormBuilder
   ) {
   }
-  orderForm: FormGroup;
+  public orderForm: FormGroup;
 
-  cart;
+  public cart;
 
-  totalPrice = 0;
-  successMsg: boolean = false;
+  public totalPrice = 0;
+  public successMsg: boolean = false;
 
-  gmap = {
+  public gmap = {
     location: {
       lat: 48.698200,
       lng: 26.575637
     },
     zoom: 13
   };
-  gmapObj: any;
-  clientMarkerUrl: string = 'assets/img/client.png';
+  public gmapObj: any;
+  public clientMarkerUrl: string = 'assets/img/client.png';
 
-  shops: Shop[] = [
+  public shops: Shop[] = [
     new Shop(48.698200, 26.575637, 'Shop #1'),
     new Shop(48.689785, 26.579571, 'Shop #2'),
     new Shop(48.681764, 26.589226, 'Shop #3'),
   ];
-  dirService: any;
-  dirDisplay: any;
-  deliveryInfo = {
+  public dirService: any;
+  public dirDisplay: any;
+  public deliveryInfo = {
     price: 0,
     distance: 0,
     time: 0,
     display: false
   };
+
   ngOnInit() {
     this.cart = this.productsService.getCart();
     this.authService.getAuth().subscribe(

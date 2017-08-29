@@ -6,11 +6,14 @@ import { SortPipe } from './pipes/sort.pipe';
 import { SearchPipe } from './pipes/search.pipe';
 import { TextPipe } from './pipes/text.pipe';
 
+import { PreloaderDirective } from './directives/preloader.directive';
+
 @NgModule({
   declarations: [
     SortPipe,
     SearchPipe,
-    TextPipe
+    TextPipe,
+    PreloaderDirective
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,8 @@ import { TextPipe } from './pipes/text.pipe';
     CommonModule,
     SortPipe,
     SearchPipe,
-    TextPipe
+    TextPipe,
+    PreloaderDirective
   ]
 })
 export class SharedModule { }

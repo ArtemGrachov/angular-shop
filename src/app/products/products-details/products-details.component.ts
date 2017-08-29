@@ -26,10 +26,11 @@ export class ProductsDetailsComponent implements OnInit {
     private location: Location
   ) { }
 
-  productId: string;
-  product: Product;
-  auth = this.authService.getAuth();
-  editAccess;
+  public productId: string;
+  public product: Product;
+  public auth = this.authService.getAuth();
+  public editAccess;
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -46,7 +47,10 @@ export class ProductsDetailsComponent implements OnInit {
       res => {
         this.product = res;
         this.providersService.loadProvider(this.product.providerId).subscribe(
-          provider => this.product.providerName = provider.name
+          provider => {
+            this.product.providerName = provider.name;
+            this.preloader = false;
+          }
         );
       }
     );

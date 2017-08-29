@@ -26,17 +26,26 @@ export class ProvidersDetailsComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  providerId: string = '';
-  provider: Provider;
-  providerProducts: Product[];
-  auth = this.authService.getAuth();
-  editAccess;
+  public providerId: string = '';
+  public provider: Provider;
+  public providerProducts: Product[];
+  public auth = this.authService.getAuth();
+  public editAccess;
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
+        this.preloader = true;
         this.providerId = params['id'];
-        this.editAccess = this.editAccessService.providerEditAccess(this.providerId);
+        this.editAccess = this.editAccessService.providerEditAccess(this.providerId).map(
+          res => {
+            if (this.provider) {
+              this.preloader = false;
+            }
+            return res;
+          }
+        );
         this.loadProvider();
       }
     );

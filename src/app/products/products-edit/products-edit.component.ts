@@ -30,11 +30,12 @@ export class ProductsEditComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
-  product: Product = new Product('0', '', '', '', '', 0, 0, 0, new Date());
-  productId: string;
-  providersList: { id: string, name: string }[] = [];
-  productForm: FormGroup;
-  editMode: Boolean = false;
+  public product: Product = new Product('0', '', '', '', '', 0, 0, 0, new Date());
+  private productId: string;
+  public providersList: { id: string, name: string }[] = [];
+  public productForm: FormGroup;
+  public editMode: boolean = false;
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -44,10 +45,10 @@ export class ProductsEditComponent implements OnInit {
           this.editMode = true;
         } else {
           this.buildProductForm();
+          this.preloader = false;
         }
       }
     );
-    this.providersService.loadProviders();
 
     this.authService.loadCurrentUser().subscribe(
       (user: any) => {
@@ -62,7 +63,7 @@ export class ProductsEditComponent implements OnInit {
           res => {
             this.providersList = res.map(
               provider => {
-                return { id: provider.id, name: provider.name }
+                return { id: provider.id, name: provider.name };
               }
             );
           }
@@ -75,6 +76,7 @@ export class ProductsEditComponent implements OnInit {
     this.productsService.loadProduct(this.productId).subscribe(
       res => {
         this.product = res;
+        this.preloader = false;
         this.buildProductForm();
       }
     );
