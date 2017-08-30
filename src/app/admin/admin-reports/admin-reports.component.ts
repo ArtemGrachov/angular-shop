@@ -15,5 +15,4 @@ export class AdminReportsComponent {
         this.router.navigate([event.currentTarget.value], { relativeTo: this.route });
         // console.log(event.currentTarget.value);
     }
-
 }

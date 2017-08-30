@@ -38,4 +38,27 @@ export class ProductsComponent implements OnInit {
       }
     );
   }
+
+  export(table) {
+    const csv = Array.prototype.slice.call(table.querySelectorAll('tr')).map(
+      row => {
+        return Array.prototype.slice.call(row.querySelectorAll('td, th')).map(
+          col => col.innerHTML
+        ).join(',');
+      }
+    ).join('\n');
+    this.saveCSV(csv);
+  }
+
+  saveCSV(csv) {
+    console.log(csv);
+    // is it right way in Angular?
+    let csvFile = new Blob([csv], { type: 'text/csv' }),
+      downloadLink = document.createElement('a');
+    downloadLink.download = 'products.csv';
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = 'none';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+  }
 }
