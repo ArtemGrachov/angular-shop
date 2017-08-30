@@ -9,4 +9,5 @@ export class Provider {
         public rating: number,
         public comments: string[]
     ) { }
+    public productsCount: number;
 }

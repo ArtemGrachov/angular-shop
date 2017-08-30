@@ -28,7 +28,7 @@ export class AdminCommentsComponent implements OnInit {
     this.commentsService.loadAllComments().subscribe(
       comments => {
         this.comments = comments;
-        if (comments.length == 0) {
+        if (comments.length === 0) {
           this.preloader = [];
         }
         this.comments.forEach(

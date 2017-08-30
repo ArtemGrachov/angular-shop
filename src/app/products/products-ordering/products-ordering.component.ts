@@ -7,9 +7,12 @@ import { AuthService } from '../../auth/auth.service';
 import { ProductsService } from '../products.service';
 import { OrdersService } from '../../admin/orders.service';
 import { UsersService } from '../../admin/users.service';
+import { ProvidersService } from '../../providers/providers.service';
 
 import { Product } from '../../shared/models/product.model';
 import { Order } from '../../shared/models/order.model';
+
+import { Observable } from 'rxjs/Observable';
 
 class Shop {
   public lat: number;
@@ -39,6 +42,7 @@ export class ProductsOrderingComponent implements OnInit {
     private gmapAPI: GoogleMapsAPIWrapper,
     private authService: AuthService,
     private usersService: UsersService,
+    private providersServce: ProvidersService,
     private fb: FormBuilder
   ) {
   }
@@ -193,30 +197,47 @@ export class ProductsOrderingComponent implements OnInit {
   }
 
   sendOrder() {
-    const products: { name: string, price: number }[] = [];
+    const products: { name: string, price: number, provider: string }[] = [];
     const cartList = this.cart.list;
-    for (const product of this.cart.list) {
-      if (product.count > 0) {
-        products.push({
-          name: product.name,
-          price: product.price
-        });
+    new Observable(
+      observer => {
+        for (let i = 0; i < this.cart.list.length; i++) {
+          const product = this.cart.list[i];
+          if (product.count > 0) {
+            this.providersServce.loadProvider(product.providerId).subscribe(
+              provider => {
+                products.push({
+                  name: product.name,
+                  price: product.price,
+                  provider: provider.name
+                });
+                if (i === this.cart.list.length - 1) {
+                  observer.next();
+                  observer.complete();
+                }
+              }
+            );
+          }
+        }
       }
-    }
-    this.ordersService.addOrder(
-      new Order(
-        '0',
-        this.authService.getUid(),
-        products,
-        this.deliveryInfo.price,
-        new Date(),
-        this.productsService.discount,
-        this.orderForm.get('location').value
-      )
     ).subscribe(
       () => {
-        this.successMsg = true;
-        this.productsService.clearCartOrder();
-      });
+        this.ordersService.addOrder(
+          new Order(
+            '0',
+            this.authService.getUid(),
+            products,
+            this.deliveryInfo.price,
+            new Date(),
+            this.productsService.discount,
+            this.orderForm.get('location').value
+          )
+        ).subscribe(
+          () => {
+            this.successMsg = true;
+            this.productsService.clearCartOrder();
+          });
+      }
+      );
   }
 }

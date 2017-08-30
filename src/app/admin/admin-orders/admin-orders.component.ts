@@ -23,6 +23,9 @@ export class AdminOrdersComponent implements OnInit {
     this.ordersService.loadOrders().subscribe(
       res => {
         this.orders = res;
+        if (res.length === 0) {
+          this.preloader = [];
+        }
         this.orders.forEach(
           order => {
             this.usersService.loadUser(order.userId).subscribe(

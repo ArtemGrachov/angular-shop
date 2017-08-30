@@ -1,0 +1,58 @@
+<div class="preloader" *ngIf="preloader" appPreloader></div>
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-hover table-responsive">
+      <thead>
+        <tr>
+          <!-- ID takes too much place! -->
+          <!-- <th>
+            ID
+          </th> -->
+          <th>
+            Name
+          </th>
+          <th>
+            Category
+          </th>
+          <th>
+            Email
+          </th>
+          <th>
+            Registration date
+          </th>
+          <th>
+            Birthdate
+          </th>
+          <th>
+            Phone
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users" class="pointer" [routerLink]="['/admin/users/', user.id]">
+          <!-- <td>
+            {{user.id}}
+          </td> -->
+          <td>
+            {{user.name}}
+          </td>
+          <td>
+            {{user.category}}
+          </td>
+          <td>
+            {{user.email}}
+          </td>
+          <td>
+            {{user.regDate | date: 'medium'}}
+          </td>
+          <td>
+            {{user.birthdate | date: 'mediumDate'}}
+          </td>
+          <td>
+            {{user.phone}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

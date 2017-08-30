@@ -7,17 +7,17 @@
       </h4>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let product of order.products">
-          {{product.name}}
+          {{product.name}} ({{product.provider}})
           <span class="badge">${{product.price}}</span>
         </li>
         <li class="list-group-item">
-          Delivering: ${{order.deliveryPrice}}
+          Delivering: <span class="badge">${{order.deliveryPrice}}</span>
         </li>
         <li class="list-group-item">
           Discount <span class="badge">{{order.discount}}%</span>
         </li>
       </ul>
-      <strong>Total price: ${{getOrderPrice(order) + order.deliveryPrice}}</strong>
+      <strong>Total price: ${{(getOrderPrice(order) + order.deliveryPrice).toFixed(2)}}</strong>
     </li>
   </ul>
 </div>

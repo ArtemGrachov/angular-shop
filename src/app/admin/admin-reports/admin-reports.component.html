@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="form-group">
+      <select name="report" id="report" (change)="selectReport($event)" class="form-control">
+            <option disabled selected>select report...</option>
+            <option value="products">Products</option>
+            <option value="providers">Providers</option>
+            <option value="users">Users</option>
+            <option value="orders">Orders</option>
+        </select>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <router-outlet></router-outlet>
+  </div>
+</div>

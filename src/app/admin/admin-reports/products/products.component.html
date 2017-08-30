@@ -1,0 +1,26 @@
+<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Provider</th>
+          <th>Count</th>
+          <th>Date</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products" class="pointer" [routerLink]="['/products', product.id]">
+          <td>{{product.id}}</td>
+          <td>{{product.name}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.providerName}}</td>
+          <td>{{product.count}}</td>
+          <td>{{product.date | date:'mediumDate'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

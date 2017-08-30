@@ -1,0 +1,39 @@
+<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>
+            ID
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Rating
+          </th>
+          <th>
+            Product count
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let provider of providers" [routerLink]="['/providers', provider.id]" class="pointer">
+          <td>
+            {{provider.id}}
+          </td>
+          <td>
+            {{provider.name}}
+          </td>
+          <td>
+            {{provider.rating}}
+          </td>
+          <td>
+            {{provider.productsCount}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
