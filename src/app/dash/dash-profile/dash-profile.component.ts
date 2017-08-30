@@ -77,6 +77,9 @@ export class DashProfileComponent implements OnInit {
     updUser.ratedNews = this.user.ratedNews;
     updUser.ratedProducts = this.user.ratedProducts;
     updUser.ratedProviders = this.user.ratedProviders;
+    if (updUser.birthdate && updUser.birthdate.jsdate) {
+      updUser.birthdate = updUser.birthdate.jsdate;
+    }
 
     this.usersService.updateCurrentUser(updUser).subscribe(
       () => {

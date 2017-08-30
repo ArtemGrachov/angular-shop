@@ -36,7 +36,7 @@
       </div>
       <div class="form-group">
         <label for="age">Birthdate:</label> {{user.birthdate | date:'mediumDate'}}
-        <input type="date" class="form-control" id="birthdate" *ngIf="editMode" formControlName="birthdate">
+        <my-date-picker id="birthdate" *ngIf="editMode" formControlName="birthdate"></my-date-picker>
       </div>
       <div class="form-group">
         <label for="phone">Phone number:</label> {{user.phone }}

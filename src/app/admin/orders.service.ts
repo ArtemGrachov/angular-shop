@@ -36,7 +36,7 @@ export class OrdersService {
 
     addOrder(newOrder: Order) {
         newOrder.id = (new Date).getTime().toString();
-        return this.dataService.putData('orders', newOrder).map(
+        return this.dataService.putDataUnAuth('orders', newOrder).map(
             () => {
                 AppComponent.modalEmit.emit({ alert: { add: { message: 'Thank you for order!', type: 'success' } } });
             }

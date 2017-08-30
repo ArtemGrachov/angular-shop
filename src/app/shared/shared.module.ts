@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MyDatePickerModule } from 'mydatepicker';
 
 import { SortPipe } from './pipes/sort.pipe';
 import { SearchPipe } from './pipes/search.pipe';
@@ -18,12 +19,14 @@ import { PreloaderDirective } from './directives/preloader.directive';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MyDatePickerModule
   ],
   exports: [
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
+    MyDatePickerModule,
     SortPipe,
     SearchPipe,
     TextPipe,

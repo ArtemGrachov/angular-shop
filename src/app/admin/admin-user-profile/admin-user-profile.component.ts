@@ -102,7 +102,9 @@ export class AdminUserProfileComponent implements OnInit {
     updUser.ratedNews = this.user.ratedNews;
     updUser.ratedProducts = this.user.ratedProducts;
     updUser.ratedProviders = this.user.ratedProviders;
-
+    if (updUser.birthdate && updUser.birthdate.jsdate) {
+      updUser.birthdate = updUser.birthdate.jsdate;
+    }
     if (this.newMode) { // redirect an update after respone
       this.authSerivce.createNewUser(updUser).then(
         () => this.router.navigate(['../'], { relativeTo: this.route })

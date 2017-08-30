@@ -45,6 +45,10 @@ export class DataService {
         return this.http.put(`${this.dbUrl}${listUrl}/${item.id}.json?auth=${this.token}`, item);
     }
 
+    putDataUnAuth(listUrl: string, item: any) {
+        return this.http.put(`${this.dbUrl}${listUrl}/${item.id}.json`, item);
+    }
+
     putObjValue(objUrl: string, value: any) {
         this.getToken();
         return this.http.put(`${this.dbUrl}${objUrl}.json?auth=${this.token}`, value);

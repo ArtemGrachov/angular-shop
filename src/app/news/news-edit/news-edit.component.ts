@@ -79,6 +79,9 @@ export class NewsEditComponent implements OnInit {
     if (this.editMode) {
       let editedPost = this.newsEditForm.value;
       editedPost.id = this.postId;
+      if (editedPost.date.jsdate) {
+        editedPost.date = editedPost.date.jsdate;
+      }
       this.newsService.updatePost(editedPost).subscribe(
         () => this.router.navigate(['../'], { relativeTo: this.route })
       );

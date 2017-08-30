@@ -124,6 +124,11 @@ export class ProductsEditComponent implements OnInit {
   }
 
   submit() {
+    const product = this.productForm.value;
+    product.id = this.product.id;
+    if (product.date.jsdate) {
+      product.date = product.date.jsdate;
+    }
     this.productForm.value.id = this.product.id;
     if (this.editMode) {
       this.productsService.updateProduct(this.productForm.value).subscribe(

@@ -86,6 +86,10 @@ export class RegComponent implements OnInit {
   }
 
   reg() {
+    let newUser = this.regForm.value;
+    if (newUser.birthdate && newUser.birthdate.jsdate) {
+      newUser.birthdate = newUser.birthdate.jsdate;
+    }
     this.authService.registration(this.regForm.value);
   }
 
