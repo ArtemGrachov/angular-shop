@@ -36,12 +36,21 @@ textarea.ng-dirty.ng-valid
     position: fixed;
     left: 0;
     top: 0;
-    color: white;
-    display: flex;
-    background: rgba(100,100,100,1);
+    color: black;
+    background: white;
     z-index: 9999;
 }
 
-.preloader h1 {
-    margin: auto;
+.preloader__text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.preloader svg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%)
 }
