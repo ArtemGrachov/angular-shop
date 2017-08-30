@@ -42,11 +42,13 @@ export class NewsEditComponent implements OnInit {
     res => {
       if (res) {
         this.usersService.loadUsers().subscribe(
-          res => {
-            this.users = res;
+          users => {
+            this.users = users;
             this.preloader = this.preloader.filter(str => str !== 'users');
           }
         );
+      } else {
+        this.preloader = this.preloader.filter(str => str !== 'users');
       }
       this.preloader = this.preloader.filter(str => str !== 'isAdmin');
       return res;

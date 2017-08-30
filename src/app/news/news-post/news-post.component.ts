@@ -25,7 +25,14 @@ export class NewsPostComponent implements OnInit {
 
   public post: News;
   public postId: string;
-  public auth = this.authService.getAuth();
+  public auth = this.authService.getAuth().map(
+    res => {
+      if (!res) {
+        this.preloader = this.preloader.filter(str => str !== 'access');
+      }
+      return res;
+    }
+  );
   public editAccess;
   public preloader: string[] = ['access', 'post', 'name'];
 

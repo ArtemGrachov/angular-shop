@@ -19,7 +19,7 @@
         <option *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
     </select>
   </div>
-  <div class="form-group">
+  <div class="form-group" *ngIf="isAdmin | async">
     <label for="title">Publishing date</label>
     <input type="date" class="form-control" name="title" id="title" formControlName="date">
   </div>

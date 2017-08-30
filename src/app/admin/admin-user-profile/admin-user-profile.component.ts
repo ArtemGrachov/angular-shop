@@ -23,21 +23,22 @@ export class AdminUserProfileComponent implements OnInit {
     private gmapAPI: GoogleMapsAPIWrapper
   ) { }
 
-  editMode: Boolean = false;
-  newMode: Boolean = false;
-  user = new User('0', '', '', new Date(), 'user', new Date(), 'male', { lat: 48.698200, lng: 26.575637 }, '', [], [], []);
-  userId: string;
-  usersCategories: string[] = [];
-  gmap = {
+  public editMode: Boolean = false;
+  public newMode: Boolean = false;
+  public user = new User('0', '', '', new Date(), 'user', new Date(), 'male', { lat: 48.698200, lng: 26.575637 }, '', [], [], []);
+  public userId: string;
+  public usersCategories: string[] = [];
+  public gmap = {
     location: {
       lat: 48.698200,
       lng: 26.575637
     },
     zoom: 12
   };
-  clientMarkerUrl: string = 'assets/img/client.png';
+  public clientMarkerUrl: string = 'assets/img/client.png';
   @ViewChild('userMarker') userMarker: ElementRef;
-  userForm: FormGroup;
+  public userForm: FormGroup;
+  public preloader: boolean = false;
 
   ngOnInit() {
     this.usersCategories = this.usersService.getCategories();
@@ -81,6 +82,7 @@ export class AdminUserProfileComponent implements OnInit {
   }
 
   buildUserForm() {
+    this.preloader = false;
     this.userForm = this.fb.group({
       'name': [this.user.name, Validators.required],
       'email': this.user.email,

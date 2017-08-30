@@ -61,10 +61,10 @@ export class ProductsEditComponent implements OnInit {
           res => {
             this.providersList = res.map(
               provider => {
-                this.preloader = this.preloader.filter(str => str !== 'providers');
                 return { id: provider.id, name: provider.name };
               }
             );
+            this.preloader = this.preloader.filter(str => str !== 'providers');
           }
         );
       }

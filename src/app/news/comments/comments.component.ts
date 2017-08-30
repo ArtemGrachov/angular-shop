@@ -20,12 +20,12 @@ export class CommentsComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
-  comments: Comment[] = [];
-  commentFormActive: Boolean = false;
-  commentForm: FormGroup;
-  auth = this.authService.getAuth();
-  isAdmin: boolean = false;
-  preloader: string[] = ['auth', 'comments', 'names'];
+  public comments: Comment[] = [];
+  public commentFormActive: Boolean = false;
+  public commentForm: FormGroup;
+  public auth = this.authService.getAuth();
+  public isAdmin: boolean = false;
+  public preloader: string[] = ['auth', 'comments', 'names'];
 
   ngOnInit() {
     this.loadComments();

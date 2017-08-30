@@ -56,7 +56,9 @@ export class ProvidersEditComponent implements OnInit {
 
   submit() {
     if (this.editMode) {
-      this.providersService.updateProvider(this.providerForm.value).subscribe(
+      let provider = this.providerForm.value;
+      provider.id = this.providerId;
+      this.providersService.updateProvider(provider).subscribe(
         () => this.router.navigate(['../'], { relativeTo: this.route })
       );
     } else {
@@ -69,7 +71,6 @@ export class ProvidersEditComponent implements OnInit {
   buildProviderForm() {
     this.preloader = this.preloader.filter(str => str !== 'provider');
     this.providerForm = this.fb.group({
-      'id': [this.provider.id, Validators.required],
       'name': [this.provider.name, Validators.required],
       'logoUrl': [this.provider.logoUrl, Validators.required],
       'email': [this.provider.email, [Validators.required, Validators.email]],

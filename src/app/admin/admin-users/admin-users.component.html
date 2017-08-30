@@ -5,7 +5,7 @@
     <a routerLink="new" button class="btn btn-primary btn-xs">Add user</a>
     <hr>
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let user of users" [routerLink]="user.id">
+      <li class="list-group-item pointer" *ngFor="let user of users" [routerLink]="user.id">
         <h4>
           <span class="glyphicon glyphicon-user"></span> {{user.name}}
         </h4>

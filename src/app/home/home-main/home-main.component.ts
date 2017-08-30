@@ -12,15 +12,15 @@ import { News } from '../../shared/models/news.model';
   templateUrl: './home-main.component.html'
 })
 export class HomeMainComponent implements OnInit {
-
-  products: Product[] = [];
-  newsList: News[] = [];
-
   constructor(
     private productsService: ProductsService,
     private usersService: UsersService,
     private newsService: NewsService
   ) { }
+
+  public products: Product[] = [];
+  public newsList: News[] = [];
+  public preloader: string[] = ['products', 'news'];
 
   ngOnInit() {
     this.loadProducts();
@@ -29,7 +29,10 @@ export class HomeMainComponent implements OnInit {
 
   loadProducts() {
     this.productsService.getLatest(4).subscribe(
-      res => this.products = res
+      res => {
+        this.products = res;
+        this.preloader = this.preloader.filter(str => str !== 'products');
+      }
     );
   }
 
@@ -42,6 +45,7 @@ export class HomeMainComponent implements OnInit {
             this.usersService.loadUser(post.authorId).subscribe(
               user => {
                 post.authorName = user.name;
+                this.preloader = this.preloader.filter(str => str !== 'news');
               }
             );
           }
