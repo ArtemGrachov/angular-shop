@@ -29,8 +29,9 @@ export class DashRatedProvidersComponent implements OnInit {
             this.providersService.loadProvider(id).subscribe(
               provider => {
                 this.providers.push(provider);
-                this.preloader = this.preloader.filter(str => str !== 'providers');
-              }
+              },
+              err => { },
+              () => this.preloader = this.preloader.filter(str => str !== 'providers')
             );
           }
         } else {

@@ -64,8 +64,9 @@ export class ProductsEditComponent implements OnInit {
                 return { id: provider.id, name: provider.name };
               }
             );
-            this.preloader = this.preloader.filter(str => str !== 'providers');
-          }
+          },
+          err => { },
+          () => this.preloader = this.preloader.filter(str => str !== 'providers')
         );
       }
     );
@@ -75,7 +76,6 @@ export class ProductsEditComponent implements OnInit {
     this.productsService.loadProduct(this.productId).subscribe(
       res => {
         this.product = res;
-        this.preloader = this.preloader.filter(str => str !== 'product');
         this.buildProductForm();
       }
     );

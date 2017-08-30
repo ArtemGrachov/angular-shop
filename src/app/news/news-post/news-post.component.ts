@@ -59,9 +59,10 @@ export class NewsPostComponent implements OnInit {
         this.preloader = this.preloader.filter(str => str !== 'post');
         this.usersService.loadUser(this.post.authorId).subscribe(
           user => {
-            this.preloader = this.preloader.filter(str => str !== 'name');
             this.post.authorName = user.name;
-          }
+          },
+          err => { },
+          () => this.preloader = this.preloader.filter(str => str !== 'name')
         );
       });
   }

@@ -39,6 +39,9 @@ export class HomeMainComponent implements OnInit {
   loadNews() {
     this.newsService.getLatest(4).subscribe(
       news => {
+        if (news.length === 0) {
+          this.preloader = this.preloader.filter(str => str !== 'news');
+        }
         this.newsList = news;
         this.newsList.forEach(
           post => {

@@ -21,7 +21,6 @@ export class DashRatedProductsComponent implements OnInit {
   ngOnInit() {
     this.authService.loadCurrentUser().subscribe(
       (res: any) => {
-        this.preloader = this.preloader.filter(str => str !== 'user');
         if (res.ratedProducts) {
           for (let id of res.ratedProducts) {
             this.productsService.loadProduct(id).subscribe(
@@ -34,7 +33,9 @@ export class DashRatedProductsComponent implements OnInit {
         } else {
           this.preloader = this.preloader.filter(str => str !== 'products');
         }
-      }
+      },
+      err => { },
+      () => this.preloader = this.preloader.filter(str => str !== 'user')
     );
   }
 }

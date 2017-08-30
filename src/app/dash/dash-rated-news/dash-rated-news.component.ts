@@ -23,7 +23,6 @@ export class DashRatedNewsComponent implements OnInit {
   ngOnInit() {
     this.authService.loadCurrentUser().subscribe(
       (res: any) => {
-        this.preloader = this.preloader.filter(str => str !== 'user');
         if (res.ratedNews) {
           for (const id of res.ratedNews) {
             this.newsService.loadPost(id).subscribe(
@@ -41,7 +40,9 @@ export class DashRatedNewsComponent implements OnInit {
         } else {
           this.preloader = this.preloader.filter(str => str !== 'news');
         }
-      }
+      },
+      err => { },
+      () => this.preloader = this.preloader.filter(str => str !== 'user')
     );
   }
 

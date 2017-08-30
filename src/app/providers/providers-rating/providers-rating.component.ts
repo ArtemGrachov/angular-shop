@@ -24,8 +24,9 @@ export class ProvidersRatingComponent implements OnInit {
         this.providersService.loadProviders().subscribe(
             res => {
                 this.providers = res;
-                this.preloader = this.preloader.filter(str => str !== 'providers');
-            }
+            },
+            err => { },
+            () => this.preloader = this.preloader.filter(str => str !== 'providers')
         );
     }
 }

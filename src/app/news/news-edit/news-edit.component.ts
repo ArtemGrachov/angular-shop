@@ -77,7 +77,7 @@ export class NewsEditComponent implements OnInit {
 
   submitPost() {
     if (this.editMode) {
-      let editedPost = this.newsEditForm.value;
+      const editedPost = this.newsEditForm.value;
       editedPost.id = this.postId;
       if (editedPost.date.jsdate) {
         editedPost.date = editedPost.date.jsdate;

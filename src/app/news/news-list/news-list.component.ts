@@ -42,20 +42,20 @@ export class NewsListComponent implements OnInit {
             }
           }
         );
-        this.preloader = this.preloader.filter(str => str !== 'news');
         this.newsList.forEach(
           (post, index) => {
             this.usersService.loadUser(post.authorId).subscribe(
               user => {
                 post.authorName = user.name;
-                if (index === this.newsList.length - 1) {
-                  this.preloader = this.preloader.filter(str => str !== 'names');
-                }
-              }
+              },
+              err => { },
+              () => this.preloader = this.preloader.filter(str => str !== 'names')
             );
           }
         );
-      }
+      },
+      err => { },
+      () => this.preloader = this.preloader.filter(str => str !== 'news')
     );
   }
 }

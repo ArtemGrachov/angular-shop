@@ -29,9 +29,10 @@ export class ProvidersListComponent implements OnInit {
   loadProviders() {
     this.providersService.loadProviders().subscribe(
       res => {
-        this.preloader = this.preloader.filter(str => str !== 'providers');
         this.providers = res;
-      }
+      },
+      err => { },
+      () => this.preloader = this.preloader.filter(str => str !== 'providers')
     );
   }
 }
