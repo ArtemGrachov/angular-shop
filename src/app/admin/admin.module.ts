@@ -15,10 +15,6 @@ import { AdminStatComponent } from './admin-stat/admin-stat.component';
 import { AdminCommentsComponent } from './admin-comments/admin-comments.component';
 import { AdminChartsComponent } from './admin-charts/admin-charts.component';
 import { AdminReportsComponent } from './admin-reports/admin-reports.component';
-import { ProductsComponent } from './admin-reports/products/products.component';
-import { ProvidersComponent } from './admin-reports/providers/providers.component';
-import { UsersComponent } from './admin-reports/users/users.component';
-import { OrdersComponent } from './admin-reports/orders/orders.component';
 
 @NgModule({
   imports: [
@@ -35,11 +31,7 @@ import { OrdersComponent } from './admin-reports/orders/orders.component';
     AdminStatComponent,
     AdminCommentsComponent,
     AdminChartsComponent,
-    AdminReportsComponent,
-    ProductsComponent,
-    ProvidersComponent,
-    UsersComponent,
-    OrdersComponent
+    AdminReportsComponent
   ],
   providers: [GoogleMapsAPIWrapper]
 })

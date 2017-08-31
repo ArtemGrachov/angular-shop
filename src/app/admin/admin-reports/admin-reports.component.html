@@ -1,3 +1,4 @@
+<div class="preloader" *ngIf="preloader" appPreloader></div>
 <div class="row">
   <div class="col-xs-12">
     <div class="form-group">
@@ -11,8 +12,22 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="tbl">
   <div class="col-xs-12">
-    <router-outlet></router-outlet>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th *ngFor="let hCell of tbl[0]">{{hCell}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row  of tbl.slice(1, tbl.length)" class="pointer" [routerLink]="['/products', row[0]]">
+          <td *ngFor="let cell of row">{{cell}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="btn-group">
+      <a (click)="toCSV()" class="btn btn-primary">Export to CSV file</a>
+    </div>
   </div>
 </div>

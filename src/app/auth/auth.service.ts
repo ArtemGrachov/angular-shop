@@ -143,7 +143,6 @@ export class AuthService {
     checkUserCategory(categories: string[]) {
         const obs = new Observable(
             observer => {
-                console.log('check user cat obsedrver debug');
                 this.getAuth().subscribe(
                     () => {
                         this.loadCurrentUser().subscribe(
