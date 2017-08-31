@@ -66,7 +66,7 @@ export class AdminReportsComponent {
                                     tableRow.push('<unknown provider>');
                                 }
                                 tableRow.push(product.count);
-                                tableRow.push(product.date);
+                                tableRow.push(this.formatDate(product.date, true));
                                 this.tbl.push(tableRow);
                                 if (index === products.length - 1) {
                                     this.preloader = false;
@@ -115,8 +115,8 @@ export class AdminReportsComponent {
                         tableRow.push(user.name);
                         tableRow.push(user.category);
                         tableRow.push(user.email);
-                        tableRow.push(user.regDate);
-                        tableRow.push(user.birthdate);
+                        tableRow.push(this.formatDate(user.regDate, true));
+                        tableRow.push(this.formatDate(user.birthdate, false));
                         tableRow.push(user.phone);
                         this.tbl.push(tableRow);
                         if (index === users.length - 1) {
@@ -139,7 +139,7 @@ export class AdminReportsComponent {
                             user => {
                                 const tableRow = [];
                                 tableRow.push(order.id);
-                                tableRow.push(order.date);
+                                tableRow.push(this.formatDate(order.date, true));
                                 if (user) {
                                     tableRow.push(user.name);
                                 }
@@ -163,6 +163,19 @@ export class AdminReportsComponent {
 
     getOrderPrice(order): number {
         return +(this.ordersService.getOrderPrice(order) * (1 - (order.discount * 0.01))).toFixed(2);
+    }
+
+    formatDate(dateStr: string, time: boolean) {
+        if (dateStr) {
+            const date = new Date(dateStr);
+            let formatted = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+            if (time) {
+                formatted = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${formatted}`;
+            }
+            return formatted;
+        } else {
+            return 'no date';
+        }
     }
 
     toCSV() {
