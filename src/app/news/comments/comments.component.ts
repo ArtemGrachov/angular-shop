@@ -35,10 +35,9 @@ export class CommentsComponent implements OnInit {
 
     this.authService.checkUserCategory(['admin']).subscribe(
       (res: boolean) => {
+        this.preloader = this.preloader.filter(str => str !== 'auth');
         this.isAdmin = res;
-      },
-      err => { },
-      () => this.preloader = this.preloader.filter(str => str !== 'auth')
+      }
     );
   }
 
