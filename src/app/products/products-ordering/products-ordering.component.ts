@@ -37,7 +37,7 @@ declare var google: any;
 })
 export class ProductsOrderingComponent implements OnInit {
   constructor(
-    private productsService: ProductsService,
+    public productsService: ProductsService,
     private ordersService: OrdersService,
     private gmapAPI: GoogleMapsAPIWrapper,
     private authService: AuthService,

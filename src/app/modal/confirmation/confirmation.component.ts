@@ -8,6 +8,8 @@ import { AppComponent } from '../../app.component';
 export class ConfirmationComponent {
   constructor() { }
 
+  public config: any;
+
   confirm() {
     AppComponent.modalEmit.emit({ confirm: true, close: true });
   }

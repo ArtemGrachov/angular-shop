@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { UsersService } from '../../../admin/users.service';
 
+import { DataService } from '../../../shared/data.service';
+
 import { User } from '../../../shared/models/user.model';
 
 @Component({
@@ -10,7 +12,8 @@ import { User } from '../../../shared/models/user.model';
 })
 export class UsersComponent implements OnInit {
   constructor(
-    private usersService: UsersService
+    private usersService: UsersService,
+    private dataService: DataService
   ) { }
 
   public preloader: boolean = true;
@@ -25,4 +28,7 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  toCSV(table) {
+    this.dataService.saveCSV(table, 'users');
+  }
 }

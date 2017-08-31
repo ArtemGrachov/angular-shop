@@ -18,12 +18,12 @@
           <td>{{product.price}}</td>
           <td>{{product.providerName}}</td>
           <td>{{product.count}}</td>
-          <td>{{product.date | date:'mediumDate'}}</td>
+          <td>{{product.date | date:'short'}}</td>
         </tr>
       </tbody>
     </table>
     <div class="btn-group">
-      <a (click)="export(table)" class="btn btn-primary">Export to CSV file</a>
+      <a (click)="toCSV(table)" class="btn btn-primary">Export to CSV file</a>
     </div>
   </div>
 </div>

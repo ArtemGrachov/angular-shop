@@ -11,7 +11,7 @@ import { Product } from '../../shared/models/product.model';
 })
 export class ProductsCartComponent implements OnInit {
   constructor(
-    private productsService: ProductsService,
+    public productsService: ProductsService,
     private authService: AuthService
   ) { }
   public discount: boolean;

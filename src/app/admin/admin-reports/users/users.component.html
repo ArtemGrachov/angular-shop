@@ -1,7 +1,7 @@
 <div class="preloader" *ngIf="preloader" appPreloader></div>
 <div class="row">
   <div class="col-xs-12">
-    <table class="table table-hover table-responsive">
+    <table class="table table-hover table-responsive" #table>
       <thead>
         <tr>
           <!-- ID takes too much place! -->
@@ -43,10 +43,10 @@
             {{user.email}}
           </td>
           <td>
-            {{user.regDate | date: 'medium'}}
+            {{user.regDate | date: 'short'}}
           </td>
           <td>
-            {{user.birthdate | date: 'mediumDate'}}
+            {{user.birthdate | date: 'shortDate'}}
           </td>
           <td>
             {{user.phone}}
@@ -54,5 +54,8 @@
         </tr>
       </tbody>
     </table>
+    <div class="btn-group">
+      <a (click)="toCSV(table)" class="btn btn-primary">Export to CSV file</a>
+    </div>
   </div>
 </div>

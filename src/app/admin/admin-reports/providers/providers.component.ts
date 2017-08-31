@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProvidersService } from '../../../providers/providers.service';
 import { ProductsService } from '../../../products/products.service';
 
+import { DataService } from '../../../shared/data.service';
+
 import { Provider } from '../../../shared/models/provider.model';
 
 @Component({
@@ -12,7 +14,8 @@ import { Provider } from '../../../shared/models/provider.model';
 export class ProvidersComponent implements OnInit {
   constructor(
     private productsService: ProductsService,
-    private providersService: ProvidersService
+    private providersService: ProvidersService,
+    private dataService: DataService
   ) { }
   public preloader: string[] = ['providers', 'products'];
   public providers: Provider[] = [];
@@ -38,4 +41,7 @@ export class ProvidersComponent implements OnInit {
     );
   }
 
+  toCSV(table) {
+    this.dataService.saveCSV(table, 'providers');
+  }
 }

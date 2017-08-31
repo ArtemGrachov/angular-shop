@@ -92,4 +92,22 @@ export class DataService {
         );
         return obs;
     }
+
+    saveCSV(table: any, filename: string) {
+        const csv = Array.prototype.slice.call(table.querySelectorAll('tr')).map(
+            row => {
+                return Array.prototype.slice.call(row.querySelectorAll('td, th')).map(
+                    col => col.innerHTML.trim().replace(',', '')
+                ).join(';').replace(/\n/g, '');
+            }
+        ).join('\n');
+        const csvFile = new Blob([csv], { type: 'text/csv' }),
+            downloadLink = document.createElement('a');
+        downloadLink.download = `${filename}.csv`;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
 }

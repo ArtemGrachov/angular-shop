@@ -1,39 +1,26 @@
 <div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
 <div class="row">
   <div class="col-xs-12">
-    <table class="table table-hover">
+    <table class="table table-hover" #table>
       <thead>
         <tr>
-          <th>
-            ID
-          </th>
-          <th>
-            Name
-          </th>
-          <th>
-            Rating
-          </th>
-          <th>
-            Product count
-          </th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Rating</th>
+          <th>Product count</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let provider of providers" [routerLink]="['/providers', provider.id]" class="pointer">
-          <td>
-            {{provider.id}}
-          </td>
-          <td>
-            {{provider.name}}
-          </td>
-          <td>
-            {{provider.rating}}
-          </td>
-          <td>
-            {{provider.productsCount}}
-          </td>
+          <td>{{provider.id}}</td>
+          <td>{{provider.name}}</td>
+          <td>{{provider.rating}}</td>
+          <td>{{provider.productsCount}}</td>
         </tr>
       </tbody>
     </table>
+    <div class="btn-group">
+      <a (click)="toCSV(table)" class="btn btn-primary">Export to CSV file</a>
+    </div>
   </div>
 </div>

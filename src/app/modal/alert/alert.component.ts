@@ -8,7 +8,7 @@ import { AppComponent } from '../../app.component';
 })
 export class AlertComponent implements OnInit {
     constructor() { }
-    private alerts: { message: string, type: string }[] = [];
+    public alerts: { message: string, type: string }[] = [];
 
     ngOnInit() {
         AppComponent.modalEmit.subscribe(
