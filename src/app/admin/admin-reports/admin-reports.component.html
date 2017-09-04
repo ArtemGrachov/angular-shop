@@ -21,8 +21,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row  of tbl.slice(1, tbl.length)" class="pointer" [routerLink]="['/products', row[0]]">
-          <td *ngFor="let cell of row">{{cell}}</td>
+        <tr *ngFor="let row  of tbl.slice(1, tbl.length)">
+          <td *ngFor="let cell of row">
+            <ng-template [ngIf]="cell?.join">
+              <ul class="list-unstyled">
+                <li *ngFor="let el of cell">{{el}}</li>
+              </ul>
+            </ng-template>
+            <ng-template [ngIf]="!cell?.join">{{cell}}</ng-template>
+          </td>
         </tr>
       </tbody>
     </table>

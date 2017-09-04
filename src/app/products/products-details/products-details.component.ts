@@ -85,10 +85,6 @@ export class ProductsDetailsComponent implements OnInit {
     );
   }
 
-  goToPrevPage() {
-    this.location.back();
-  }
-
   delete() {
     this.productsService.deleteProduct(this.productId).subscribe(
       () => this.router.navigate(['products'])

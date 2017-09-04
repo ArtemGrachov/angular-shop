@@ -96,7 +96,13 @@ export class DataService {
     saveCSV(table: any[], filename: string) {
         const date = new Date;
         const csv = table.map(
-            row => row.join(',')
+            row => row.map(cell => {
+                console.log(typeof (cell));
+                if (typeof (cell) === 'object') {
+                    return cell.join(' ');
+                }
+                return cell;
+            }).join(',')
         ).join('\n');
         const csvFile = new Blob([csv], { type: 'text/csv' }),
             downloadLink = document.createElement('a');

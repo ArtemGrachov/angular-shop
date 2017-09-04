@@ -48,6 +48,7 @@ import { SupportWindowComponent } from './support/support-window/support-window.
     AlertComponent,
     SupportWindowComponent
   ],
+  exports: [SharedModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

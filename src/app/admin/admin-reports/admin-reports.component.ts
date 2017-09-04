@@ -144,8 +144,8 @@ export class AdminReportsComponent {
                                     tableRow.push(user.name);
                                 }
                                 tableRow.push(order.products.map(
-                                    product => `${product.name} (${product.provider}) / $${product.price}`
-                                ).join(' | '));
+                                    product => `${product.name} (${product.provider} / $${product.price})`
+                                ));
                                 tableRow.push(order.deliveryPrice);
                                 tableRow.push(order.discount);
                                 tableRow.push((this.getOrderPrice(order) + order.deliveryPrice).toFixed(2));
@@ -168,7 +168,7 @@ export class AdminReportsComponent {
     formatDate(dateStr: string, time: boolean) {
         if (dateStr) {
             const date = new Date(dateStr);
-            let formatted = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+            let formatted = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
             if (time) {
                 formatted = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${formatted}`;
             }

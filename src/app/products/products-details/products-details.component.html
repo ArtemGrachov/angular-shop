@@ -1,8 +1,6 @@
 <div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
 <div class="row" *ngIf="product">
   <div class="col-sm-5">
-    <button class="btn btn-default btn-block btn-xs" (click)="goToPrevPage()"><span class="glyphicon glyphicon-arrow-up"></span> Back</button>
-    <hr>
     <div class="panel panel-default">
       <div class="panel-heading">
         <span class="badge">{{product.name}}</span>
