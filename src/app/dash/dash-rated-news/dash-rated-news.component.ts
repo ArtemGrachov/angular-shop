@@ -18,7 +18,7 @@ export class DashRatedNewsComponent implements OnInit {
   ) { }
 
   public news: News[] = [];
-  public preloader: string[] = ['user', 'news'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.authService.loadCurrentUser().subscribe(
@@ -29,20 +29,15 @@ export class DashRatedNewsComponent implements OnInit {
               post => {
                 this.news.push(post);
                 this.usersService.loadUser(post.authorId).subscribe(
-                  user => {
-                    post.authorName = user.name;
-                    this.preloader = this.preloader.filter(str => str !== 'news');
-                  }
+                  user => post.authorName = user.name
                 );
               }
             );
           }
-        } else {
-          this.preloader = this.preloader.filter(str => str !== 'news');
         }
       },
       err => { },
-      () => this.preloader = this.preloader.filter(str => str !== 'user')
+      () => this.preloader = false
     );
   }
 

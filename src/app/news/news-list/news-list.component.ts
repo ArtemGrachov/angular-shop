@@ -20,17 +20,13 @@ export class NewsListComponent implements OnInit {
   ) { }
 
   public newsList: News[] = [];
-  public addAccess = this.authService.checkUserCategory(['admin', 'provider']).map(
-    res => {
-      this.preloader = this.preloader.filter(str => str !== 'access');
-      return res;
-    }
-  );
-  public preloader: string[] = ['access', 'news', 'names'];
+  public addAccess = this.authService.checkUserCategory(['admin', 'provider']);
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.newsService.loadNews().subscribe(
       res => {
+        this.preloader = false;
         this.newsList = res.sort(
           function (a, b) {
             if (a.date < b.date) {
@@ -44,18 +40,10 @@ export class NewsListComponent implements OnInit {
         );
         this.newsList.forEach(
           (post, index) => {
-            this.usersService.loadUser(post.authorId).subscribe(
-              user => {
-                post.authorName = user.name;
-              },
-              err => { },
-              () => this.preloader = this.preloader.filter(str => str !== 'names')
-            );
+            this.usersService.loadUser(post.authorId).subscribe(user => post.authorName = user.name);
           }
         );
-      },
-      err => { },
-      () => this.preloader = this.preloader.filter(str => str !== 'news')
+      }
     );
   }
 }

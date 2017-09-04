@@ -17,7 +17,7 @@ export class ProvidersListComponent implements OnInit {
 
   public providers: Provider[] = [];
   public isAdmin = this.authService.checkUserCategory(['admin']);
-  public preloader: string[] = ['providers'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.loadProviders();
@@ -30,9 +30,8 @@ export class ProvidersListComponent implements OnInit {
     this.providersService.loadProviders().subscribe(
       res => {
         this.providers = res;
-      },
-      err => { },
-      () => this.preloader = this.preloader.filter(str => str !== 'providers')
+        this.preloader = false;
+      }
     );
   }
 }

@@ -18,7 +18,7 @@ export class AdminCommentsComponent implements OnInit {
   ) { }
 
   public comments: Comment[];
-  public preloader: string[] = ['comments', 'usernames', 'newstitles'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.loadComments();
@@ -28,27 +28,19 @@ export class AdminCommentsComponent implements OnInit {
     this.commentsService.loadAllComments().subscribe(
       comments => {
         this.comments = comments;
-        if (comments.length === 0) {
-          this.preloader = [];
-        }
         this.comments.forEach(
           comment => {
             this.usersService.loadUser(comment.authorId).subscribe(
-              user => {
-                this.preloader = this.preloader.filter(str => str !== 'usernames');
-                comment.authorName = user.name;
-              }
+              user => comment.authorName = user.name
             );
             this.newsService.loadPost(comment.postId).subscribe(
-              post => {
-                comment.postTitle = post.title;
-                this.preloader = this.preloader.filter(str => str !== 'newstitles');
-              }
+              post => comment.postTitle = post.title
             );
           }
         );
-        this.preloader = this.preloader.filter(str => str !== 'comments');
-      }
+      },
+      err => { },
+      () => this.preloader = false
     );
   }
 

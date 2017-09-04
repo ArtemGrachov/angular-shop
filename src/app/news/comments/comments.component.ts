@@ -25,7 +25,6 @@ export class CommentsComponent implements OnInit {
   public commentForm: FormGroup;
   public auth = this.authService.getAuth();
   public isAdmin: boolean = false;
-  public preloader: string[] = ['auth', 'comments', 'names'];
 
   ngOnInit() {
     this.loadComments();
@@ -34,10 +33,7 @@ export class CommentsComponent implements OnInit {
     });
 
     this.authService.checkUserCategory(['admin']).subscribe(
-      (res: boolean) => {
-        this.preloader = this.preloader.filter(str => str !== 'auth');
-        this.isAdmin = res;
-      }
+      (res: boolean) => this.isAdmin = res
     );
   }
 
@@ -45,19 +41,10 @@ export class CommentsComponent implements OnInit {
     this.commentsService.loadPostComments(this.postId).subscribe(
       res => {
         this.comments = res;
-        this.preloader = this.preloader.filter(str => str !== 'comments');
-        if (this.comments.length < 1) {
-          this.preloader = this.preloader.filter(str => str !== 'names');
-        }
         this.comments.forEach(
           (comment, index) => {
             this.usersService.loadUser(comment.authorId).subscribe(
-              user => {
-                comment.authorName = user.name;
-                if (index === this.comments.length - 1) {
-                  this.preloader = this.preloader.filter(str => str !== 'names');
-                }
-              }
+              user => comment.authorName = user.name
             );
           }
         );

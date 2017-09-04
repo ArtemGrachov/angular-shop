@@ -16,7 +16,7 @@ export class DashRatedProductsComponent implements OnInit {
   ) { }
 
   public products: Product[] = [];
-  public preloader: string[] = ['user', 'products'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.authService.loadCurrentUser().subscribe(
@@ -24,18 +24,13 @@ export class DashRatedProductsComponent implements OnInit {
         if (res.ratedProducts) {
           for (let id of res.ratedProducts) {
             this.productsService.loadProduct(id).subscribe(
-              product => {
-                this.products.push(product);
-                this.preloader = this.preloader.filter(str => str !== 'products');
-              }
+              product => this.products.push(product)
             );
           }
-        } else {
-          this.preloader = this.preloader.filter(str => str !== 'products');
         }
       },
       err => { },
-      () => this.preloader = this.preloader.filter(str => str !== 'user')
+      () => this.preloader = false
     );
   }
 }

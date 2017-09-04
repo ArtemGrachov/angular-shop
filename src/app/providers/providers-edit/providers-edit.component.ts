@@ -25,7 +25,7 @@ export class ProvidersEditComponent implements OnInit {
   public editMode: Boolean = false;
   public providerForm: FormGroup;
   public users: { id: string, name: string }[];
-  public preloader: string[] = ['provider'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -56,7 +56,7 @@ export class ProvidersEditComponent implements OnInit {
 
   submit() {
     if (this.editMode) {
-      let provider = this.providerForm.value;
+      const provider = this.providerForm.value;
       provider.id = this.providerId;
       this.providersService.updateProvider(provider).subscribe(
         () => this.router.navigate(['../'], { relativeTo: this.route })
@@ -69,7 +69,7 @@ export class ProvidersEditComponent implements OnInit {
   }
 
   buildProviderForm() {
-    this.preloader = this.preloader.filter(str => str !== 'provider');
+    this.preloader = false;
     this.providerForm = this.fb.group({
       'name': [this.provider.name, Validators.required],
       'logoUrl': [this.provider.logoUrl, Validators.required],

@@ -1,4 +1,4 @@
-<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
+<div class="preloader" *ngIf="preloader" appPreloader></div>
 <div *ngIf="addAccess | async">
   <a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add product</a>
   <hr>

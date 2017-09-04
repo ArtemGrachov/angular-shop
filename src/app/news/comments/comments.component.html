@@ -1,4 +1,3 @@
-<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
 <button type="button" class="btn btn-primary btn-xs" (click)="toggleNewComentForm()" *ngIf="auth | async"><span class="glyphicon glyphicon-comment"></span> Write a comment</button>
 <hr>
 <form *ngIf="commentFormActive && auth | async" (ngSubmit)="sendComment()" [formGroup]="commentForm">

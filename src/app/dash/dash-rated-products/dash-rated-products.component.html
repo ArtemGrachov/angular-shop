@@ -1,4 +1,4 @@
-<div class="preloader" *ngIf="preloader.length > 0" appPreloader></div>
+<div class="preloader" *ngIf="preloader" appPreloader></div>
 <ul class="list-group">
   <a class="list-group-item" *ngFor="let product of products" [routerLink]="['/products', product.id]">
     <img [src]="product.imgUrl" [alt]="product.name" style="max-height: 64px;">

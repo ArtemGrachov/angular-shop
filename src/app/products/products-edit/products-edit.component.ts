@@ -35,7 +35,7 @@ export class ProductsEditComponent implements OnInit {
   public providersList: { id: string, name: string }[] = [];
   public productForm: FormGroup;
   public editMode: boolean = false;
-  public preloader: string[] = ['product', 'providers'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -64,9 +64,7 @@ export class ProductsEditComponent implements OnInit {
                 return { id: provider.id, name: provider.name };
               }
             );
-          },
-          err => { },
-          () => this.preloader = this.preloader.filter(str => str !== 'providers')
+          }
         );
       }
     );
@@ -82,7 +80,7 @@ export class ProductsEditComponent implements OnInit {
   }
 
   buildProductForm() {
-    this.preloader = this.preloader.filter(str => str !== 'product');
+    this.preloader = false;
     this.productForm = this.fb.group({
       'name': [
         this.product.name,

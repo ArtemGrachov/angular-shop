@@ -16,28 +16,23 @@ export class AdminOrdersComponent implements OnInit {
     private usersService: UsersService
   ) { }
   public orders: Order[] = [];
-  public preloader: string[] = ['orders', 'usernames'];
+  public preloader: boolean = true;
 
 
   ngOnInit() {
     this.ordersService.loadOrders().subscribe(
       res => {
         this.orders = res;
-        if (res.length === 0) {
-          this.preloader = [];
-        }
         this.orders.forEach(
           order => {
             this.usersService.loadUser(order.userId).subscribe(
-              (user: any) => {
-                order.username = user.name;
-                this.preloader = this.preloader.filter(str => str !== 'usernames');
-              }
+              (user: any) => order.username = user.name
             );
-            this.preloader = this.preloader.filter(str => str !== 'orders');
           }
         );
-      }
+      },
+      err => { },
+      () => this.preloader = false
     );
   }
 

@@ -14,7 +14,7 @@ export class ProvidersRatingComponent implements OnInit {
     ) { }
 
     public providers: Provider[] = [];
-    public preloader: string[] = ['providers'];
+    public preloader: boolean = true;
 
     ngOnInit() {
         this.loadProviders();
@@ -26,7 +26,7 @@ export class ProvidersRatingComponent implements OnInit {
                 this.providers = res;
             },
             err => { },
-            () => this.preloader = this.preloader.filter(str => str !== 'providers')
+            () => this.preloader = false
         );
     }
 }

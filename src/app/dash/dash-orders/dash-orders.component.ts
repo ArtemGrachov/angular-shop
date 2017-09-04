@@ -16,7 +16,7 @@ export class DashOrdersComponent implements OnInit {
   ) { }
 
   public orders: Order[] = [];
-  public preloader: string[] = ['user', 'orders'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.getUsersOrder();
@@ -28,13 +28,11 @@ export class DashOrdersComponent implements OnInit {
         this.ordersService.getOrdersByUser(user.id).subscribe(
           res => {
             this.orders = res;
-          },
-          err => { },
-          () => this.preloader = this.preloader.filter(str => str !== 'orders')
+          }
         );
       },
       err => { },
-      () => this.preloader = this.preloader.filter(str => str !== 'user')
+      () => this.preloader = false
     );
   }
 

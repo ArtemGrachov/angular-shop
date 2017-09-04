@@ -20,7 +20,7 @@ export class HomeMainComponent implements OnInit {
 
   public products: Product[] = [];
   public newsList: News[] = [];
-  public preloader: string[] = ['products', 'news'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.loadProducts();
@@ -31,25 +31,20 @@ export class HomeMainComponent implements OnInit {
     this.productsService.getLatest(4).subscribe(
       res => {
         this.products = res;
-        this.preloader = this.preloader.filter(str => str !== 'products');
-      }
+      },
+      err => { },
+      () => this.preloader = false
     );
   }
 
   loadNews() {
     this.newsService.getLatest(4).subscribe(
       news => {
-        if (news.length === 0) {
-          this.preloader = this.preloader.filter(str => str !== 'news');
-        }
         this.newsList = news;
         this.newsList.forEach(
           post => {
             this.usersService.loadUser(post.authorId).subscribe(
-              user => {
-                post.authorName = user.name;
-                this.preloader = this.preloader.filter(str => str !== 'news');
-              }
+              user => post.authorName = user.name
             );
           }
         );

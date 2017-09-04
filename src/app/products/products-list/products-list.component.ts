@@ -17,14 +17,9 @@ export class ProductsListComponent implements OnInit {
     private providersService: ProvidersService
   ) { }
   public products: Product[] = [];
-  public addAccess = this.authService.checkUserCategory(['admin', 'provider']).map(
-    res => {
-      this.preloader = this.preloader.filter(str => str !== 'access');
-      return res;
-    }
-  );
+  public addAccess = this.authService.checkUserCategory(['admin', 'provider']);
   public filter = { sort: 'rating', reverse: true, search: '' };
-  public preloader: string[] = ['access', 'products'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.loadProducts();
@@ -38,10 +33,9 @@ export class ProductsListComponent implements OnInit {
   loadProducts() {
     this.productsService.loadProducts().subscribe(
       res => {
+        this.preloader = false;
         this.products = res;
-      },
-      err => { },
-      () => this.preloader = this.preloader.filter(str => str !== 'products')
+      }
     );
   }
 }

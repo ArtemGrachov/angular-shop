@@ -26,7 +26,7 @@ export class DashProfileComponent implements OnInit {
   public user: any;
   public profileForm: FormGroup;
   public clientMarkerUrl: string = 'assets/img/client.png';
-  public preloader: string[] = ['user'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.loadProfile();
@@ -53,7 +53,7 @@ export class DashProfileComponent implements OnInit {
   }
 
   buildProfileForm() {
-    this.preloader = this.preloader.filter(str => str !== 'user');
+    this.preloader = false;
     this.profileForm = this.fb.group({
       'name': [this.user.name, Validators.required],
       'email': [this.user.email, [Validators.required, Validators.email]],

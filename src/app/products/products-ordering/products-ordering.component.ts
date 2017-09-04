@@ -77,20 +77,18 @@ export class ProductsOrderingComponent implements OnInit {
     display: false
   };
 
-  public preloader: string[] = ['map', 'auth'];
+  public preloader: boolean = true;
 
   ngOnInit() {
     this.cart = this.productsService.getCart();
     this.authService.getAuth().subscribe(
-      auth => {
-        this.preloader = this.preloader.filter(str => str !== 'auth');
-        this.cart = this.productsService.getCart();
-      }
+      auth => this.cart = this.productsService.getCart()
     );
     this.buildForm();
   }
 
   buildForm() {
+    this.preloader = false;
     this.authService.loadCurrentUser().subscribe(
       (user: any) => {
         if (user) {
@@ -121,7 +119,6 @@ export class ProductsOrderingComponent implements OnInit {
           this.calcDirection();
         }
         this.setNearestShop();
-        this.preloader = this.preloader.filter(str => str !== 'map');
       }
     );
   }
