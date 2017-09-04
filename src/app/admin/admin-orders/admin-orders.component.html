@@ -3,7 +3,7 @@
   <div class="panel-heading">Orders</div>
   <div class="panel-body">
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let order of orders">
+      <li class="list-group-item" *ngFor="let order of orders | sortPipe: 'date' : true">
         <h4>{{order.date | date:'medium'}}</h4>
         <div class="well pointer" [routerLink]="['../users', order.userId]">
           <span class="glyphicon glyphicon-user"></span> {{order.username}}

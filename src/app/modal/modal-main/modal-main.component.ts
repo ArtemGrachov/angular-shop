@@ -24,12 +24,11 @@ export class ModalMainComponent implements OnInit {
 
     ngOnInit() {
         let modalHolder,
-            alertHolder,
-            preloaderHolder;
+            alertHolder;
         AppComponent.modalEmit.subscribe(
             res => {
                 if (res.create) {
-                    modalHolder = this.modal.createComponent(this.confComponent);
+                    modalHolder = this.createComponent(ConfirmationComponent);
                     modalHolder.instance.config = res.create;
                 }
                 if (res.close) {
@@ -37,7 +36,7 @@ export class ModalMainComponent implements OnInit {
                 }
                 if (res.alert) {
                     if (!alertHolder && res.alert.add) {
-                        alertHolder = this.modal.createComponent(this.alertComponent);
+                        alertHolder = this.createComponent(AlertComponent);
                         alertHolder.instance.alerts = [];
                         alertHolder.instance.alerts.push(res.alert.add);
                     }
@@ -55,7 +54,12 @@ export class ModalMainComponent implements OnInit {
             this.suppWindow.destroy();
             this.suppWindow = undefined;
         } else {
-            this.suppWindow = this.modal.createComponent(this.suppComponent);
+            this.suppWindow = this.createComponent(SupportWindowComponent);
         }
     }
+
+    createComponent(component: any): any {
+        return this.modal.createComponent(this.componentFactoryResolver.resolveComponentFactory(component));
+    }
+
 }
