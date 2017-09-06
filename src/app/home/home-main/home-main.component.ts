@@ -7,6 +7,8 @@ import { UsersService } from '../../admin/users.service';
 import { Product } from '../../shared/models/product.model';
 import { News } from '../../shared/models/news.model';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-home-main',
   templateUrl: './home-main.component.html'
@@ -23,8 +25,9 @@ export class HomeMainComponent implements OnInit {
   public preloader: boolean = true;
 
   ngOnInit() {
-    this.loadProducts();
-    this.loadNews();
+    // this.loadProducts();
+    // this.loadNews();
+    this.loadData();
   }
 
   loadProducts() {
@@ -33,7 +36,7 @@ export class HomeMainComponent implements OnInit {
         this.products = res;
       },
       err => { },
-      () => this.preloader = false
+      () => this.preloader = true
     );
   }
 
@@ -50,5 +53,29 @@ export class HomeMainComponent implements OnInit {
         );
       }
     );
+  }
+
+  loadData() {
+    Observable.forkJoin(
+      this.productsService.getLatest(4),
+      this.newsService.getLatest(4)
+    ).subscribe(
+      res => {
+        this.products = res[0];
+        this.newsList = res[1];
+        if (this.newsList.length === 0) {
+          this.preloader = false;
+        }
+        res[1].forEach(
+          post => {
+            this.usersService.loadUser(post.authorId).subscribe(
+              user => {
+                post.authorName = user.name;
+                this.preloader = false;
+              }
+            );
+          }
+        );
+      });
   }
 }

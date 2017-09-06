@@ -1,9 +1,21 @@
-import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, OnInit, EventEmitter } from '@angular/core';
+import {
+    Component,
+    ViewChild,
+    ViewContainerRef,
+    ComponentFactoryResolver,
+    OnInit,
+    Inject
+} from '@angular/core';
 import { AppComponent } from '../../app.component';
 
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { SupportWindowComponent } from '../../support/support-window/support-window.component';
 import { AlertComponent } from '../alert/alert.component';
+
+import { AlertsStore } from '../../data/stores/alerts.store';
+import * as AlertActions from '../../data/actions/alerts.actions';
+import * as Redux from 'redux';
+import { Alert } from '../../shared/models/alert.model';
 
 @Component({
     selector: 'app-modal-main',
@@ -12,14 +24,13 @@ import { AlertComponent } from '../alert/alert.component';
 })
 export class ModalMainComponent implements OnInit {
     constructor(
-        private componentFactoryResolver: ComponentFactoryResolver
-    ) { }
+        private componentFactoryResolver: ComponentFactoryResolver,
+        @Inject(AlertsStore) private alertsStore: Redux.Store<Alert>
+    ) {
+    }
     @ViewChild('modal', { read: ViewContainerRef })
     modal: ViewContainerRef;
 
-    private confComponent = this.componentFactoryResolver.resolveComponentFactory(ConfirmationComponent);
-    private suppComponent = this.componentFactoryResolver.resolveComponentFactory(SupportWindowComponent);
-    private alertComponent = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
     private suppWindow;
 
     ngOnInit() {
@@ -34,16 +45,17 @@ export class ModalMainComponent implements OnInit {
                 if (res.close) {
                     modalHolder.destroy();
                 }
-                if (res.alert) {
-                    if (!alertHolder && res.alert.add) {
-                        alertHolder = this.createComponent(AlertComponent);
-                        alertHolder.instance.alerts = [];
-                        alertHolder.instance.alerts.push(res.alert.add);
-                    }
-                    if (res.alert.destroy) {
-                        alertHolder.destroy();
-                        alertHolder = undefined;
-                    }
+            }
+        );
+
+        this.alertsStore.subscribe(
+            () => {
+                if (!alertHolder) {
+                    alertHolder = this.createComponent(AlertComponent);
+                }
+                if (!this.alertsStore.getState()) {
+                    alertHolder.destroy();
+                    alertHolder = undefined;
                 }
             }
         );

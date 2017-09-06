@@ -18,6 +18,8 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 
+import { alertsStoreProviders } from './data/stores/alerts.store';
+
 import { ConfirmationComponent } from './modal/confirmation/confirmation.component';
 import { AlertComponent } from './modal/alert/alert.component';
 import { SupportWindowComponent } from './support/support-window/support-window.component';
@@ -42,7 +44,7 @@ import { SupportWindowComponent } from './support/support-window/support-window.
     SharedModule,
     HttpModule
   ],
-  providers: [],
+  providers: [alertsStoreProviders],
   entryComponents: [
     ConfirmationComponent,
     AlertComponent,

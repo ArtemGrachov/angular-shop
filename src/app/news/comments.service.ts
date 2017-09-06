@@ -1,8 +1,13 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { DataService } from '../shared/data.service';
+
+import * as Redux from 'redux';
+import { AlertsStore } from '../data/stores/alerts.store';
+import * as AlertActions from '../data/actions/alerts.actions';
+import { Alert } from '../shared/models/alert.model';
 
 import { AppComponent } from '../app.component';
 
@@ -12,7 +17,8 @@ import { Comment } from '../shared/models/comment.model';
 export class CommentsService {
     constructor(
         private http: Http,
-        private dataService: DataService
+        private dataService: DataService,
+        @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) { }
     comments: Comment[] = [];
 
@@ -33,13 +39,15 @@ export class CommentsService {
     addComment(newComment: Comment) {
         newComment.id = (new Date).getTime().toString();
         return this.dataService.putData('comments', newComment).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Comment added', type: 'success' } } })
+            // () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Comment added', type: 'success' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Comment added', 'success')))
         );
     }
 
     deleteComment(id: string) {
         return this.dataService.deleteData(`comments/${id}`, true).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Comment deleted', type: 'warning' } } })
+            // () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Comment deleted', type: 'warning' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Comment deleted', 'warning')))
         );
     }
 
