@@ -1,11 +1,14 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import 'rxjs/Rx';
 
 import { DataService } from '../shared/data.service';
 import { AuthService } from '../auth/auth.service';
 import { UsersService } from '../admin/users.service';
 
-import { AppComponent } from '../app.component';
+import * as Redux from 'redux';
+import { AlertsStore } from '../data/stores/alerts.store';
+import * as AlertActions from '../data/actions/alerts.actions';
+import { Alert } from '../shared/models/alert.model';
 
 import { Product } from '../shared/models/product.model';
 
@@ -16,7 +19,8 @@ export class ProductsService {
     constructor(
         private dataService: DataService,
         private authService: AuthService,
-        private usersService: UsersService
+        private usersService: UsersService,
+        @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) { }
 
     private products: Product[] = [];
@@ -91,19 +95,19 @@ export class ProductsService {
     addProduct(newProduct: Product) {
         newProduct.id = (new Date).getTime().toString();
         return this.dataService.putData('products', newProduct).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Product added', type: 'success' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Product added', 'success')))
         );
     }
 
     updateProduct(updatedProduct: Product) {
         return this.dataService.putData('products', updatedProduct).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Product updated', type: 'info' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Product updated', 'info')))
         );
     }
 
     deleteProduct(id: string) {
         return this.dataService.deleteData('products/' + id, true).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Product deleted', type: 'danger' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Product deleted', 'danger')))
         );
     }
 
@@ -177,17 +181,19 @@ export class ProductsService {
     loadCart() {
         const idList = JSON.parse(localStorage.getItem('cart'));
         if (idList) {
-            let updatedList = [];
-            for (let id of idList) {
-                this.loadProduct(id).subscribe(
-                    res => {
-                        updatedList.push(res);
-                        if (updatedList.length === idList.length) {
-                            this.calcPrice();
+            const updatedList = [];
+            idList.forEach(
+                id => {
+                    this.loadProduct(id).subscribe(
+                        res => {
+                            updatedList.push(res);
+                            if (updatedList.length === idList.length) {
+                                this.calcPrice();
+                            }
                         }
-                    }
-                );
-            }
+                    );
+                }
+            );
             this.cart.list = updatedList;
             return JSON.parse(localStorage.getItem('cart'));
         }
@@ -197,7 +203,7 @@ export class ProductsService {
         localStorage.removeItem('cart');
         this.cart.list = [];
         this.calcPrice();
-        AppComponent.modalEmit.emit({ alert: { add: { message: 'Product cart cleared', type: 'warning' } } });
+        this.alertStore.dispatch(AlertActions.addAlert(new Alert('Product cart cleared', 'warning')));
     }
 
     clearCartOrder() {

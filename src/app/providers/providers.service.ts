@@ -1,9 +1,12 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
 import { UsersService } from '../admin/users.service';
 
-import { AppComponent } from '../app.component';
+import * as Redux from 'redux';
+import { AlertsStore } from '../data/stores/alerts.store';
+import * as AlertActions from '../data/actions/alerts.actions';
+import { Alert } from '../shared/models/alert.model';
 
 import { Provider } from '../shared/models/provider.model';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +15,8 @@ import { Observable } from 'rxjs/Observable';
 export class ProvidersService {
     constructor(
         private usersService: UsersService,
-        private dataService: DataService
+        private dataService: DataService,
+        @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) { }
 
     private providers: Provider[] = [];
@@ -31,7 +35,7 @@ export class ProvidersService {
         return this.dataService.putData('providers', newProvider).map(
             () => {
                 this.emit.emit();
-                AppComponent.modalEmit.emit({ alert: { add: { message: 'Provider added', type: 'success' } } });
+                this.alertStore.dispatch(AlertActions.addAlert(new Alert('Provider added', 'success')));
             }
         );
     }
@@ -40,7 +44,7 @@ export class ProvidersService {
         return this.dataService.putData('providers', updatedProvider).map(
             () => {
                 this.emit.emit();
-                AppComponent.modalEmit.emit({ alert: { add: { message: 'Provider updated', type: 'info' } } });
+                this.alertStore.dispatch(AlertActions.addAlert(new Alert('Provider updated', 'info')));
             }
         );
     }
@@ -49,7 +53,7 @@ export class ProvidersService {
         return this.dataService.deleteData('providers/' + id, true).map(
             () => {
                 this.emit.emit();
-                AppComponent.modalEmit.emit({ alert: { add: { message: 'Provider deleted', type: 'warning' } } });
+                this.alertStore.dispatch(AlertActions.addAlert(new Alert('Provider deleted', 'danger')));
             }
         );
     }

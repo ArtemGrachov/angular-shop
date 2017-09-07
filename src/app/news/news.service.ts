@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
 import { UsersService } from '../admin/users.service';
 
-import { AppComponent } from '../app.component';
+import * as Redux from 'redux';
+import { AlertsStore } from '../data/stores/alerts.store';
+import * as AlertActions from '../data/actions/alerts.actions';
+import { Alert } from '../shared/models/alert.model';
 
 import { News } from '../shared/models/news.model';
 
@@ -13,7 +16,8 @@ import { Observable } from 'rxjs/Observable';
 export class NewsService {
     constructor(
         private dataService: DataService,
-        private usersService: UsersService
+        private usersService: UsersService,
+        @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) { }
 
     loadNews() {
@@ -52,19 +56,19 @@ export class NewsService {
     addPost(newPost: News) {
         newPost.id = (new Date).getTime().toString();
         return this.dataService.putData('news', newPost).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Post added', type: 'success' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Post added', 'success')))
         );
     }
 
     updatePost(updatedPost: News) {
         return this.dataService.putData('news', updatedPost).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Post updated', type: 'info' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Post updated', 'info')))
         );
     }
 
     deletePost(id: string) {
         return this.dataService.deleteData('news/' + id, true).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'Post deleted', type: 'warning' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Post deleted', 'warning')))
         );
     }
 

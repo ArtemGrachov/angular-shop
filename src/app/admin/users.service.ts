@@ -5,7 +5,10 @@ import { DataService } from '../shared/data.service';
 
 import { AuthService } from '../auth/auth.service';
 
-import { AppComponent } from '../app.component';
+import * as Redux from 'redux';
+import { AlertsStore } from '../data/stores/alerts.store';
+import * as AlertActions from '../data/actions/alerts.actions';
+import { Alert } from '../shared/models/alert.model';
 
 import { User } from '../shared/models/user.model';
 import { Observable } from 'rxjs/Observable';
@@ -15,7 +18,8 @@ export class UsersService {
     constructor(
         private dataService: DataService,
         private authService: AuthService,
-        private firebaseAuth: AngularFireAuth
+        private firebaseAuth: AngularFireAuth,
+        @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) { }
 
     categories: string[] = [
@@ -44,7 +48,7 @@ export class UsersService {
 
     updateUser(updatedUser) {
         return this.dataService.putData('users', updatedUser).map(
-            () => AppComponent.modalEmit.emit({ alert: { add: { message: 'User updated', type: 'info' } } })
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('User updated', 'info')))
         );
     }
 
@@ -90,7 +94,7 @@ export class UsersService {
     }
 
     rateItem(itemId: string, itemCat: string) {
-        let obs = new Observable(
+        return new Observable(
             observer => {
                 this.authService.loadCurrentUser().subscribe(
                     (user: any) => {
@@ -100,18 +104,17 @@ export class UsersService {
                         if (user[itemCat] && user[itemCat].indexOf(itemId) === -1) {
                             user[itemCat].push(itemId);
                             this.dataService.putObjValue(`users/${user.id}/${itemCat}`, user[itemCat]).subscribe();
-                            AppComponent.modalEmit.emit({ alert: { add: { message: 'Thanks for your opinion!', type: 'success' } } });
+                            this.alertStore.dispatch(AlertActions.addAlert(new Alert('Thanks for your opinion!', 'success')));
                             observer.next(true);
                             observer.complete();
                         } else {
                             observer.next(false);
-                            AppComponent.modalEmit.emit({ alert: { add: { message: 'You have already rate it', type: 'danger' } } });
+                            this.alertStore.dispatch(AlertActions.addAlert(new Alert('You have already rate it', 'danger')));
                             observer.complete();
                         }
                     }
                 );
             }
         );
-        return obs;
     }
 }

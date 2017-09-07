@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { DataService } from '../shared/data.service';
 
-import { AppComponent } from '../app.component';
+import * as Redux from 'redux';
+import { AlertsStore } from '../data/stores/alerts.store';
+import * as AlertActions from '../data/actions/alerts.actions';
+import { Alert } from '../shared/models/alert.model';
 
 import { User } from '../shared/models/user.model';
 
@@ -17,7 +20,8 @@ export class AuthService {
         private router: Router,
         private route: ActivatedRoute,
         private dataService: DataService,
-        private firebaseAuth: AngularFireAuth
+        private firebaseAuth: AngularFireAuth,
+        @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) {
         this.authState = firebaseAuth.authState;
         this.authState.subscribe(
@@ -74,7 +78,7 @@ export class AuthService {
                 this.onLogin();
             })
             .catch(
-            res => AppComponent.modalEmit.emit({ alert: { add: { message: res.message, type: 'danger' } } })
+            res => this.alertStore.dispatch(AlertActions.addAlert(new Alert(res.message, 'danger')))
             );
     }
 
@@ -86,7 +90,7 @@ export class AuthService {
                 this.onLogin();
             })
             .catch(
-            res => AppComponent.modalEmit.emit({ alert: { add: { message: res.message, type: 'danger' } } })
+            res => this.alertStore.dispatch(AlertActions.addAlert(new Alert(res.message, 'danger')))
             );
     }
 
@@ -98,7 +102,7 @@ export class AuthService {
                 this.onLogin();
             })
             .catch(
-            res => AppComponent.modalEmit.emit({ alert: { add: { message: res.message, type: 'danger' } } })
+            res => this.alertStore.dispatch(AlertActions.addAlert(new Alert(res.message, 'danger')))
             );
     }
 
@@ -128,7 +132,7 @@ export class AuthService {
             res => {
                 this.createUserData(newUser, res.uid);
             }).catch(
-            res => AppComponent.modalEmit.emit({ alert: { add: { message: res.message, type: 'danger' } } })
+            res => this.alertStore.dispatch(AlertActions.addAlert(new Alert(res.message, 'danger')))
             );
         return auth;
     }
@@ -137,7 +141,7 @@ export class AuthService {
         delete newUser.password;
         newUser.id = uid;
         newUser.category = 'user',
-            this.dataService.putData('users/', newUser).subscribe();
+            this.dataService.putDataUnAuth('users/', newUser).subscribe();
     }
 
     checkUserCategory(categories: string[]) {

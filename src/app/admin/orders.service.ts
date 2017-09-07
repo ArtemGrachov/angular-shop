@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
 import { ProductsService } from '../products/products.service';
 
-import { AppComponent } from '../app.component';
+import * as Redux from 'redux';
+import { AlertsStore } from '../data/stores/alerts.store';
+import * as AlertActions from '../data/actions/alerts.actions';
+import { Alert } from '../shared/models/alert.model';
 
 import { Order } from '../shared/models/order.model';
 
@@ -11,7 +14,8 @@ import { Order } from '../shared/models/order.model';
 export class OrdersService {
     constructor(
         private dataService: DataService,
-        private productService: ProductsService
+        private productService: ProductsService,
+        @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) { }
 
     orders: Order[] = [];
@@ -37,9 +41,7 @@ export class OrdersService {
     addOrder(newOrder: Order) {
         newOrder.id = (new Date).getTime().toString();
         return this.dataService.putDataUnAuth('orders', newOrder).map(
-            () => {
-                AppComponent.modalEmit.emit({ alert: { add: { message: 'Thank you for order!', type: 'success' } } });
-            }
+            () => this.alertStore.dispatch(AlertActions.addAlert(new Alert('Thank you for order!', 'success')))
         );
     }
 
