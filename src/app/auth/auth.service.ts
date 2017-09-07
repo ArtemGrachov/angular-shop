@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { DataService } from '../shared/data.service';
+import { InitLoad } from '../app.initload';
 
 import * as Redux from 'redux';
 import { AlertsStore } from '../data/stores/alerts.store';
@@ -21,54 +22,32 @@ export class AuthService {
         private route: ActivatedRoute,
         private dataService: DataService,
         private firebaseAuth: AngularFireAuth,
+        private initLoad: InitLoad,
         @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) {
+        this.currentUser = this.initLoad.getUser();
         this.authState = firebaseAuth.authState;
         this.authState.subscribe(
-            res => {
-                if (res) {
-                    this.currentUid = res.uid;
+            auth => {
+                if (auth) {
                     this.dataService.getToken();
+                    this.dataService.loadDataObj(`users/${auth.uid}`).subscribe(user => this.currentUser = user);
                 } else {
-                    this.currentUid = '';
+                    this.currentUser = undefined;
                 }
             }
         );
     }
 
     private authState: Observable<firebase.User>;
-    private currentUid: string = '';
+    private currentUser: any;
 
     getAuth() {
         return this.authState;
     }
 
-
-    getUid() {
-        return this.currentUid;
-    }
-
-    loadCurrentUser() {
-        let obs = new Observable(
-            observer => {
-                this.getAuth().subscribe(
-                    auth => {
-                        if (auth) {
-                            this.dataService.loadDataObj(`users/${auth.uid}`).subscribe(
-                                (res) => {
-                                    observer.next(res);
-                                    observer.complete();
-                                }
-                            );
-                        } else {
-                            observer.next(false);
-                            observer.complete();
-                        }
-                    }
-                );
-            }
-        );
-        return obs;
+    getCurrentUser() {
+        return this.currentUser;
     }
 
     login(email: string, password: string) {
@@ -149,15 +128,11 @@ export class AuthService {
             observer => {
                 this.getAuth().subscribe(
                     () => {
-                        this.loadCurrentUser().subscribe(
-                            (user: any) => {
-                                if (categories.indexOf(user.category) > -1) {
-                                    observer.next(true);
-                                } else {
-                                    observer.next(false);
-                                }
-                            }
-                        );
+                        if (categories.indexOf(this.currentUser.category) > -1) {
+                            observer.next(true);
+                        } else {
+                            observer.next(false);
+                        }
                     }
                 );
             }

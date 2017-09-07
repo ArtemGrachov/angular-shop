@@ -48,22 +48,18 @@ export class ProductsEditComponent implements OnInit {
         }
       }
     );
-    this.authService.loadCurrentUser().subscribe(
-      (user: any) => {
-        let sub: Observable<any>;
-
-        if (user.category === 'admin') {
-          sub = this.providersService.loadProviders();
-        } else {
-          sub = this.providersService.getProvidersByUserId(user.id);
-        }
-        sub.subscribe(
-          res => {
-            this.providersList = res.map(
-              provider => {
-                return { id: provider.id, name: provider.name };
-              }
-            );
+    const user = this.authService.getCurrentUser();
+    let sub: Observable<any>;
+    if (user.category === 'admin') {
+      sub = this.providersService.loadProviders();
+    } else {
+      sub = this.providersService.getProvidersByUserId(user.id);
+    }
+    sub.subscribe(
+      res => {
+        this.providersList = res.map(
+          provider => {
+            return { id: provider.id, name: provider.name };
           }
         );
       }

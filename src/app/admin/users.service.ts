@@ -96,24 +96,21 @@ export class UsersService {
     rateItem(itemId: string, itemCat: string) {
         return new Observable(
             observer => {
-                this.authService.loadCurrentUser().subscribe(
-                    (user: any) => {
-                        if (!user[itemCat]) {
-                            user[itemCat] = [];
-                        }
-                        if (user[itemCat] && user[itemCat].indexOf(itemId) === -1) {
-                            user[itemCat].push(itemId);
-                            this.dataService.putObjValue(`users/${user.id}/${itemCat}`, user[itemCat]).subscribe();
-                            this.alertStore.dispatch(AlertActions.addAlert(new Alert('Thanks for your opinion!', 'success')));
-                            observer.next(true);
-                            observer.complete();
-                        } else {
-                            observer.next(false);
-                            this.alertStore.dispatch(AlertActions.addAlert(new Alert('You have already rate it', 'danger')));
-                            observer.complete();
-                        }
-                    }
-                );
+                const user = this.authService.getCurrentUser();
+                if (!user[itemCat]) {
+                    user[itemCat] = [];
+                }
+                if (user[itemCat] && user[itemCat].indexOf(itemId) === -1) {
+                    user[itemCat].push(itemId);
+                    this.dataService.putObjValue(`users/${user.id}/${itemCat}`, user[itemCat]).subscribe();
+                    this.alertStore.dispatch(AlertActions.addAlert(new Alert('Thanks for your opinion!', 'success')));
+                    observer.next(true);
+                    observer.complete();
+                } else {
+                    observer.next(false);
+                    this.alertStore.dispatch(AlertActions.addAlert(new Alert('You have already rate it', 'danger')));
+                    observer.complete();
+                }
             }
         );
     }

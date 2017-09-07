@@ -33,14 +33,9 @@ export class DashProfileComponent implements OnInit {
   }
 
   loadProfile() {
-    this.authService.loadCurrentUser().subscribe(
-      res => {
-        this.user = res;
-        if (!this.profileForm) {
-          this.buildProfileForm();
-        }
-      }
-    );
+    const user = this.authService.getCurrentUser();
+    this.user = user;
+    if (!this.profileForm) { this.buildProfileForm(); }
   }
 
   toggleEditMode() {
@@ -71,7 +66,7 @@ export class DashProfileComponent implements OnInit {
   }
 
   submit() {
-    let updUser = this.profileForm.value;
+    const updUser = this.profileForm.value;
     updUser.id = this.user.id;
     updUser.regDate = this.user.regDate;
     updUser.ratedNews = this.user.ratedNews;

@@ -21,25 +21,21 @@ export class DashRatedNewsComponent implements OnInit {
   public preloader: boolean = true;
 
   ngOnInit() {
-    this.authService.loadCurrentUser().subscribe(
-      (res: any) => {
-        if (res.ratedNews) {
-          for (const id of res.ratedNews) {
-            this.newsService.loadPost(id).subscribe(
-              post => {
-                this.news.push(post);
-                this.usersService.loadUser(post.authorId).subscribe(
-                  user => post.authorName = user.name
-                );
+    const user = this.authService.getCurrentUser();
+    if (user.ratedNews) {
+      for (const id of user.ratedNews) {
+        this.newsService.loadPost(id).subscribe(
+          post => {
+            this.news.push(post);
+            this.usersService.loadUser(post.authorId).subscribe(
+              author => {
+                this.preloader = false;
+                post.authorName = author.name;
               }
             );
           }
-        }
-      },
-      err => { },
-      () => this.preloader = false
-    );
+        );
+      }
+    }
   }
-
-
 }

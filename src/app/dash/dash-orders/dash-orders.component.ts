@@ -23,16 +23,12 @@ export class DashOrdersComponent implements OnInit {
   }
 
   getUsersOrder() {
-    this.authService.loadCurrentUser().subscribe(
-      (user: any) => {
-        this.ordersService.getOrdersByUser(user.id).subscribe(
-          res => {
-            this.orders = res;
-          }
-        );
-      },
-      err => { },
-      () => this.preloader = false
+    const user = this.authService.getCurrentUser();
+    this.ordersService.getOrdersByUser(user.id).subscribe(
+      res => {
+        this.preloader = false;
+        this.orders = res;
+      }
     );
   }
 

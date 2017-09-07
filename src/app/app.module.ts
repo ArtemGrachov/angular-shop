@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,7 @@ import { SupportModule } from './support/support.module';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { InitLoad } from './app.initload';
 
 import { AppComponent } from './app.component';
 
@@ -44,7 +45,16 @@ import { SupportWindowComponent } from './support/support-window/support-window.
     SharedModule,
     HttpModule
   ],
-  providers: [alertsStoreProviders],
+  providers: [
+    alertsStoreProviders,
+    InitLoad,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (initLoad: InitLoad) => () => initLoad.loadUser(),
+      deps: [InitLoad],
+      multi: true
+    }
+  ],
   entryComponents: [
     ConfirmationComponent,
     AlertComponent,

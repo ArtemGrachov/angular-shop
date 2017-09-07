@@ -89,25 +89,22 @@ export class ProductsOrderingComponent implements OnInit {
 
   buildForm() {
     this.preloader = false;
-    this.authService.loadCurrentUser().subscribe(
-      (user: any) => {
-        if (user) {
-          this.orderForm = this.fb.group({
-            'location': { lat: user.location.lat, lng: user.location.lng },
-            'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-            'phone': [user.phone, Validators.required],
-            'type': 'DRIVING'
-          });
-        } else {
-          this.orderForm = this.fb.group({
-            'location': { lat: this.gmap.location.lat, lng: this.gmap.location.lng },
-            'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
-            'phone': ['', Validators.required],
-            'type': 'DRIVING'
-          });
-        }
-      }
-    );
+    const user = this.authService.getCurrentUser();
+    if (user) {
+      this.orderForm = this.fb.group({
+        'location': { lat: user.location.lat, lng: user.location.lng },
+        'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
+        'phone': [user.phone, Validators.required],
+        'type': 'DRIVING'
+      });
+    } else {
+      this.orderForm = this.fb.group({
+        'location': { lat: this.gmap.location.lat, lng: this.gmap.location.lng },
+        'shopLocation': { lat: this.shops[0].lat, lng: this.shops[0].lng },
+        'phone': ['', Validators.required],
+        'type': 'DRIVING'
+      });
+    }
   }
 
   mapReady(map) {
@@ -222,7 +219,7 @@ export class ProductsOrderingComponent implements OnInit {
         this.ordersService.addOrder(
           new Order(
             '0',
-            this.authService.getUid(),
+            this.authService.getCurrentUser().id,
             products,
             this.deliveryInfo.price,
             new Date(),

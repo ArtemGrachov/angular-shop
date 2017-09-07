@@ -20,83 +20,15 @@ export class EditAccessService {
     productEditAccess(id: string) {
         return new Observable(
             observer => {
-                this.authService.loadCurrentUser().subscribe(
-                    (user: any) => {
-                        if (user) {
-                            if (user.category === 'admin') {
-                                observer.next(true);
-                                observer.complete();
-                            } else if (user.category === 'provider') {
-                                this.productsService.loadProduct(id).subscribe(
-                                    res => {
-                                        this.providersService.loadProvider(res.providerId).subscribe(
-                                            prov => {
-                                                if (prov.users && prov.users.indexOf(user.id) > -1) {
-                                                    observer.next(true);
-                                                } else {
-                                                    observer.next(false);
-                                                }
-                                                observer.complete();
-                                            }
-                                        );
-                                    }
-                                );
-                            } else {
-                                observer.next(false);
-                                observer.complete();
-                            }
-                        } else {
-                            observer.next(false);
-                            observer.complete();
-                        }
-                    }
-                );
-            }
-        );
-    }
-
-    newsEditAccess(id: string) {
-        return new Observable(
-            observer => {
-                this.authService.loadCurrentUser().subscribe(
-                    (user: any) => {
-                        if (user) {
-                            if (user.category === 'admin') {
-                                observer.next(true);
-                                observer.complete();
-                            } else {
-                                this.newsService.loadPost(id).subscribe(
-                                    res => {
-                                        if (res.authorId === user.id) {
-                                            observer.next(true);
-                                        } else {
-                                            observer.next(false);
-                                        }
-                                        observer.complete();
-                                    }
-                                );
-                            }
-                        } else {
-                            observer.next(false);
-                            observer.complete();
-                        }
-                    }
-                );
-            }
-        );
-    }
-
-    providerEditAccess(id: string) {
-        return new Observable(
-            observer => {
-                this.authService.loadCurrentUser().subscribe(
-                    (user: any) => {
-                        if (user) {
-                            if (user.category === 'admin') {
-                                observer.next(true);
-                                observer.complete();
-                            } else if (user.category === 'provider') {
-                                this.providersService.loadProvider(id).subscribe(
+                const user = this.authService.getCurrentUser();
+                if (user) {
+                    if (user.category === 'admin') {
+                        observer.next(true);
+                        observer.complete();
+                    } else if (user.category === 'provider') {
+                        this.productsService.loadProduct(id).subscribe(
+                            res => {
+                                this.providersService.loadProvider(res.providerId).subscribe(
                                     prov => {
                                         if (prov.users && prov.users.indexOf(user.id) > -1) {
                                             observer.next(true);
@@ -106,16 +38,75 @@ export class EditAccessService {
                                         observer.complete();
                                     }
                                 );
-                            } else {
-                                observer.next(false);
+                            }
+                        );
+                    } else {
+                        observer.next(false);
+                        observer.complete();
+                    }
+                } else {
+                    observer.next(false);
+                    observer.complete();
+                }
+            }
+        );
+    }
+
+    newsEditAccess(id: string) {
+        return new Observable(
+            observer => {
+                const user = this.authService.getCurrentUser();
+                if (user) {
+                    if (user.category === 'admin') {
+                        observer.next(true);
+                        observer.complete();
+                    } else {
+                        this.newsService.loadPost(id).subscribe(
+                            res => {
+                                if (res.authorId === user.id) {
+                                    observer.next(true);
+                                } else {
+                                    observer.next(false);
+                                }
                                 observer.complete();
                             }
-                        } else {
-                            observer.next(false);
-                            observer.complete();
-                        }
+                        );
                     }
-                );
+                } else {
+                    observer.next(false);
+                    observer.complete();
+                }
+            }
+        );
+    }
+
+    providerEditAccess(id: string) {
+        return new Observable(
+            observer => {
+                const user = this.authService.getCurrentUser();
+                if (user) {
+                    if (user.category === 'admin') {
+                        observer.next(true);
+                        observer.complete();
+                    } else if (user.category === 'provider') {
+                        this.providersService.loadProvider(id).subscribe(
+                            prov => {
+                                if (prov.users && prov.users.indexOf(user.id) > -1) {
+                                    observer.next(true);
+                                } else {
+                                    observer.next(false);
+                                }
+                                observer.complete();
+                            }
+                        );
+                    } else {
+                        observer.next(false);
+                        observer.complete();
+                    }
+                } else {
+                    observer.next(false);
+                    observer.complete();
+                }
             }
         );
     }

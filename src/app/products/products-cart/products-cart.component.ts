@@ -20,13 +20,10 @@ export class ProductsCartComponent implements OnInit {
 
   ngOnInit() {
     this.cart = this.productsService.getCart();
-    this.authService.loadCurrentUser().subscribe(
-      (user: any) => {
-        if (user.category === 'premium') {
-          this.discount = true;
-        }
-      }
-    );
+    const user = this.authService.getCurrentUser();
+    if (user.category === 'premium') {
+      this.discount = true;
+    }
   }
 
   removeFromCart(index: string) {
