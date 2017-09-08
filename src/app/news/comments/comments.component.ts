@@ -62,7 +62,7 @@ export class CommentsComponent implements OnInit {
     this.commentsService.addComment(
       new Comment(
         '0',
-        this.authService.getCurrentUser().id,
+        this.authService._currentUser.id,
         this.postId,
         this.commentForm.value['commentText'],
         new Date()

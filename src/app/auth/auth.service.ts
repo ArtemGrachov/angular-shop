@@ -25,29 +25,29 @@ export class AuthService {
         private initLoad: InitLoad,
         @Inject(AlertsStore) private alertStore: Redux.Store<Alert>
     ) {
-        this.currentUser = this.initLoad.getUser();
-        this.authState = firebaseAuth.authState;
-        this.authState.subscribe(
+        this._currentUser = this.initLoad.getUser();
+        this.authState = firebaseAuth.authState.map(
             auth => {
                 if (auth) {
                     this.dataService.getToken();
-                    this.dataService.loadDataObj(`users/${auth.uid}`).subscribe(user => this.currentUser = user);
+                    this.dataService.loadDataObj(`users/${auth.uid}`).subscribe(user => this._currentUser = user);
                 } else {
-                    this.currentUser = undefined;
+                    this._currentUser = undefined;
                 }
+                return auth;
             }
         );
+        this.authState.subscribe();
     }
-
     private authState: Observable<firebase.User>;
-    private currentUser: any;
+    public _currentUser: any;
 
     getAuth() {
         return this.authState;
     }
 
     getCurrentUser() {
-        return this.currentUser;
+        return this._currentUser;
     }
 
     login(email: string, password: string) {
@@ -92,6 +92,7 @@ export class AuthService {
     logout() {
         this.firebaseAuth.auth.signOut();
         if (this.router.url.indexOf('admin') !== -1 || this.router.url.indexOf('dash') !== -1) {
+            this._currentUser = undefined;
             this.router.navigate(['/login']);
         }
     }
@@ -124,8 +125,8 @@ export class AuthService {
     }
 
     checkUserCategory(categories: string[]): boolean {
-        if (this.currentUser) {
-            return categories.indexOf(this.currentUser.category) > -1;
+        if (this._currentUser) {
+            return categories.indexOf(this._currentUser.category) > -1;
         } else {
             return false;
         }

@@ -33,7 +33,7 @@ export class DashProfileComponent implements OnInit {
   }
 
   loadProfile() {
-    const user = this.authService.getCurrentUser();
+    const user = this.authService._currentUser;
     this.user = user;
     if (!this.profileForm) { this.buildProfileForm(); }
   }

@@ -10,19 +10,23 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  auth = this.authService.getAuth();
-  isAdmin = this.authService.getAuth().map(
-    res => {
-      if (res) {
-        // admin access bug!
-        return this.authService.checkUserCategory(['admin']);
-      }
-      return res;
-    }
-  );
+  public user: Object = this.authService._currentUser;
+  // public auth: boolean = false;
+  // public isAdmin: boolean = false;
 
   ngOnInit() {
-
+    // this.authService.getAuth().subscribe(
+    //   res => {
+    //     if (res) {
+    //       this.auth = true;
+    //       this.isAdmin = this.authService.checkUserCategory(['admin']);
+    //       console.log(this.authService._currentUser, 'current user');
+    //     } else {
+    //       this.auth = false;
+    //       this.isAdmin = false;
+    //     }
+    //   }
+    // );
   }
 
   logout() {

@@ -19,7 +19,7 @@ export class DashRatedProductsComponent implements OnInit {
   public preloader: boolean = true;
 
   ngOnInit() {
-    const user = this.authService.getCurrentUser();
+    const user = this.authService._currentUser;
     if (user.ratedProducts) {
       for (const id of user.ratedProducts) {
         this.productsService.loadProduct(id).subscribe(

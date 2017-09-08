@@ -89,7 +89,7 @@ export class ProductsOrderingComponent implements OnInit {
 
   buildForm() {
     this.preloader = false;
-    const user = this.authService.getCurrentUser();
+    const user = this.authService._currentUser;
     if (user) {
       this.orderForm = this.fb.group({
         'location': { lat: user.location.lat, lng: user.location.lng },
@@ -219,7 +219,7 @@ export class ProductsOrderingComponent implements OnInit {
         this.ordersService.addOrder(
           new Order(
             '0',
-            this.authService.getCurrentUser() ? this.authService.getCurrentUser().id : null,
+            this.authService._currentUser ? this.authService._currentUser.id : null,
             products,
             this.deliveryInfo.price,
             new Date(),

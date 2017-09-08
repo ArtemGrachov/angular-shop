@@ -30,7 +30,7 @@ export class NewsEditComponent implements OnInit {
     '',
     '',
     0,
-    this.authService.getCurrentUser().id,
+    this.authService._currentUser.id,
     new Date()
   );
 

@@ -48,7 +48,7 @@ export class ProductsEditComponent implements OnInit {
         }
       }
     );
-    const user = this.authService.getCurrentUser();
+    const user = this.authService._currentUser;
     let sub: Observable<any>;
     if (user.category === 'admin') {
       sub = this.providersService.loadProviders();

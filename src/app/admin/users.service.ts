@@ -96,7 +96,7 @@ export class UsersService {
     rateItem(itemId: string, itemCat: string) {
         return new Observable(
             observer => {
-                const user = this.authService.getCurrentUser();
+                const user = this.authService._currentUser;
                 if (!user[itemCat]) {
                     user[itemCat] = [];
                 }

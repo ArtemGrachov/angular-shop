@@ -6,6 +6,8 @@ import { NewsService } from '../../news/news.service';
 
 import { Comment } from '../../shared/models/comment.model';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-admin-comments',
   templateUrl: './admin-comments.component.html'
@@ -20,9 +22,16 @@ export class AdminCommentsComponent implements OnInit {
   public comments: Comment[];
   public preloader: boolean = true;
 
+  // private loader:Observable<Comment[]> = new Observable(
+  //     observer => {
+
+  //     }
+  // )
+
   ngOnInit() {
     this.loadComments();
   }
+
 
   loadComments() {
     this.commentsService.loadAllComments().subscribe(

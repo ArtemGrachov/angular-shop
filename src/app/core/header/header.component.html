@@ -13,19 +13,19 @@
     <li routerLinkActive="active">
       <a routerLink="/providers">Our providers</a>
     </li>
-    <li routerLinkActive="active" *ngIf="auth | async">
+    <li routerLinkActive="active" *ngIf="this.authService._currentUser">
       <a routerLink="/dash">Dashboard</a>
     </li>
-    <li routerLinkActive="active" *ngIf="isAdmin | async">
+    <li routerLinkActive="active" *ngIf="this.authService._currentUser && this.authService._currentUser.category === 'admin'">
       <a routerLink="/admin">Admin</a>
     </li>
-    <li routerLinkActive="active" *ngIf="!(auth | async)">
+    <li routerLinkActive="active" *ngIf="!(this.authService._currentUser)">
       <a routerLink="/login">Login</a>
     </li>|
-    <li routerLinkActive="active" *ngIf="auth | async" (click)="logout()" class="pointer">
+    <li routerLinkActive="active" *ngIf="this.authService._currentUser" (click)="logout()" class="pointer">
       <a>Logout</a>
     </li>
-    <li routerLinkActive="active" *ngIf="!(auth | async)">
+    <li routerLinkActive="active" *ngIf="!(this.authService._currentUser)">
       <a routerLink="/reg">Registration</a>
     </li>
   </ul>
