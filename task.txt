@@ -159,8 +159,8 @@ MODELS:
 
 - scroll from top
 
+//////////////////////
 
-///////////////////////////////////
-
-- видалення - додати модальне вікно на підтвердження
-- техпідтримка
+known bugs:
+- logout - access data doesn't refresh;
+- login - dash profile open before user data is loaded;

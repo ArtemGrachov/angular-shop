@@ -1,5 +1,5 @@
 <div class="preloader" *ngIf="preloader" appPreloader></div>
-<div *ngIf="addAccess">
+<div *ngIf="this.authService.checkUserCategory(['admin', 'provider'])">
   <a routerLink="new" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Add post</a>
   <hr>
 </div>

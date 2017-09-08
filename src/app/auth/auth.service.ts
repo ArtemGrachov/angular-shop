@@ -90,7 +90,7 @@ export class AuthService {
     }
 
     onLogin() {
-        this.router.navigate(['home']); // dash > home
+        this.router.navigate(['home']); // 'dash' changed to 'home' - dash load before user data!
     }
 
     logout() {

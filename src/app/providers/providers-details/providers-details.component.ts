@@ -29,7 +29,12 @@ export class ProvidersDetailsComponent implements OnInit {
   public providerId: string = '';
   public provider: Provider;
   public providerProducts: Product[];
-  public auth = this.authService.getAuth();
+  public auth = this.authService.getAuth().map(
+    res => {
+      this.editAccessService.providerEditAccess(this.providerId).subscribe((access: boolean) => this.editAccess = access);
+      return res;
+    }
+  );
   public editAccess: boolean = false;
   public preloader: boolean = true;
 

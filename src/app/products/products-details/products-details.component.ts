@@ -30,7 +30,14 @@ export class ProductsDetailsComponent implements OnInit {
 
   public productId: string;
   public product: Product;
-  public auth = this.authService.getAuth();
+  public auth = this.authService.getAuth().map(
+    res => {
+      this.editAccessService.productEditAccess(this.productId).subscribe(
+        (access: boolean) => this.editAccess = access
+      );
+      return res;
+    }
+  );
   public editAccess: boolean = false;
   public preloader: boolean = true;
 

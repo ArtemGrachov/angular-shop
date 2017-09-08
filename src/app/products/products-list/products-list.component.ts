@@ -17,7 +17,6 @@ export class ProductsListComponent implements OnInit {
     private providersService: ProvidersService
   ) { }
   public products: Product[] = [];
-  public addAccess = this.authService.checkUserCategory(['admin', 'provider']);
   public filter = { sort: 'rating', reverse: true, search: '' };
   public preloader: boolean = true;
 

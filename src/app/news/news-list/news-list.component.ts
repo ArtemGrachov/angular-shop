@@ -20,7 +20,6 @@ export class NewsListComponent implements OnInit {
   ) { }
 
   public newsList: News[] = [];
-  public addAccess = this.authService.checkUserCategory(['admin', 'provider']);
   public preloader: boolean = true;
 
   ngOnInit() {

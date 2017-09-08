@@ -33,9 +33,8 @@ export class DashProfileComponent implements OnInit {
   }
 
   loadProfile() {
-    const user = this.authService._currentUser;
-    this.user = user;
-    if (!this.profileForm) { this.buildProfileForm(); }
+    this.user = this.authService._currentUser;
+    if (!this.profileForm && this.user) { this.buildProfileForm(); }
   }
 
   toggleEditMode() {
