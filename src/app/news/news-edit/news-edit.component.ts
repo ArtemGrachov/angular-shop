@@ -74,11 +74,13 @@ export class NewsEditComponent implements OnInit {
         editedPost.date = editedPost.date.jsdate;
       }
       this.newsService.updatePost(editedPost).subscribe(
-        () => this.router.navigate(['../'], { relativeTo: this.route })
+        () => this.router.navigate(['../'], { relativeTo: this.route }),
+        err => this.preloader = false
       );
     } else {
       this.newsService.addPost(this.newsEditForm.value).subscribe(
-        () => this.router.navigate(['../'], { relativeTo: this.route })
+        () => this.router.navigate(['../'], { relativeTo: this.route }),
+        err => this.preloader = false
       );
     }
   }

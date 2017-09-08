@@ -46,10 +46,8 @@ export class ProvidersDetailsComponent implements OnInit {
   loadProvider() {
     this.providersService.loadProvider(this.providerId)
       .subscribe(
-      provider => {
-        this.provider = provider;
-      },
-      err => { },
+      provider => this.provider = provider,
+      err => this.preloader = false,
       () => this.preloader = false);
   }
 

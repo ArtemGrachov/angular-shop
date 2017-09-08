@@ -18,10 +18,9 @@ export class AdminUsersComponent implements OnInit {
 
   ngOnInit() {
     this.usersService.loadUsers().subscribe(
-      res => {
-        this.users = res;
-        this.preloader = false;
-      }
+      res => this.users = res,
+      err => this.preloader = false,
+      () => this.preloader = false
     );
   }
 }

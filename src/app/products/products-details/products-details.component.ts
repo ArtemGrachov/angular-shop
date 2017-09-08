@@ -46,13 +46,15 @@ export class ProductsDetailsComponent implements OnInit {
     this.productsService.loadProduct(this.productId).subscribe(
       res => {
         this.product = res;
-        this.preloader = false;
         this.providersService.loadProvider(this.product.providerId).subscribe(
           provider => {
             this.product.providerName = provider.name;
-          }
+            this.preloader = false;
+          },
+          err => this.preloader = false
         );
-      }
+      },
+      err => this.preloader = false
     );
   }
 

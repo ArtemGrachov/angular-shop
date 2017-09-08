@@ -26,7 +26,6 @@ export class NewsListComponent implements OnInit {
   ngOnInit() {
     this.newsService.loadNews().subscribe(
       res => {
-        this.preloader = false;
         this.newsList = res.sort(
           function (a, b) {
             if (a.date < b.date) {
@@ -40,10 +39,14 @@ export class NewsListComponent implements OnInit {
         );
         this.newsList.forEach(
           (post, index) => {
-            this.usersService.loadUser(post.authorId).subscribe(user => post.authorName = user.name);
+            this.usersService.loadUser(post.authorId).subscribe(
+              user => post.authorName = user.name,
+              err => this.preloader = false,
+              () => { if (index === this.newsList.length - 1) { this.preloader = false; } });
           }
         );
-      }
+      },
+      err => this.preloader = false
     );
   }
 }

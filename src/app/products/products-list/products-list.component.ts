@@ -32,10 +32,9 @@ export class ProductsListComponent implements OnInit {
 
   loadProducts() {
     this.productsService.loadProducts().subscribe(
-      res => {
-        this.preloader = false;
-        this.products = res;
-      }
+      res => this.products = res,
+      err => this.preloader = false,
+      () => this.preloader = false
     );
   }
 }

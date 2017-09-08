@@ -22,34 +22,35 @@ export class AdminCommentsComponent implements OnInit {
   public comments: Comment[];
   public preloader: boolean = true;
 
-  // private loader:Observable<Comment[]> = new Observable(
-  //     observer => {
-
-  //     }
-  // )
-
   ngOnInit() {
     this.loadComments();
   }
-
 
   loadComments() {
     this.commentsService.loadAllComments().subscribe(
       comments => {
         this.comments = comments;
         this.comments.forEach(
-          comment => {
+          (comment, index) => {
             this.usersService.loadUser(comment.authorId).subscribe(
               user => comment.authorName = user.name
             );
             this.newsService.loadPost(comment.postId).subscribe(
               post => comment.postTitle = post.title
             );
+
+            Observable.forkJoin(
+              this.usersService.loadUser(comment.authorId).map(user => comment.authorName = user.name),
+              this.newsService.loadPost(comment.postId).map(post => comment.postTitle = post.title)
+            ).subscribe(
+              res => { },
+              err => this.preloader = false,
+              () => { if (index === comments.length - 1) { this.preloader = false; } }
+              );
           }
         );
       },
-      err => { },
-      () => this.preloader = false
+      err => this.preloader = false
     );
   }
 

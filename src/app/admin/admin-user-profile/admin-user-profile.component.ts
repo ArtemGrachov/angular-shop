@@ -52,7 +52,8 @@ export class AdminUserProfileComponent implements OnInit {
           this.editMode = true;
           this.buildUserForm();
         }
-      }
+      },
+      err => this.preloader = false
     );
   }
 
@@ -64,7 +65,8 @@ export class AdminUserProfileComponent implements OnInit {
         if (!this.userForm) {
           this.buildUserForm();
         }
-      }
+      },
+      err => this.preloader = false
     );
   }
 

@@ -81,9 +81,6 @@ export class ProductsOrderingComponent implements OnInit {
 
   ngOnInit() {
     this.cart = this.productsService.getCart();
-    this.authService.getAuth().subscribe(
-      auth => this.cart = this.productsService.getCart()
-    );
     this.buildForm();
   }
 

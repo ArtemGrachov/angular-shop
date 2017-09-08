@@ -21,14 +21,17 @@ export class DashRatedProductsComponent implements OnInit {
   ngOnInit() {
     const user = this.authService._currentUser;
     if (user.ratedProducts) {
-      for (const id of user.ratedProducts) {
-        this.productsService.loadProduct(id).subscribe(
-          product => {
-            this.products.push(product);
-            this.preloader = false;
-          }
-        );
-      }
+      user.ratedProducts.forEach(
+        (id, index) => {
+          this.productsService.loadProduct(id).subscribe(
+            product => this.products.push(product),
+            err => this.preloader = false,
+            () => { if (index === user.ratedProducts.length - 1) { this.preloader = false; } }
+          );
+        }
+      );
+    } else {
+      this.preloader = false;
     }
   }
 }

@@ -35,13 +35,15 @@ export class ProvidersEditComponent implements OnInit {
             res => {
               this.provider = res;
               this.buildProviderForm();
-            }
+            },
+            err => this.preloader = false
           );
           this.editMode = true;
         } else {
           this.buildProviderForm();
         }
-      }
+      },
+      err => this.preloader = false
     );
     this.usersService.loadUsers().subscribe(
       res => {
@@ -50,7 +52,8 @@ export class ProvidersEditComponent implements OnInit {
         ).map(user => {
           return { id: user.id, name: user.name };
         });
-      }
+      },
+      err => this.preloader = false
     );
   }
 

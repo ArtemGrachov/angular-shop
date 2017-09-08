@@ -25,34 +25,7 @@ export class HomeMainComponent implements OnInit {
   public preloader: boolean = true;
 
   ngOnInit() {
-    // this.loadProducts();
-    // this.loadNews();
     this.loadData();
-  }
-
-  loadProducts() {
-    this.productsService.getLatest(4).subscribe(
-      res => {
-        this.products = res;
-      },
-      err => { },
-      () => this.preloader = true
-    );
-  }
-
-  loadNews() {
-    this.newsService.getLatest(4).subscribe(
-      news => {
-        this.newsList = news;
-        this.newsList.forEach(
-          post => {
-            this.usersService.loadUser(post.authorId).subscribe(
-              user => post.authorName = user.name
-            );
-          }
-        );
-      }
-    );
   }
 
   loadData() {
@@ -67,15 +40,15 @@ export class HomeMainComponent implements OnInit {
           this.preloader = false;
         }
         res[1].forEach(
-          post => {
+          (post, index) => {
             this.usersService.loadUser(post.authorId).subscribe(
-              user => {
-                post.authorName = user.name;
-                this.preloader = false;
-              }
+              user => post.authorName = user.name,
+              err => this.preloader = false,
+              () => { if (index === res[1].length - 1) { this.preloader = false; } }
             );
           }
         );
-      });
+      },
+      err => this.preloader = false);
   }
 }

@@ -21,14 +21,17 @@ export class DashRatedProvidersComponent implements OnInit {
   ngOnInit() {
     const user = this.authService._currentUser;
     if (user.ratedProviders) {
-      for (const id of user.ratedProviders) {
-        this.providersService.loadProvider(id).subscribe(
-          provider => {
-            this.preloader = false;
-            this.providers.push(provider);
-          }
-        );
-      }
+      user.ratedProviders.forEach(
+        (id, index) => {
+          this.providersService.loadProvider(id).subscribe(
+            provider => this.providers.push(provider),
+            err => this.preloader = false,
+            () => { if (index === user.ratedProviders.length - 1) { this.preloader = false; } }
+          );
+        }
+      );
+    } else {
+      this.preloader = false;
     }
   }
 

@@ -8,8 +8,6 @@ import { UsersService } from '../../admin/users.service';
 
 import { News } from '../..//shared/models/news.model';
 
-import { Observable } from 'rxjs/Observable';
-
 @Component({
   selector: 'app-news-post',
   templateUrl: './news-post.component.html'
@@ -44,13 +42,15 @@ export class NewsPostComponent implements OnInit {
       .subscribe(
       res => {
         this.post = res;
-        this.preloader = false;
         this.usersService.loadUser(this.post.authorId).subscribe(
           user => {
             this.post.authorName = user.name;
-          }
+          },
+          err => this.preloader = false,
+          () => this.preloader = false
         );
-      });
+      },
+      err => this.preloader = false);
   }
 
   postRate(rating: number) {

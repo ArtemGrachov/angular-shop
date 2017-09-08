@@ -62,7 +62,8 @@ export class ProductsEditComponent implements OnInit {
             return { id: provider.id, name: provider.name };
           }
         );
-      }
+      },
+      err => this.preloader = false
     );
   }
 
@@ -71,7 +72,8 @@ export class ProductsEditComponent implements OnInit {
       res => {
         this.product = res;
         this.buildProductForm();
-      }
+      },
+      err => this.preloader = false
     );
   }
 

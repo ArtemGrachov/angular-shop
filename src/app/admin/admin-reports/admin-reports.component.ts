@@ -71,11 +71,14 @@ export class AdminReportsComponent {
                                 if (index === products.length - 1) {
                                     this.preloader = false;
                                 }
-                            }
+                            },
+                            err => this.preloader = false,
+                            () => { if (index === products.length - 1) { this.preloader = false; } }
                         );
                     }
                 );
-            });
+            },
+            err => this.preloader = false);
     }
 
     providersTable() {
@@ -96,11 +99,14 @@ export class AdminReportsComponent {
                                 if (index === providers.length - 1) {
                                     this.preloader = false;
                                 }
-                            }
+                            },
+                            err => this.preloader = false,
+                            () => { if (index === providers.length - 1) { this.preloader = false; } }
                         );
                     }
                 );
-            }
+            },
+            err => this.preloader = false
         );
     }
 
@@ -124,7 +130,8 @@ export class AdminReportsComponent {
                         }
                     }
                 );
-            }
+            },
+            err => this.preloader = false
         );
     }
 
@@ -150,14 +157,14 @@ export class AdminReportsComponent {
                                 tableRow.push(order.discount);
                                 tableRow.push((this.getOrderPrice(order) + order.deliveryPrice).toFixed(2));
                                 this.tbl.push(tableRow);
-                                if (index === orders.length - 1) {
-                                    this.preloader = false;
-                                }
-                            }
+                            },
+                            err => this.preloader = false,
+                            () => { if (index === orders.length - 1) { this.preloader = false; } }
                         );
                     }
                 );
-            }
+            },
+            err => this.preloader = false
         );
     }
 
