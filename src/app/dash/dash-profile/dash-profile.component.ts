@@ -79,7 +79,10 @@ export class DashProfileComponent implements OnInit {
     this.usersService.updateCurrentUser(updUser).subscribe(
       () => {
         this.editMode = false;
-        this.loadProfile();
+        this.authService.refreshCurrentUser(this.user.id).subscribe(user => {
+          this.user = user;
+          this.buildProfileForm();
+        });
       }
     );
   }

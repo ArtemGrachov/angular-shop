@@ -30,7 +30,7 @@ export class AuthService {
             auth => {
                 if (auth) {
                     this.dataService.getToken();
-                    this.dataService.loadDataObj(`users/${auth.uid}`).subscribe(user => this._currentUser = user);
+                    this.refreshCurrentUser(auth.uid).subscribe();
                 } else {
                     this._currentUser = undefined;
                 }
@@ -41,6 +41,10 @@ export class AuthService {
     }
     private authState: Observable<firebase.User>;
     public _currentUser: any;
+
+    refreshCurrentUser(uid) {
+        return this.dataService.loadDataObj(`users/${uid}`).map(user => this._currentUser = user);
+    }
 
     getAuth() {
         return this.authState;

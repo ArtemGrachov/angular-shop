@@ -8,6 +8,8 @@ import { UsersService } from '../../admin/users.service';
 
 import { News } from '../..//shared/models/news.model';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-news-post',
   templateUrl: './news-post.component.html'
@@ -24,24 +26,26 @@ export class NewsPostComponent implements OnInit {
   public post: News;
   public postId: string;
   public auth = this.authService.getAuth();
-  public editAccess;
+  public editAccess: boolean = false;
   public preloader: boolean = true;
 
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
         this.postId = params['id'];
-        this.editAccess = this.editAccessService.newsEditAccess(this.postId);
         this.loadPost();
       }
     );
   }
 
   loadPost() {
-    this.newsService.loadPost(this.postId)
-      .subscribe(
-      res => {
-        this.post = res;
+    Observable.forkJoin(
+      this.newsService.loadPost(this.postId),
+      this.editAccessService.newsEditAccess(this.postId)
+    ).subscribe(
+      (res: any) => {
+        this.post = res[0];
+        this.editAccess = res[1];
         this.usersService.loadUser(this.post.authorId).subscribe(
           user => {
             this.post.authorName = user.name;

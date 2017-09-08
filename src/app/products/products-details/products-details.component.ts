@@ -10,6 +10,8 @@ import { UsersService } from '../../admin/users.service';
 
 import { Product } from '../../shared/models/product.model';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'app-products-details',
   templateUrl: './products-details.component.html'
@@ -29,7 +31,7 @@ export class ProductsDetailsComponent implements OnInit {
   public productId: string;
   public product: Product;
   public auth = this.authService.getAuth();
-  public editAccess;
+  public editAccess: boolean = false;
   public preloader: boolean = true;
 
   ngOnInit() {
@@ -37,15 +39,18 @@ export class ProductsDetailsComponent implements OnInit {
       (params: Params) => {
         this.productId = params['id'];
         this.loadProduct();
-        this.editAccess = this.editAccessService.productEditAccess(this.productId);
       }
     );
   }
 
   loadProduct() {
-    this.productsService.loadProduct(this.productId).subscribe(
-      res => {
-        this.product = res;
+    Observable.forkJoin(
+      this.productsService.loadProduct(this.productId),
+      this.editAccessService.productEditAccess(this.productId)
+    ).subscribe(
+      (res: any) => {
+        this.product = res[0];
+        this.editAccess = res[1];
         this.providersService.loadProvider(this.product.providerId).subscribe(
           provider => {
             this.product.providerName = provider.name;
@@ -53,9 +58,7 @@ export class ProductsDetailsComponent implements OnInit {
           },
           err => this.preloader = false
         );
-      },
-      err => this.preloader = false
-    );
+      });
   }
 
   addToCart(product: Product) {
