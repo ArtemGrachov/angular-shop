@@ -16,12 +16,12 @@
     <li routerLinkActive="active" *ngIf="auth | async">
       <a routerLink="/dash">Dashboard</a>
     </li>
-    <li routerLinkActive="active" *ngIf="(auth | async) && (isAdmin | async) ">
+    <li routerLinkActive="active" *ngIf="isAdmin | async">
       <a routerLink="/admin">Admin</a>
     </li>
     <li routerLinkActive="active" *ngIf="!(auth | async)">
       <a routerLink="/login">Login</a>
-    </li>
+    </li>|
     <li routerLinkActive="active" *ngIf="auth | async" (click)="logout()" class="pointer">
       <a>Logout</a>
     </li>

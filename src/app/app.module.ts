@@ -50,7 +50,7 @@ import { SupportWindowComponent } from './support/support-window/support-window.
     InitLoad,
     {
       provide: APP_INITIALIZER,
-      useFactory: (initLoad: InitLoad) => () => initLoad.loadUser(),
+      useFactory: function (initLoad: InitLoad) { return () => initLoad.loadUser(); },
       deps: [InitLoad],
       multi: true
     }

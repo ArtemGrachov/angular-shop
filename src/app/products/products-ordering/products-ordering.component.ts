@@ -219,7 +219,7 @@ export class ProductsOrderingComponent implements OnInit {
         this.ordersService.addOrder(
           new Order(
             '0',
-            this.authService.getCurrentUser().id,
+            this.authService.getCurrentUser() ? this.authService.getCurrentUser().id : null,
             products,
             this.deliveryInfo.price,
             new Date(),

@@ -6,7 +6,7 @@
         <a class="btn btn-primary btn-block" routerLink="/providers">Rating</a>
         <a class="btn btn-default btn-block" [routerLink]="provider.id" *ngFor="let provider of providers">{{provider.name}}</a>
       </div>
-      <div class="panel-footer" *ngIf="isAdmin | async">
+      <div class="panel-footer" *ngIf="isAdmin">
         <a routerLink="new" class="btn btn-primary btn-sm">Add provider</a>
       </div>
     </div>

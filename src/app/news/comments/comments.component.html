@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary btn-xs" (click)="toggleNewComentForm()" *ngIf="auth | async"><span class="glyphicon glyphicon-comment"></span> Write a comment</button>
+<button type="button" class="btn btn-primary btn-xs" (click)="toggleNewComentForm()" *ngIf="auth"><span class="glyphicon glyphicon-comment"></span> Write a comment</button>
 <hr>
 <form *ngIf="commentFormActive && auth | async" (ngSubmit)="sendComment()" [formGroup]="commentForm">
   <div class="panel panel-default">

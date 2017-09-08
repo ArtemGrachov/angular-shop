@@ -24,17 +24,13 @@ export class CommentsComponent implements OnInit {
   public commentFormActive: Boolean = false;
   public commentForm: FormGroup;
   public auth = this.authService.getAuth();
-  public isAdmin: boolean = false;
+  public isAdmin: boolean = this.authService.checkUserCategory(['admin']);
 
   ngOnInit() {
     this.loadComments();
     this.commentForm = this.fb.group({
       'commentText': ['', Validators.required]
     });
-
-    this.authService.checkUserCategory(['admin']).subscribe(
-      (res: boolean) => this.isAdmin = res
-    );
   }
 
   loadComments() {

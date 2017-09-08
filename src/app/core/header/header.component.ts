@@ -11,9 +11,18 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   auth = this.authService.getAuth();
-  isAdmin = this.authService.checkUserCategory(['admin']);
+  isAdmin = this.authService.getAuth().map(
+    res => {
+      if (res) {
+        // admin access bug!
+        return this.authService.checkUserCategory(['admin']);
+      }
+      return res;
+    }
+  );
 
   ngOnInit() {
+
   }
 
   logout() {

@@ -86,7 +86,7 @@ export class AuthService {
     }
 
     onLogin() {
-        this.router.navigate(['dash']);
+        this.router.navigate(['home']); // dash > home
     }
 
     logout() {
@@ -123,20 +123,11 @@ export class AuthService {
             this.dataService.putDataUnAuth('users/', newUser).subscribe();
     }
 
-    checkUserCategory(categories: string[]) {
-        const obs = new Observable(
-            observer => {
-                this.getAuth().subscribe(
-                    () => {
-                        if (categories.indexOf(this.currentUser.category) > -1) {
-                            observer.next(true);
-                        } else {
-                            observer.next(false);
-                        }
-                    }
-                );
-            }
-        );
-        return obs;
+    checkUserCategory(categories: string[]): boolean {
+        if (this.currentUser) {
+            return categories.indexOf(this.currentUser.category) > -1;
+        } else {
+            return false;
+        }
     }
 }

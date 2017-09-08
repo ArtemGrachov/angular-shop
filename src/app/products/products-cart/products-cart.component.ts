@@ -21,7 +21,7 @@ export class ProductsCartComponent implements OnInit {
   ngOnInit() {
     this.cart = this.productsService.getCart();
     const user = this.authService.getCurrentUser();
-    if (user.category === 'premium') {
+    if (user && user.category === 'premium') {
       this.discount = true;
     }
   }

@@ -97,10 +97,7 @@ export class DataService {
         const date = new Date;
         const csv = table.map(
             row => row.map(cell => {
-                console.log(typeof (cell));
-                if (typeof (cell) === 'object') {
-                    return cell.join(' ');
-                }
+                if (typeof (cell) === 'object') { return cell.join(' '); }
                 return cell;
             }).join(',')
         ).join('\n');

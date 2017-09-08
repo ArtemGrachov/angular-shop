@@ -13,13 +13,10 @@ export class AdminGuard implements CanActivate {
     private obs: Observable<boolean>;
 
     canActivate() {
-        return this.authService.checkUserCategory(['admin']).map(
-            res => {
-                if (!res) {
-                    this.router.navigate(['/home']);
-                }
-                return res;
-            }
-        );
+        const activate = this.authService.checkUserCategory(['admin']);
+        if (!activate) {
+            this.router.navigate(['/home']);
+        }
+        return activate;
     }
 }

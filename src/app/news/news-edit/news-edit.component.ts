@@ -38,16 +38,7 @@ export class NewsEditComponent implements OnInit {
   public editMode = false;
   public newsEditForm: FormGroup;
   public users: User[] = [];
-  public isAdmin = this.authService.checkUserCategory(['admin']).map(
-    res => {
-      if (res) {
-        this.usersService.loadUsers().subscribe(
-          users => this.users = users
-        );
-      }
-      return res;
-    }
-  );
+  public isAdmin = this.authService.checkUserCategory(['admin']);
   public preloader: boolean = true;
 
   ngOnInit() {
@@ -67,6 +58,12 @@ export class NewsEditComponent implements OnInit {
         }
       }
     );
+
+    if (this.isAdmin) {
+      this.usersService.loadUsers().subscribe(
+        users => this.users = users
+      );
+    }
   }
 
   submitPost() {
