@@ -12,7 +12,7 @@ import { Provider } from '../../shared/models/provider.model';
 export class ProvidersListComponent implements OnInit {
   constructor(
     private providersService: ProvidersService,
-    private authService: AuthService
+    public authService: AuthService
   ) { }
 
   public providers: Provider[] = [];

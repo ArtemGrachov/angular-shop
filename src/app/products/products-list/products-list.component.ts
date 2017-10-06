@@ -13,7 +13,7 @@ import { Product } from '../../shared/models/product.model';
 export class ProductsListComponent implements OnInit {
   constructor(
     private productsService: ProductsService,
-    private authService: AuthService,
+    public authService: AuthService,
     private providersService: ProvidersService
   ) { }
   public products: Product[] = [];

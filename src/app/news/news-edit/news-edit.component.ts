@@ -19,7 +19,7 @@ export class NewsEditComponent implements OnInit {
   constructor(
     private newsService: NewsService,
     private usersService: UsersService,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder

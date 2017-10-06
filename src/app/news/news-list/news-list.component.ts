@@ -15,7 +15,7 @@ import { News } from '../../shared/models/news.model';
 export class NewsListComponent implements OnInit {
   constructor(
     private newsService: NewsService,
-    private authService: AuthService,
+    public authService: AuthService,
     private usersService: UsersService
   ) { }
 

@@ -7,7 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
   constructor(
-    private authService: AuthService
+    public authService: AuthService
   ) { }
 
   public user: Object = this.authService._currentUser;

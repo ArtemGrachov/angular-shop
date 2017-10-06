@@ -25,18 +25,17 @@ export class InitLoad {
 
     loadUser(): Promise<any> {
         return new Promise(
-            function (resolve, reject) {
-                const $this = this;
+            (resolve, reject) => {
                 new Observable(
                     observer => {
-                        $this.getAuth().subscribe(
-                            function (auth) {
+                        this.getAuth().subscribe(
+                            (auth) => {
                                 if (auth) {
-                                    $this.http.get(`https://angular-shop-e7657.firebaseio.com/users/${auth.uid}.json`).map(
-                                        function (res: Response) { return res.json(); })
+                                    this.http.get(`https://angular-shop-e7657.firebaseio.com/users/${auth.uid}.json`).map(
+                                        (res: Response) => res.json())
                                         .subscribe(
-                                        function (res) {
-                                            $this.user = res;
+                                        (res) => {
+                                            this.user = res;
                                             observer.next(res);
                                             observer.complete();
                                         }
@@ -49,7 +48,7 @@ export class InitLoad {
                         );
                     }
                 ).subscribe(
-                    function (res) { return resolve(true); });
+                    (res) => resolve(true));
             }
         );
     }
