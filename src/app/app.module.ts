@@ -25,6 +25,8 @@ import { ConfirmationComponent } from './modal/confirmation/confirmation.compone
 import { AlertComponent } from './modal/alert/alert.component';
 import { SupportWindowComponent } from './support/support-window/support-window.component';
 
+export const init = function (initLoad: InitLoad) { return function () { initLoad.loadUser(); }; };
+
 @NgModule({
   declarations: [
     AppComponent
@@ -50,7 +52,7 @@ import { SupportWindowComponent } from './support/support-window/support-window.
     InitLoad,
     {
       provide: APP_INITIALIZER,
-      useFactory: function (initLoad: InitLoad) { return function () { initLoad.loadUser(); }; },
+      useFactory: init,
       deps: [InitLoad],
       multi: true
     }
